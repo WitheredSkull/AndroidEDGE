@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EdgeToolBarView">
+        <attr name="img_back" format="reference" />
+        <attr name="img_title" format="reference" />
+        <attr name="img_more" format="reference" />
+        <attr name="text_back" format="string" />
+        <attr name="text_title" format="string" />
+        <attr name="text_more" format="string" />
+        <attr name="color_text" format="color" />
+        <attr name="color_line" format="color" />
+        <attr name="height_line" format="dimension" />
+    </declare-styleable>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Edge</string>
+    <!--通配-->
+    <string name="back">返回</string>
+    <string name="title">标题</string>
+    <string name="more">更多</string>
+</resources>
