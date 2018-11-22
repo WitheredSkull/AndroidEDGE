@@ -25,7 +25,6 @@ import com.shuanglu.edge.Management.File.EdgeFileManagement
 import com.shuanglu.edge.Management.File.Model.EdgeBaseFileProperty
 import com.shuanglu.edge.View.Banner.TextBanner.Model.TextBannerAdapter
 import com.shuanglu.edge.View.Banner.TextBanner.View.TextBannerView
-import com.paradoxie.autoscrolltextview.VerticalTextview
 
 
 
@@ -42,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 //        EdgeSharePreferencesUtils.clearAppSP()
 
         tv = findViewById(R.id.tv)
-        EdgeFileManagement.deleteDirectoryAllData(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.txt")
-        EdgeFileManagement.writeTextFileFileUseBufferWriter(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.txt","测试",true)
-        tv!!.text = EdgeFileManagement.readTextFromFileUseChar(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.txt","utf-8")
+//        EdgeFileManagement.deleteDirectoryAllData(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.txt")
+//        EdgeFileManagement.writeTextFileFileUseBufferWriter(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.txt","测试",true)
+//        tv!!.text = EdgeFileManagement.readTextFromFileUseChar(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.txt","utf-8")
         var ani = AnimationUtils.loadAnimation(this,R.anim.text)
 
 //        tv!!.startAnimation(ani)
@@ -61,15 +60,15 @@ class MainActivity : AppCompatActivity() {
 //        aniamtion0.start()
 
 
-        var d = AppCompatResources.getDrawable(this,R.drawable.ic_add)
-        var b = d as BitmapDrawable
-        EdgeFileManagement.saveBitmapToLocal(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.png",b.bitmap,Bitmap.CompressFormat.PNG)
-        var bitmap = EdgeFileManagement.readLocalToBitmap(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.png")
-        var bitmap2 = bitmap
-        bitmap2 = EdgeApplicationManagement.appIcon("com.shuanglu.ibc")
-        var b3 = bitmap2
-        var a = EdgeApplicationManagement.allApplication()
-        var a2= a
+//        var d = AppCompatResources.getDrawable(this,R.drawable.ic_add)
+//        var b = d as BitmapDrawable
+//        EdgeFileManagement.saveBitmapToLocal(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.png",b.bitmap,Bitmap.CompressFormat.PNG)
+//        var bitmap = EdgeFileManagement.readLocalToBitmap(Environment.getExternalStorageDirectory().absolutePath+"/Download/test1.png")
+//        var bitmap2 = bitmap
+//        bitmap2 = EdgeApplicationManagement.appIcon("com.shuanglu.ibc")
+//        var b3 = bitmap2
+//        var a = EdgeApplicationManagement.allApplication()
+//        var a2= a
         EdgeLog.show(javaClass,EdgeApplicationManagement.appName("com.shuanglu.ibc"))
 
         tbv = findViewById(R.id.tbv)
@@ -89,17 +88,6 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..4){
             list.add("第${i}个")
         }
-
-        var text = findViewById<VerticalTextview>(R.id.text)
-        text.setTextList(list)//加入显示内容,集合类型
-        text.setText(26f, 5, Color.RED)//设置属性,具体跟踪源码
-        text.setTextStillTime(3000)//设置停留时长间隔
-        text.setAnimTime(2500)//设置进入和退出的时间间隔
-        //对单条文字的点击监听
-        text.setOnItemClickListener(VerticalTextview.OnItemClickListener {
-            Toast.makeText(this,list.get(it),Toast.LENGTH_SHORT).show()
-        })
-        text.startAutoScroll()
     }
 
     fun click(v:View){

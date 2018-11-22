@@ -25,31 +25,35 @@ object EdgeApplicationManagement {
 
     //获取包信息
     @JvmStatic
-    @Throws(PackageManager.NameNotFoundException::class)
-    fun appPackageInfo(packageName: String): PackageInfo {
+    fun appPackageInfo(packageName: String): PackageInfo? {
         var pm = EdgeConfig.CONTEXT.packageManager
-        return pm.getPackageInfo(packageName, 0)
+        try {
+            return pm.getPackageInfo(packageName, 0)
+        }catch (e:PackageManager.NameNotFoundException){
+            e.printStackTrace()
+            return null
+        }
     }
 
     //获取应用名
     @JvmStatic
     fun appName(packageName: String): String {
-        return appPackageInfo(packageName).applicationInfo.loadLabel(EdgeConfig.CONTEXT.packageManager).toString()
+        return appPackageInfo(packageName)?.applicationInfo?.loadLabel(EdgeConfig.CONTEXT.packageManager).toString()
     }
 
     //获取应用版本信息
     @JvmStatic
-    fun appVersionName(packageName: String): String {
-        return appPackageInfo(packageName).versionName
+    fun appVersionName(packageName: String): String? {
+        return appPackageInfo(packageName)?.versionName
     }
 
     //获取应用版本号
     @JvmStatic
-    fun appVersionCode(packageName: String): Long {
+    fun appVersionCode(packageName: String): Long? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            appPackageInfo(packageName).longVersionCode
+            appPackageInfo(packageName)?.longVersionCode
         } else {
-            appPackageInfo(packageName).versionCode.toLong()
+            appPackageInfo(packageName)?.versionCode?.toLong()
         }
     }
 
@@ -62,10 +66,10 @@ object EdgeApplicationManagement {
 
     //获取所有的应用，map key为user时为用户安装应用，key为system时为系统预装应用
     @JvmStatic
-    fun allApplication(): ArrayMap<String, ArrayList<PackageInfo>>? {
+    fun allApplication(): HashMap<String, ArrayList<PackageInfo>>? {
         var pm = EdgeConfig.CONTEXT.packageManager
         var list = pm.getInstalledPackages(0)
-        var map = ArrayMap<String, ArrayList<PackageInfo>>()
+        var map = HashMap<String, ArrayList<PackageInfo>>()
         var userList = arrayListOf<PackageInfo>()
         var systemList = arrayListOf<PackageInfo>()
         for (model in list) {
