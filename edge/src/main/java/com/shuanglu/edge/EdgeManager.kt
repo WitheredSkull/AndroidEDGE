@@ -43,6 +43,12 @@ class EdgeManager(application: Application) {
         this.application = application
     }
 
+    //设置数据库版本哈
+    fun initEdgeDatabaseVersion(version:Int):EdgeManager{
+        EdgeConfig.DATABASE_VERSION = version
+        return this
+    }
+
     //初始化日志输出助手
     fun initDemoLog(): EdgeManager {
         EdgeLogConfig

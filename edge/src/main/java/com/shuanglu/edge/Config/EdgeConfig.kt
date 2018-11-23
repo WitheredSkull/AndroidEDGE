@@ -10,4 +10,6 @@ import android.content.Context
 object EdgeConfig {
     @JvmStatic
     lateinit var CONTEXT:Context
+    @JvmStatic
+    var DATABASE_VERSION = 0
 }

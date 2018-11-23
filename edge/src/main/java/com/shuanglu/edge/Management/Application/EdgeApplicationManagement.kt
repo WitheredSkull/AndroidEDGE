@@ -7,9 +7,12 @@ import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
+import android.support.v4.content.FileProvider
 import android.util.ArrayMap
 import com.daniel.edge.Config.EdgeConfig
+import java.io.File
 
 /**
  * 创建人 Daniel
@@ -35,6 +38,17 @@ object EdgeApplicationManagement {
         }
     }
 
+    //获取包所需要的权限
+    @JvmStatic
+    fun appPermissionFromPackageInfo(packageName: String): PackageInfo? {
+        var pm = EdgeConfig.CONTEXT.packageManager
+        try {
+            return pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+        }catch (e:PackageManager.NameNotFoundException){
+            e.printStackTrace()
+            return null
+        }
+    }
     //获取应用名
     @JvmStatic
     fun appName(packageName: String): String {
@@ -82,5 +96,30 @@ object EdgeApplicationManagement {
         map.put("user", userList)
         map.put("system", systemList)
         return map
+    }
+
+
+    //卸载应用
+    @JvmStatic
+    fun unInstallApk(packageName: String) {
+        var uri = Uri.parse("package:" + packageName)
+        var intent = Intent(Intent.ACTION_DELETE, uri)
+        EdgeConfig.CONTEXT.startActivity(intent)
+    }
+
+    //安装应用
+    @JvmStatic
+    fun InstallApk(path: String) {
+        val intent = Intent(Intent.ACTION_VIEW)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        if (Build.VERSION.SDK_INT >= 24) {
+            var apkUri =
+                FileProvider.getUriForFile(EdgeConfig.CONTEXT, EdgeApplicationManagement.appPackageName(), File(path))
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
+        } else {
+            intent.setDataAndType(Uri.fromFile(File(path)), "application/vnd.android.package-archive");
+        }
+        EdgeConfig.CONTEXT.startActivity(intent);
     }
 }

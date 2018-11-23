@@ -9,7 +9,7 @@ import com.daniel.edge.Utils.Log.EdgeLog
 /**
  * @Author:      Daniel
  * @Date:        2018/11/22 14:56
- * @Description:
+ * @Description:Fragment管理器，仅用于一个页面
  *
  */
 class EdgeFragmentManagement {

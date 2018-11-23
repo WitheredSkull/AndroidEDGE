@@ -57,6 +57,18 @@ object EdgeFileManagement {
         return models
     }
 
+    //创建文件，会自动删除之前存在的文件
+    @JvmStatic
+    fun createFile(path:String):File{
+        var file = File(path)
+        if (file.exists()){
+            file.delete()
+        }else{
+            file.parentFile.mkdirs()
+        }
+        file.createNewFile()
+        return file
+    }
     //删除目录下所有的东西
     @JvmStatic
     fun deleteDirectoryAllData(directory: String) {
