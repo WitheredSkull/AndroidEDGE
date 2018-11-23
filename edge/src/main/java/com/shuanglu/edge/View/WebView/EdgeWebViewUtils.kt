@@ -62,7 +62,9 @@ class EdgeWebViewUtils(activity: Activity, @IdRes id: Int) {
         //设置默认编码
 //        webSettings.defaultTextEncodingName = "utf-8"
         //WebView是否需要用户的手势进行媒体播放，默认值为true。
-        webSettings.mediaPlaybackRequiresUserGesture = true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            webSettings.mediaPlaybackRequiresUserGesture = true
+        }
         //是否使用内置的缩放机制。内置的缩放机制包括屏幕上的缩放控件（浮于WebView内容之上）和缩放手势的运用。通过setDisplayZoomControls(boolean)可以控制是否显示这些控件，默认值为false。
         webSettings.builtInZoomControls = false
         //使用内置的缩放机制时是否展示缩放控件，默认值true。参见setBuiltInZoomControls(boolean).
