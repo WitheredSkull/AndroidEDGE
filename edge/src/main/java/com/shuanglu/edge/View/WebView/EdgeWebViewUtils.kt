@@ -2,9 +2,9 @@ package com.daniel.edge.View.WebView
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import android.support.annotation.IdRes
 import android.util.Log
-import android.webkit.CookieSyncManager
 import android.webkit.WebSettings
 import android.webkit.WebView
 import com.daniel.edge.View.WebView.Model.EdgeWebChromeClient
@@ -25,7 +25,6 @@ class EdgeWebViewUtils(activity: Activity, @IdRes id: Int) {
         this.activity = activity
         webView = activity.findViewById(id)
         edgeCachePath = activity.externalCacheDir.absolutePath + "/EdgeWebCache";
-        Log.w("缓存", "缓存地址" + edgeCachePath)
     }
 
     companion object {
@@ -112,6 +111,13 @@ class EdgeWebViewUtils(activity: Activity, @IdRes id: Int) {
         webSettings.userAgentString = null
         //当一个安全的来源（origin）试图从一个不安全的来源加载资源时配置WebView的行为。默认情况下，KITKAT及更低版本默认值为MIXED_CONTENT_ALWAYS_ALLOW，LOLLIPOP版本默认值MIXED_CONTENT_NEVER_ALLOW，WebView首选的最安全的操作模式为MIXED_CONTENT_NEVER_ALLOW ，不鼓励使用MIXED_CONTENT_ALWAYS_ALLOW。
 //        webSettings.mixedContentMode = MIXED_CONTENT_NEVER_ALLOW
+
+        // android 5.0以上默认不支持Mixed Content
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSettings.setMixedContentMode(
+                WebSettings.MIXED_CONTENT_COMPATIBILITY_MODE
+            );
+        }
         return this
     }
 

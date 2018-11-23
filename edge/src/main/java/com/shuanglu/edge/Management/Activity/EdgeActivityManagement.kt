@@ -24,7 +24,7 @@ class EdgeActivityManagement {
     //添加Activity
     fun add(activity: Activity?) {
         EdgeLog.show(javaClass,"添加"+(activity!!.javaClass.simpleName).toString())
-        activities.add(activity!!)
+        activities.add(activity)
     }
 
     //移除Activity
