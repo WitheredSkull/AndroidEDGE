@@ -15,8 +15,8 @@ import com.daniel.edge.Config.EdgeConfig
 object EdgeAppCompat {
     //获取颜色值兼容6.0以下
     @JvmStatic
-    fun getColor(context: Context, @ColorRes res: Int): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) context.getColor(res) else context.resources.getColor(
+    fun getColor(@ColorRes res: Int): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) EdgeConfig.CONTEXT.getColor(res) else EdgeConfig.CONTEXT.resources.getColor(
             res
         )
     }

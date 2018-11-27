@@ -69,6 +69,7 @@ object EdgeFileManagement {
         file.createNewFile()
         return file
     }
+
     //删除目录下所有的东西
     @JvmStatic
     fun deleteDirectoryAllData(directory: String) {

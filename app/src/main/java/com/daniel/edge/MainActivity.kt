@@ -3,6 +3,8 @@ package com.daniel.edge
 import android.animation.ObjectAnimator
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.support.v4.os.EnvironmentCompat
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -10,6 +12,8 @@ import android.view.animation.TranslateAnimation
 import android.widget.TextView
 import android.widget.Toast
 import com.daniel.edge.Utils.Log.EdgeLog
+import com.shuanglu.edge.Management.Download.EdgeDownManagement
+import com.shuanglu.edge.Management.File.EdgeFileManagement
 import com.shuanglu.edge.Management.Permission.EdgePermissionManagement
 import com.shuanglu.edge.Management.Permission.OnEdgePermissionCallBack
 import com.shuanglu.edge.View.Banner.TextBanner.Model.TextBannerAdapter
@@ -77,7 +81,6 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..4) {
             list.add("第${i}个")
         }
-        var edgePermissionManagement: EdgePermissionManagement
         edgePermissionManagement = EdgePermissionManagement()
         edgePermissionManagement
             .requestPackageNeedPermission()
@@ -92,14 +95,24 @@ class MainActivity : AppCompatActivity() {
                 }
 
             }).build(this)
+        EdgeDownManagement.getInstance().down(Environment.getExternalStorageDirectory().absolutePath + "/",
+        "https://android-1257046655.cos.ap-hongkong.myqcloud.com/Wandoujia_363640_web_seo_baidu_homepage.apk")
+
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         edgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
-
+    var flag = true
     fun click(v: View) {
-        Toast.makeText(this, "点击了", Toast.LENGTH_SHORT).show()
+        if (flag) {
+            flag = false
+            EdgeDownManagement.getInstance().pause()
+        }else{
+            flag = true
+            EdgeDownManagement.getInstance().down(Environment.getExternalStorageDirectory().absolutePath + "/",
+                "https://android-1257046655.cos.ap-hongkong.myqcloud.com/Wandoujia_363640_web_seo_baidu_homepage.apk")
+        }
     }
 }

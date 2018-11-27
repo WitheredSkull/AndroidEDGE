@@ -67,9 +67,9 @@ class EdgeManager(application: Application) {
     fun initDemoToolBar(): EdgeManager {
         TooBarViewUtils
             .getInstance()
-            .setBackgroundColor(EdgeAppCompat.getColor(context, android.R.color.white))//设置背景
-            .setTextColor(EdgeAppCompat.getColor(context, R.color.colorEdgePrimary))//设置文字颜色
-            .setLineColor(EdgeAppCompat.getColor(context, R.color.colorEdgePrimaryDark))//设置底部线条颜色
+            .setBackgroundColor(EdgeAppCompat.getColor(android.R.color.white))//设置背景
+            .setTextColor(EdgeAppCompat.getColor(R.color.colorEdgePrimary))//设置文字颜色
+            .setLineColor(EdgeAppCompat.getColor(R.color.colorEdgePrimaryDark))//设置底部线条颜色
             .setLineHeight(2)//设置线条高度
         return this
     }

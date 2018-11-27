@@ -47,4 +47,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             ></com.shuanglu.edge.View.Banner.TextBanner.View.TextBannerView>
 
+    <Button
+            android:text="Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="35dp"
+            android:onClick="click"
+            app:layout_constraintTop_toBottomOf="@+id/tv"
+            />
+
 </android.support.constraint.ConstraintLayout>

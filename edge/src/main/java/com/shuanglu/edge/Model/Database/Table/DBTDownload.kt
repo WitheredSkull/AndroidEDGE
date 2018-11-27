@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.daniel.edge.Config.EdgeConfig
+import com.daniel.edge.Utils.Log.EdgeLog
 import com.shuanglu.edge.Management.Download.Model.EdgeDownloadModel
 import com.shuanglu.edge.Model.Database.SQLLite.DatabaseHelper
 
@@ -21,6 +22,7 @@ class DBTDownload {
 
         //field
         val ID = "_id"
+        val FILE_START_TIME = "START_TIME"
         val FILE_NAME = "NAME"
         val FILE_LOCAL_PATH = "LOCAL_PATH"
         val FILE_TEMP_PATH = "TEMP_PATH"
@@ -29,11 +31,12 @@ class DBTDownload {
 
         val SQL = "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
                 ID + " INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL , " +
-                FILE_NAME + "VARCHAR, " +
-                FILE_LOCAL_PATH + "VARCHAR" +
-                FILE_TEMP_PATH + "VARCHAR, " +
-                FILE_TOTAL_SIZE + "Long, " +
-                FILE_ALREAD_DOWN_SIZE + "Long, " +
+                FILE_START_TIME + " Long, " +
+                FILE_NAME + " VARCHAR, " +
+                FILE_LOCAL_PATH + " VARCHAR," +
+                FILE_TEMP_PATH + " VARCHAR, " +
+                FILE_TOTAL_SIZE + " Long, " +
+                FILE_ALREAD_DOWN_SIZE + " Long " +
                 ")"
 
         fun getInstance() = Instance.INSTANCE
@@ -53,15 +56,19 @@ class DBTDownload {
         var model = query(edgeDownloadModel)
         if (model == null) {
             return false
-        }else{
+        } else {
             return true
         }
     }
 
     fun insert(edgeDownloadModel: EdgeDownloadModel) {
-        var cv = getContentValue(edgeDownloadModel)
-        db.insert(TABLE_NAME, null, cv)
-        cv.clear()
+        if (!isExists(edgeDownloadModel)) {
+            var cv = getContentValue(edgeDownloadModel)
+            db.insert(TABLE_NAME, null, cv)
+            cv.clear()
+        } else {
+            EdgeLog.show(javaClass, "已经存在了的数据")
+        }
     }
 
     fun update(edgeDownloadModel: EdgeDownloadModel) {
@@ -79,11 +86,32 @@ class DBTDownload {
     }
 
     fun query(edgeDownloadModel: EdgeDownloadModel): EdgeDownloadModel? {
+        var falg = if (edgeDownloadModel.startTime != null || edgeDownloadModel.startTime != 0.toLong()) {
+            true
+        } else {
+            false
+        }
         var cursor = db.query(
             TABLE_NAME,
-            arrayOf<String>(TABLE_NAME),
-            TABLE_NAME + " = ?",
-            arrayOf<String>(edgeDownloadModel.name!!),
+            arrayOf<String>(
+                if (falg) {
+                    FILE_START_TIME
+                } else {
+                    FILE_NAME
+                }
+            ),
+            "${if (falg) {
+                FILE_START_TIME
+            } else {
+                FILE_NAME
+            }} = ?",
+            arrayOf<String>(
+                if (falg) {
+                    edgeDownloadModel.startTime.toString()!!
+                } else {
+                    edgeDownloadModel.name!!
+                }
+            ),
             null,
             null,
             null
@@ -92,7 +120,7 @@ class DBTDownload {
         try {
             while (cursor.moveToNext()) {
                 var model = EdgeDownloadModel(
-                    cursor.getString(cursor.getColumnIndex(FILE_NAME)),
+                    cursor.getLong(cursor.getColumnIndex(FILE_START_TIME)),
                     cursor.getString(cursor.getColumnIndex(FILE_LOCAL_PATH)),
                     cursor.getString(cursor.getColumnIndex(FILE_TEMP_PATH))
                 )
@@ -105,15 +133,15 @@ class DBTDownload {
             cursor.close()
         }
         list.filter {
-            if (it.totalSize == edgeDownloadModel.totalSize){
+            if (it.totalSize == edgeDownloadModel.totalSize) {
                 true
-            }else{
+            } else {
                 false
             }
         }
-        return if (list.size>0){
+        return if (list.size > 0) {
             list.get(0)
-        }else{
+        } else {
             null
         }
     }
@@ -121,6 +149,8 @@ class DBTDownload {
 
     fun getContentValue(edgeDownloadModel: EdgeDownloadModel): ContentValues {
         var cv = ContentValues()
+        cv.put(ID,edgeDownloadModel.id)
+        cv.put(FILE_START_TIME,edgeDownloadModel.startTime)
         cv.put(FILE_NAME, edgeDownloadModel.name)
         cv.put(FILE_LOCAL_PATH, edgeDownloadModel.localPath)
         cv.put(FILE_TEMP_PATH, edgeDownloadModel.tempPath)
