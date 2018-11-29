@@ -57,7 +57,7 @@ class EdgePermissionManagement() {
         return this
     }
 
-    fun build(activity: AppCompatActivity) {
+    fun build(activity: AppCompatActivity):EdgePermissionManagement {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (mActivity != null) {
                 mActivity?.clear()
@@ -65,6 +65,7 @@ class EdgePermissionManagement() {
             mActivity = WeakReference(activity)
             mActivity?.get()?.requestPermissions(mList.toTypedArray(), REQUEST_PERMISSION)
         }
+        return this
     }
 
     fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

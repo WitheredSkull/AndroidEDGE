@@ -9,6 +9,7 @@ import com.daniel.edge.Utils.Log.Model.EdgeLogConfig
 import com.daniel.edge.Utils.Log.Model.EdgeLogType
 import com.shuanglu.edge.Management.Activity.EdgeActivityManagement
 import com.shuanglu.edge.Utils.AppCompat.EdgeAppCompat
+import com.shuanglu.edge.Utils.Toast.Model.EdgeToastConfig
 import com.shuanglu.edge.View.ToolBar.TooBarViewUtils
 
 /**
@@ -99,6 +100,16 @@ class EdgeManager(application: Application) {
                 EdgeActivityManagement.getInstance().add(activity)
             }
         })
+        return this
+    }
+
+    fun initToast():EdgeManager{
+        EdgeToastConfig
+            .getInstance()
+            .setLayout(R.layout.layout_toast)//传入布局
+            .setTextId(R.id.tv_message)//传入T布局需要设置文字的控件ID，必须是TextView
+            .setBottomMargin(20)//设置距离底部边距
+            .build()//构建
         return this
     }
 }

@@ -4,4 +4,5 @@
     <color name="colorEdgePrimaryDark">#408DEC</color>
     <color name="colorEdgeAccent">#2680F0</color>
     <color name="colorEdgeGray">#cccccc</color>
+    <color name="colorEdgeBlueDark">#1781ee</color>
 </resources>
