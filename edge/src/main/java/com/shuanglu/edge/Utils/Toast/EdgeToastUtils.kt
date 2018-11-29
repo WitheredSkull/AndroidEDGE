@@ -36,10 +36,10 @@ class EdgeToastUtils {
         var view = View.inflate(EdgeConfig.CONTEXT, EdgeToastConfig.LAYOUT_RES, null)
         when (message) {
             is String -> {
-                view.findViewById<TextView>(EdgeToastConfig.LAYOUT_RES).text = message
+                view.findViewById<TextView>(EdgeToastConfig.TEXT_ID_RES).text = message
             }
             is Int -> {
-                view.findViewById<TextView>(EdgeToastConfig.LAYOUT_RES).text = EdgeConfig.CONTEXT.getString(message)
+                view.findViewById<TextView>(EdgeToastConfig.TEXT_ID_RES).text = EdgeConfig.CONTEXT.getString(message)
             }
         }
         mToast.view = view
