@@ -13,41 +13,51 @@ import com.daniel.edge.Utils.Log.EdgeLog
  *
  */
 class EdgeFragmentManagement {
-    var mFragments:ArrayList<Fragment> = arrayListOf()
-    var mFragmentManager:FragmentManager
+    var mFragments: ArrayList<Fragment> = arrayListOf()
+    var mFragmentManager: FragmentManager
     private var mPosition = -1
 
-    constructor(fragmentManager: FragmentManager){
+    constructor(fragmentManager: FragmentManager) {
         mFragmentManager = fragmentManager
     }
 
-    fun introductionFragment(vararg clazz: Class<*>){
+    //传入Fragment类可以自动判断FragmentManager是否已经存在，存在则复用，不存在则重新创建
+    fun introductionFragment(vararg clazz: Class<*>) {
         clazz.forEach {
-            var fragment =  mFragmentManager.findFragmentByTag(clazz.javaClass.simpleName)
-            if (fragment != null){
+            var fragment = mFragmentManager.findFragmentByTag(clazz.javaClass.simpleName)
+            if (fragment != null) {
                 mFragments.add(fragment)
-            }else{
+            } else {
                 mFragments.add(it.newInstance() as Fragment)
             }
         }
+        var sortFlag = true
+        mFragments.forEachIndexed { index, fragment ->
+            if (!fragment.javaClass.simpleName.equals(mFragmentManager.fragments[index])) {
+                sortFlag = false
+            }
+        }
+        if (!sortFlag) {
+            removeAll()
+        }
     }
 
-    fun build(@IdRes id:Int){
+    fun build(@IdRes id: Int) {
         var ft = mFragmentManager.beginTransaction()
         mFragments.forEach {
-            if (null != mFragmentManager.findFragmentByTag(it.javaClass.simpleName)){
-                EdgeLog.show(javaClass,"已经存在"+it.javaClass.simpleName)
-            }else {
-                ft.add(id, it,it.javaClass.simpleName)
+            if (null != mFragmentManager.findFragmentByTag(it.javaClass.simpleName)) {
+                EdgeLog.show(javaClass, "recover ${it.javaClass.simpleName}")
+            } else {
+                ft.add(id, it, it.javaClass.simpleName)
                 ft.hide(it)
             }
         }
         ft.commit()
     }
 
-    fun show(index:Int):EdgeFragmentManagement{
+    fun show(index: Int): EdgeFragmentManagement {
         var ft = mFragmentManager.beginTransaction()
-        if (mPosition != -1){
+        if (mPosition != -1) {
             ft.hide(mFragments[mPosition])
         }
         ft.show(mFragments[index]).commit()
@@ -55,7 +65,8 @@ class EdgeFragmentManagement {
         return this
     }
 
-    fun hideAll():EdgeFragmentManagement{
+    //隐藏所有Fragment
+    fun hideAll(): EdgeFragmentManagement {
         var ft = mFragmentManager.beginTransaction()
         mFragments.forEach {
             ft.hide(it)
@@ -65,10 +76,10 @@ class EdgeFragmentManagement {
     }
 
     //移除管理器中所有的Fragment，防止发生显示混乱等情况
-    fun removeAll():EdgeFragmentManagement{
-        if (mFragmentManager.fragments.size > 0){
+    fun removeAll(): EdgeFragmentManagement {
+        if (mFragmentManager.fragments.size > 0) {
             var sfm = mFragmentManager.beginTransaction()
-            mFragmentManager.fragments.forEach(){
+            mFragmentManager.fragments.forEach() {
                 sfm.remove(it)
             }
             sfm.commit()
@@ -76,7 +87,7 @@ class EdgeFragmentManagement {
         return this
     }
 
-    fun destroy(){
+    fun destroy() {
         var ft = mFragmentManager.beginTransaction()
         mFragments.forEach {
             ft.remove(it)
