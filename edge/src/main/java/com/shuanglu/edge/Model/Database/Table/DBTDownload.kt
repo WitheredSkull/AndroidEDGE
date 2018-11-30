@@ -124,7 +124,7 @@ class DBTDownload {
                     cursor.getString(cursor.getColumnIndex(FILE_LOCAL_PATH)),
                     cursor.getString(cursor.getColumnIndex(FILE_TEMP_PATH))
                 )
-                model.id = cursor.getInt(cursor.getColumnIndex(ID))
+                model.id = cursor.getLong(cursor.getColumnIndex(ID))
                 model.totalSize = cursor.getLong(cursor.getColumnIndex(FILE_TOTAL_SIZE))
                 model.alreadyDownSize = cursor.getLong(cursor.getColumnIndex(FILE_ALREAD_DOWN_SIZE))
                 list.add(edgeDownloadModel)

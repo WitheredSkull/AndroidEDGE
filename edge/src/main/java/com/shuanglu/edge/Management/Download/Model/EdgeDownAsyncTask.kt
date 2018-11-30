@@ -61,7 +61,7 @@ class EdgeDownAsyncTask : AsyncTask<String, Int, Boolean> {
             }
             val disposition = huc.getHeaderField("Content-Disposition")
             var fileName = ""
-            if (disposition.contains("filename")) {
+            if (!TextUtils.isEmpty(disposition) && disposition.contains("filename")) {
                 fileName = disposition.substring(disposition.indexOf("''") + 2, disposition.lastIndex)
             }
 

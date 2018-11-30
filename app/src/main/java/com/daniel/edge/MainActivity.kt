@@ -9,11 +9,13 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.daniel.edge.Utils.Log.EdgeLog
 import com.shuanglu.edge.Management.Download.EdgeDownManagement
 import com.shuanglu.edge.Management.File.EdgeFileManagement
+import com.shuanglu.edge.Management.Fragment.EdgeFragmentManagement
 import com.shuanglu.edge.Management.Permission.EdgePermissionManagement
 import com.shuanglu.edge.Management.Permission.OnEdgePermissionCallBack
 import com.shuanglu.edge.Utils.Toast.EdgeToastUtils
@@ -26,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     var tv: TextView? = null;
     lateinit var tbv: TextBannerView<String>
     lateinit var edgePermissionManagement: EdgePermissionManagement
+    lateinit var fragment:LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -107,6 +110,24 @@ class MainActivity : AppCompatActivity() {
         )
         EdgeToastUtils.getInstance().show("弹出")
 
+        fragment = findViewById(R.id.fragment)
+        var s  = "第一个"
+
+
+    }
+
+
+    override fun onResume() {
+        super.onResume()
+
+        var fm = EdgeFragmentManagement(supportFragmentManager)
+        fm.introductionFragment(DemoFragment::class.java)
+        fm.build(R.id.fragment)
+        fm.show(0)
+    }
+    override fun onDestroy() {
+
+        super.onDestroy()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {

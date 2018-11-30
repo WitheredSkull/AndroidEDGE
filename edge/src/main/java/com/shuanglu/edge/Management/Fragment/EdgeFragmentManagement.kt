@@ -21,11 +21,26 @@ class EdgeFragmentManagement {
         mFragmentManager = fragmentManager
     }
 
+    fun introductionFragment(vararg clazz: Class<*>){
+        clazz.forEach {
+            var fragment =  mFragmentManager.findFragmentByTag(clazz.javaClass.simpleName)
+            if (fragment != null){
+                mFragments.add(fragment)
+            }else{
+                mFragments.add(it.newInstance() as Fragment)
+            }
+        }
+    }
+
     fun build(@IdRes id:Int){
         var ft = mFragmentManager.beginTransaction()
         mFragments.forEach {
-            ft.add(id,it)
-            ft.hide(it)
+            if (null != mFragmentManager.findFragmentByTag(it.javaClass.simpleName)){
+                EdgeLog.show(javaClass,"已经存在"+it.javaClass.simpleName)
+            }else {
+                ft.add(id, it,it.javaClass.simpleName)
+                ft.hide(it)
+            }
         }
         ft.commit()
     }
@@ -46,6 +61,18 @@ class EdgeFragmentManagement {
             ft.hide(it)
         }
         ft.commit()
+        return this
+    }
+
+    //移除管理器中所有的Fragment，防止发生显示混乱等情况
+    fun removeAll():EdgeFragmentManagement{
+        if (mFragmentManager.fragments.size > 0){
+            var sfm = mFragmentManager.beginTransaction()
+            mFragmentManager.fragments.forEach(){
+                sfm.remove(it)
+            }
+            sfm.commit()
+        }
         return this
     }
 

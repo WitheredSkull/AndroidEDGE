@@ -7,7 +7,7 @@ package com.shuanglu.edge.Management.Download.Model
  *
  */
 class EdgeDownloadModel {
-    var id:Int = 0
+    var id:Long? = null
     var startTime: Long? = null
     var name: String? = null
     var localPath: String? = null
