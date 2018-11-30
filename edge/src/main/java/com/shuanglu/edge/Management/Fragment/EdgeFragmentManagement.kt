@@ -33,13 +33,21 @@ class EdgeFragmentManagement {
         }
         var sortFlag = true
         mFragments.forEachIndexed { index, fragment ->
-            if (!fragment.javaClass.simpleName.equals(mFragmentManager.fragments[index])) {
+            if (!fragment.javaClass.simpleName.equals(
+                    if (mFragmentManager?.fragments.size > index) {
+                        mFragmentManager?.fragments[index]
+                    } else {
+                        ""
+                    }
+                )
+            ) {
                 sortFlag = false
             }
         }
         if (!sortFlag) {
             removeAll()
         }
+
     }
 
     fun build(@IdRes id: Int) {

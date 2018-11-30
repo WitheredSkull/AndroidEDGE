@@ -13,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.daniel.edge.Utils.Log.EdgeLog
+import com.dongtinghu.shellbay.View.Activity.Home.Fragment.MyFragment
 import com.shuanglu.edge.Management.Download.EdgeDownManagement
 import com.shuanglu.edge.Management.File.EdgeFileManagement
 import com.shuanglu.edge.Management.Fragment.EdgeFragmentManagement
@@ -121,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
 
         var fm = EdgeFragmentManagement(supportFragmentManager)
-        fm.introductionFragment(DemoFragment::class.java)
+        fm.introductionFragment(DemoFragment::class.java,MyFragment::class.java)
         fm.build(R.id.fragment)
         fm.show(0)
     }
