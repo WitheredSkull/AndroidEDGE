@@ -22,7 +22,7 @@ class EdgeFragmentManagement {
     }
 
     //传入Fragment类可以自动判断FragmentManager是否已经存在，存在则复用，不存在则重新创建
-    fun introductionFragment(vararg clazz: Class<*>) {
+    fun introductionFragment(vararg clazz: Class<*>):EdgeFragmentManagement {
         clazz.forEach {
             var fragment = mFragmentManager.findFragmentByTag(clazz.javaClass.simpleName)
             if (fragment != null) {
@@ -47,7 +47,7 @@ class EdgeFragmentManagement {
         if (!sortFlag) {
             removeAll()
         }
-
+        return this
     }
 
     fun build(@IdRes id: Int) {
@@ -61,6 +61,11 @@ class EdgeFragmentManagement {
             }
         }
         ft.commit()
+    }
+
+    //获取正在显示的
+    fun getPosition():Int{
+        return mPosition
     }
 
     fun show(index: Int): EdgeFragmentManagement {

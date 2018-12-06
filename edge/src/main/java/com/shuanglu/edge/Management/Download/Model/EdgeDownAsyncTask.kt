@@ -29,6 +29,7 @@ class EdgeDownAsyncTask : AsyncTask<String, Int, Boolean> {
     var status: Boolean = true
     lateinit var file: File
     lateinit var fileFilter: File
+    var mProgress = 0
 
     constructor(model: EdgeDownloadModel) : super() {
         this.model = model
@@ -91,7 +92,12 @@ class EdgeDownAsyncTask : AsyncTask<String, Int, Boolean> {
                     if (status) {
                         randomFile.write(buffer, 0, len)
                         model.alreadyDownSize += len
-                        publishProgress((BigDecimal(model.alreadyDownSize).toDouble() / BigDecimal(model.totalSize).toDouble() * 100).toInt())
+                        var progress =
+                            (BigDecimal(model.alreadyDownSize).toDouble() / BigDecimal(model.totalSize).toDouble() * 100).toInt()
+                        if (mProgress != progress) {
+                            mProgress = progress
+                            publishProgress(progress)
+                        }
                         DBTDownload.getInstance().update(model)
                         len = huc.inputStream.read(buffer)
                     } else {
@@ -110,7 +116,14 @@ class EdgeDownAsyncTask : AsyncTask<String, Int, Boolean> {
                     if (status) {
                         fileOutputStream.write(buffer, 0, len)
                         model.alreadyDownSize += len
-                        publishProgress((BigDecimal(model.alreadyDownSize).toDouble() / BigDecimal(model.totalSize).toDouble() * 100).toInt())
+
+                        var progress =
+                            (BigDecimal(model.alreadyDownSize).toDouble() / BigDecimal(model.totalSize).toDouble() * 100).toInt()
+                        if (mProgress != progress) {
+                            mProgress = progress
+                            publishProgress(progress)
+
+                        }
                         DBTDownload.getInstance().update(model)
                         len = huc.inputStream.read(buffer)
                     } else {

@@ -111,23 +111,23 @@ class MainActivity : AppCompatActivity() {
         )
         EdgeToastUtils.getInstance().show("弹出")
 
-        fragment = findViewById(R.id.fragment)
+        fragment = this.findViewById(R.id.fragment)
         var s  = "第一个"
 
 
     }
 
-
+    lateinit var  fm:EdgeFragmentManagement
     override fun onResume() {
         super.onResume()
 
-        var fm = EdgeFragmentManagement(supportFragmentManager)
+        fm = EdgeFragmentManagement(supportFragmentManager)
         fm.introductionFragment(DemoFragment::class.java,MyFragment::class.java)
         fm.build(R.id.fragment)
         fm.show(0)
     }
     override fun onDestroy() {
-
+        fm?.destroy()
         super.onDestroy()
     }
 
@@ -140,7 +140,7 @@ class MainActivity : AppCompatActivity() {
     fun click(v: View) {
         if (flag) {
             flag = false
-            EdgeDownManagement.getInstance().pause()
+//            EdgeDownManagement.getInstance().pause()
         } else {
             flag = true
             EdgeDownManagement.getInstance().down(
