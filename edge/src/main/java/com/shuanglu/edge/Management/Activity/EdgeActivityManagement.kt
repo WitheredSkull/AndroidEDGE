@@ -2,7 +2,6 @@ package com.shuanglu.edge.Management.Activity
 
 import android.app.Activity
 import android.support.annotation.NonNull
-import android.support.v7.app.AppCompatActivity
 import com.daniel.edge.Utils.Log.EdgeLog
 
 /**
@@ -11,7 +10,7 @@ import com.daniel.edge.Utils.Log.EdgeLog
  * 简介   Activity管理器
  */
 class EdgeActivityManagement {
-    var activities: ArrayList<AppCompatActivity> = arrayListOf()
+    var activities: ArrayList<Activity> = arrayListOf()
 
     //单例模式
     companion object {
@@ -23,12 +22,12 @@ class EdgeActivityManagement {
     }
 
     //添加Activity
-    fun add(activity: AppCompatActivity?) {
+    fun add(activity: Activity?) {
         activities.add(activity!!)
     }
 
     //移除Activity
-    fun remove(activity: AppCompatActivity?) {
+    fun remove(activity: Activity?) {
         activities.remove(activity)
     }
 
@@ -70,7 +69,7 @@ class EdgeActivityManagement {
     }
 
     //获取Top Activity
-    fun findTopActivity(): AppCompatActivity {
+    fun findTopActivity(): Activity {
         return activities.get(activities.size - 1)
     }
 }
