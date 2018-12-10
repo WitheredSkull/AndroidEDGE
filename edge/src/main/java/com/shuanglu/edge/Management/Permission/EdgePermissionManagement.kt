@@ -117,6 +117,8 @@ class EdgePermissionManagement() {
             }
             mActivity = WeakReference(activity)
             mActivity?.get()?.requestPermissions(mList.toTypedArray(), REQUEST_PERMISSION)
+        }else{
+            mOnEdgePermissionCallBack?.onRequestPermissionSuccess()
         }
         return this
     }
