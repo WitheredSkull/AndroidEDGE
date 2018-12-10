@@ -132,13 +132,15 @@ class DBTDownload {
         } finally {
             cursor.close()
         }
-        list.filter {
+        var listFilter = list.filter {
             if (it.totalSize == edgeDownloadModel.totalSize) {
                 true
             } else {
                 false
             }
         }
+        list.clear()
+        list.addAll(listFilter)
         return if (list.size > 0) {
             list.get(0)
         } else {

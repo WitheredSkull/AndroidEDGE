@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
-                if (EdgePermissionManagement.isAgree(arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))){
+                if (EdgePermissionManagement.isAgree(arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS))){
                     EdgeLog.show(javaClass,"请求储存成功")
                 }
                 EdgeLog.show(javaClass,"请求失败")

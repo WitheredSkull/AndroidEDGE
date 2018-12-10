@@ -23,20 +23,25 @@ class EdgePermissionManagement() {
 
     companion object {
         //过滤出来所有需要的权限
-        fun getNeedPermission(permission: ArrayList<String>): ArrayList<String>? {
+        fun getNeedPermission(permission: ArrayList<String>): List<String>? {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 //Filtrate Agree Permission
-                permission.forEach {
-                    if (ContextCompat.checkSelfPermission(
-                            EdgeConfig.CONTEXT,
-                            it
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        permission.remove(it)
-                    }
-
+                var list = permission.filter {
+                    ContextCompat.checkSelfPermission(
+                        EdgeConfig.CONTEXT,
+                        it
+                    ) != PackageManager.PERMISSION_GRANTED
                 }
-                return permission
+//                for ((i,value) in permission.withIndex()){
+//                    if (ContextCompat.checkSelfPermission(
+//                            EdgeConfig.CONTEXT,
+//                            value
+//                        ) == PackageManager.PERMISSION_GRANTED
+//                    ) {
+//                        permission.removeAt(i)
+//                    }
+//                }
+                return list
             }
             return null
         }
@@ -53,7 +58,7 @@ class EdgePermissionManagement() {
         }
 
         //获取包名所需权限
-        fun getPackageNeedPermission(): Array<String>? {
+        fun getPackageNeedPermission(): ArrayList<String>? {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             } else {
@@ -62,14 +67,16 @@ class EdgePermissionManagement() {
             var permissions =
                 EdgeApplicationManagement.appPermissionFromPackageInfo(EdgeApplicationManagement.appPackageName())
                     ?.requestedPermissions
-            permissions?.filter {
+            var listFilter = permissions?.filter {
                 if (ContextCompat.checkSelfPermission(EdgeConfig.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
                     false
                 } else {
                     true
                 }
             }
-            return permissions
+            var permissionList = arrayListOf<String>()
+            permissionList.addAll(listFilter!!)
+            return permissionList
         }
     }
 
@@ -77,13 +84,15 @@ class EdgePermissionManagement() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             mList.addAll(permission)
             //Filtrate Agree Permission
-            mList.filter {
+            var listFilter = mList.filter {
                 if (ContextCompat.checkSelfPermission(EdgeConfig.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
                     false
                 } else {
                     true
                 }
             }
+            mList.clear()
+            mList.addAll(listFilter)
         }
         return this
     }
