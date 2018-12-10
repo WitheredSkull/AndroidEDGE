@@ -1,5 +1,6 @@
 package com.daniel.edge
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -88,27 +89,26 @@ class MainActivity : AppCompatActivity() {
             list.add("第${i}个")
         }
         edgePermissionManagement = EdgePermissionManagement()
+        edgePermissionManagement.requestPackageNeedPermission()
+        edgePermissionManagement.setCallBack(object :OnEdgePermissionCallBack{
+            override fun onRequestPermissionSuccess() {
+                EdgeLog.show(javaClass,"请求成功")
+            }
 
-            .requestPackageNeedPermission()
-
-            .setCallBack(object : OnEdgePermissionCallBack {
-
-                override fun onRequestPermissionSuccess() {
+            override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
+                if (EdgePermissionManagement.isAgree(arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))){
+                    EdgeLog.show(javaClass,"请求储存成功")
                 }
+                EdgeLog.show(javaClass,"请求失败")
+            }
 
-                override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
-                    permissions.forEach {
-                        EdgeLog.show(javaClass, "失败的" + permissions)
-                    }
-                }
+        })
+        edgePermissionManagement.build(this)
 
-            })
-
-            .build(this)
-        EdgeDownManagement.getInstance().down(
-            Environment.getExternalStorageDirectory().absolutePath + "/",
-            "https://android-1257046655.cos.ap-hongkong.myqcloud.com/Wandoujia_363640_web_seo_baidu_homepage.apk"
-        )
+//        EdgeDownManagement.getInstance().down(
+//            Environment.getExternalStorageDirectory().absolutePath + "/",
+//            "https://android-1257046655.cos.ap-hongkong.myqcloud.com/Wandoujia_363640_web_seo_baidu_homepage.apk"
+//        )
         EdgeToastUtils.getInstance().show("弹出")
 
         fragment = this.findViewById(R.id.fragment)

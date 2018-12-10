@@ -5,6 +5,7 @@ import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import com.daniel.edge.Config.EdgeConfig
+import com.daniel.edge.Utils.Log.EdgeLog
 import com.shuanglu.edge.Management.Application.EdgeApplicationManagement
 import java.lang.ref.WeakReference
 
@@ -19,6 +20,58 @@ class EdgePermissionManagement() {
     var mList = arrayListOf<String>()
     private var mActivity: WeakReference<AppCompatActivity>? = null
     var mOnEdgePermissionCallBack: OnEdgePermissionCallBack? = null
+
+    companion object {
+        //过滤出来所有需要的权限
+        fun getNeedPermission(permission: ArrayList<String>): ArrayList<String>? {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                //Filtrate Agree Permission
+                permission.forEach {
+                    if (ContextCompat.checkSelfPermission(
+                            EdgeConfig.CONTEXT,
+                            it
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        permission.remove(it)
+                    }
+
+                }
+                return permission
+            }
+            return null
+        }
+
+        //判断权限是否获取了
+        fun isAgree(permission: ArrayList<String>): Boolean {
+
+            var list = getNeedPermission(permission)
+            if (list == null || list.size == 0) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        //获取包名所需权限
+        fun getPackageNeedPermission(): Array<String>? {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            } else {
+                return null
+            }
+            var permissions =
+                EdgeApplicationManagement.appPermissionFromPackageInfo(EdgeApplicationManagement.appPackageName())
+                    ?.requestedPermissions
+            permissions?.filter {
+                if (ContextCompat.checkSelfPermission(EdgeConfig.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
+                    false
+                } else {
+                    true
+                }
+            }
+            return permissions
+        }
+    }
 
     fun requestPermission(vararg permission: String): EdgePermissionManagement {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -36,16 +89,7 @@ class EdgePermissionManagement() {
     }
 
     fun requestPackageNeedPermission(): EdgePermissionManagement {
-        var permissions =
-            EdgeApplicationManagement.appPermissionFromPackageInfo(EdgeApplicationManagement.appPackageName())
-                ?.requestedPermissions
-        permissions?.filter {
-            if (ContextCompat.checkSelfPermission(EdgeConfig.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
-                false
-            } else {
-                true
-            }
-        }
+        var permissions = getPackageNeedPermission()
         permissions?.forEach {
             mList.add(it)
         }
@@ -57,7 +101,7 @@ class EdgePermissionManagement() {
         return this
     }
 
-    fun build(activity: AppCompatActivity):EdgePermissionManagement {
+    fun build(activity: AppCompatActivity): EdgePermissionManagement {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (mActivity != null) {
                 mActivity?.clear()
@@ -79,7 +123,11 @@ class EdgePermissionManagement() {
                     }
                 }
                 mActivity?.clear()
-                mOnEdgePermissionCallBack?.onRequestPermissionFailure(dangerPermissions)
+                if (dangerPermissions.size > 0) {
+                    mOnEdgePermissionCallBack?.onRequestPermissionFailure(dangerPermissions)
+                } else {
+                    mOnEdgePermissionCallBack?.onRequestPermissionSuccess()
+                }
             } else {
                 mActivity?.clear()
                 mOnEdgePermissionCallBack?.onRequestPermissionSuccess()
