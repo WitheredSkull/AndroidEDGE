@@ -8,7 +8,7 @@
         <item name="colorAccent">@color/colorEdgeAccent</item>
     </style>
 
-    //独一行的样式
+    <!--独一行的样式-->
     <style name="TextSingleLine">
         <item name="android:singleLine">true</item>
         <item name="android:maxLines">1</item>
@@ -27,6 +27,14 @@
         <item name="android:layout_width">1dp</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/colorEdgeGray</item>
+    </style>
+
+    <style name="TransparencyBottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/TransparencyBottomSheet</item>
+    </style>
+
+    <style name="TransparencyBottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
 </resources>

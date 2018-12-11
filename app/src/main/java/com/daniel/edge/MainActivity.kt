@@ -24,6 +24,8 @@ import com.shuanglu.edge.Utils.Toast.EdgeToastUtils
 import com.shuanglu.edge.Utils.Toast.Model.EdgeToastConfig
 import com.shuanglu.edge.View.Banner.TextBanner.Model.TextBannerAdapter
 import com.shuanglu.edge.View.Banner.TextBanner.View.TextBannerView
+import com.shuanglu.edge.Window.Dialog.BottomSheetDialog.EdgeBottomSheetDialogFragment
+import com.shuanglu.edge.Window.Dialog.Model.EdgeBottomSheetConfig
 
 
 class MainActivity : AppCompatActivity() {
@@ -138,15 +140,9 @@ class MainActivity : AppCompatActivity() {
 
     var flag = true
     fun click(v: View) {
-        if (flag) {
-            flag = false
-//            EdgeDownManagement.getInstance().pause()
-        } else {
-            flag = true
-            EdgeDownManagement.getInstance().down(
-                Environment.getExternalStorageDirectory().absolutePath + "/",
-                "https://android-1257046655.cos.ap-hongkong.myqcloud.com/Wandoujia_363640_web_seo_baidu_homepage.apk"
-            )
-        }
+        var config = EdgeBottomSheetConfig(supportFragmentManager,R.layout.layout_toast)
+        config.tag = "測試"
+        config.dimAmount = 0f
+        EdgeBottomSheetDialogFragment.build(config).show()
     }
 }

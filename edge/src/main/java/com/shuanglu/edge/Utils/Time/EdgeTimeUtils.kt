@@ -33,6 +33,7 @@ object EdgeTimeUtils {
     }
 
     fun getFormatTime(
+        currentTimeMillis:Long,
         year: String?,
         month: String?,
         day: String?,
@@ -77,7 +78,7 @@ object EdgeTimeUtils {
             }
             }"
         )
-        val currentTime = Date()
+        val currentTime = Date(currentTimeMillis)
         return format.format(currentTime)
     }
 }
