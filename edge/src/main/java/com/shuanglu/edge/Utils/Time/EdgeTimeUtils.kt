@@ -78,6 +78,7 @@ object EdgeTimeUtils {
             }
             }"
         )
+
         val currentTime = Date(currentTimeMillis)
         return format.format(currentTime)
     }
