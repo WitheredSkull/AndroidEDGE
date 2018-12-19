@@ -3,6 +3,7 @@ package com.shuanglu.edge.Window.Dialog.BottomSheetDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.BottomSheetDialogFragment
 import android.support.v4.app.FragmentTransaction
@@ -20,6 +21,7 @@ import com.shuanglu.edge.Window.Dialog.Model.EdgeBottomSheetConfig
 class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     var config: EdgeBottomSheetConfig? = null
     var bottomSheetDialog: BottomSheetDialog? = null
+    var count = 0
 
     companion object {
         fun build(config: EdgeBottomSheetConfig): EdgeBottomSheetDialogFragment {
@@ -42,14 +44,18 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         return bottomSheetDialog!!
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (count == 0) {
+            count++
+            var behavior = BottomSheetBehavior.from<View>(view)
+            config?.iDialogCallback?.onDialogDisplay(view, behavior, dialog)
+        }
+    }
+
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
         config?.iDialogCallback?.onDialogDismiss()
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        config?.iDialogCallback?.onDialogDisplay(view, dialog)
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     fun show() {
