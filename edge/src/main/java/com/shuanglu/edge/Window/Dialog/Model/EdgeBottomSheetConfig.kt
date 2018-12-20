@@ -14,6 +14,9 @@ class EdgeBottomSheetConfig {
     var fragmentManagement:FragmentManager? = null
     @LayoutRes var layoutRes:Int = 0
     var layoutView: View? = null
+    var realView:View? = null
+    var isFullScreen = false
+    var maxHeight = 0
     var dimAmount:Float = 1f
     var iDialogCallback: IDialogCallback? = null
     var tag = "${System.currentTimeMillis()}"

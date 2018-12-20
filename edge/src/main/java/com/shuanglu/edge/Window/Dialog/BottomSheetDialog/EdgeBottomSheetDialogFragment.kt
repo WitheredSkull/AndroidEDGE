@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.BottomSheetDialog
 import android.support.design.widget.BottomSheetDialogFragment
+import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +22,7 @@ import com.shuanglu.edge.Window.Dialog.Model.EdgeBottomSheetConfig
 class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     var config: EdgeBottomSheetConfig? = null
     var bottomSheetDialog: BottomSheetDialog? = null
-    var count = 0
+    var startCount = 0
 
     companion object {
         fun build(config: EdgeBottomSheetConfig): EdgeBottomSheetDialogFragment {
@@ -36,26 +37,42 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         if (config != null) {
             bottomSheetDialog!!.window.setDimAmount(config!!.dimAmount)
         }
-        if (config?.layoutView != null) {
-            bottomSheetDialog?.setContentView(config?.layoutView)
-        } else {
-            bottomSheetDialog?.setContentView(config?.layoutRes!!)
+        if (config!!.layoutRes != 0) {
+            config!!.realView = View.inflate(
+                context,
+                config?.layoutRes!!, null
+            )
+
+        } else if (config!!.layoutView != null) {
+            config!!.realView = config!!.layoutView
         }
+        bottomSheetDialog?.setContentView(config!!.realView)
         return bottomSheetDialog!!
     }
 
-    override fun onStart() {
-        super.onStart()
-        if (count == 0) {
-            count++
-            var behavior = BottomSheetBehavior.from<View>(view)
-            config?.iDialogCallback?.onDialogDisplay(view, behavior, dialog)
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        config?.iDialogCallback?.onDialogDisplay(config!!.realView, dialog)
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
         config?.iDialogCallback?.onDialogDismiss()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (startCount == 0) {
+            ++startCount
+            var bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
+            var behavior = BottomSheetBehavior.from(bottomSheet)
+            if (config!!.isFullScreen) {
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+            if (config!!.maxHeight != 0) {
+                behavior.peekHeight = config!!.maxHeight
+            }
+        }
     }
 
     fun show() {

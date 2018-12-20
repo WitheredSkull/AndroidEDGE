@@ -1,7 +1,6 @@
 package com.shuanglu.edge.Window.Dialog
 
 import android.app.Dialog
-import android.support.design.widget.BottomSheetBehavior
 import android.view.View
 
 /**
@@ -10,6 +9,6 @@ import android.view.View
  * @Description:
  */
 interface IDialogCallback {
-    fun onDialogDisplay(v: View?,behavior:BottomSheetBehavior<View>?,dialog:Dialog )
+    fun onDialogDisplay(v: View?,dialog:Dialog )
     fun onDialogDismiss()
 }

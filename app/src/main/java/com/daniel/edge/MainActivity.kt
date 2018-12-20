@@ -2,9 +2,11 @@ package com.daniel.edge
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.app.Dialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.os.EnvironmentCompat
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -25,6 +27,7 @@ import com.shuanglu.edge.Utils.Toast.Model.EdgeToastConfig
 import com.shuanglu.edge.View.Banner.TextBanner.Model.TextBannerAdapter
 import com.shuanglu.edge.View.Banner.TextBanner.View.TextBannerView
 import com.shuanglu.edge.Window.Dialog.BottomSheetDialog.EdgeBottomSheetDialogFragment
+import com.shuanglu.edge.Window.Dialog.IDialogCallback
 import com.shuanglu.edge.Window.Dialog.Model.EdgeBottomSheetConfig
 
 
@@ -140,9 +143,19 @@ class MainActivity : AppCompatActivity() {
 
     var flag = true
     fun click(v: View) {
-        var config = EdgeBottomSheetConfig(supportFragmentManager,R.layout.layout_toast)
+        var config = EdgeBottomSheetConfig(supportFragmentManager,R.layout.dialog_test)
         config.tag = "測試"
         config.dimAmount = 0f
+        config.maxHeight = 500
+        config.iDialogCallback = object :IDialogCallback{
+            override fun onDialogDisplay(v: View?, dialog: Dialog) {
+
+            }
+
+            override fun onDialogDismiss() {
+            }
+
+        }
         EdgeBottomSheetDialogFragment.build(config).show()
     }
 }
