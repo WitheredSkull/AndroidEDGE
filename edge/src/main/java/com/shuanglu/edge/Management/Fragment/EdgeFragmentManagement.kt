@@ -1,4 +1,4 @@
-package com.shuanglu.edge.Management.Fragment
+package com.dongtinghu.shellbay.View.Activity.Home
 
 import android.support.annotation.IdRes
 import android.support.v4.app.Fragment
@@ -22,7 +22,7 @@ class EdgeFragmentManagement {
     }
 
     //传入Fragment类可以自动判断FragmentManager是否已经存在，存在则复用，不存在则重新创建
-    fun introductionFragment(vararg clazz: Class<*>):EdgeFragmentManagement {
+    fun introductionFragment(vararg clazz: Class<*>): EdgeFragmentManagement {
         clazz.forEach {
             var fragment = mFragmentManager.findFragmentByTag(clazz.javaClass.simpleName)
             if (fragment != null) {
@@ -35,7 +35,7 @@ class EdgeFragmentManagement {
         mFragments.forEachIndexed { index, fragment ->
             if (!fragment.javaClass.simpleName.equals(
                     if (mFragmentManager?.fragments.size > index) {
-                        mFragmentManager?.fragments[index]
+                        mFragmentManager?.fragments[index].javaClass.simpleName
                     } else {
                         ""
                     }
@@ -64,7 +64,7 @@ class EdgeFragmentManagement {
     }
 
     //获取正在显示的
-    fun getPosition():Int{
+    fun getPosition(): Int {
         return mPosition
     }
 
@@ -91,11 +91,11 @@ class EdgeFragmentManagement {
     //移除管理器中所有的Fragment，防止发生显示混乱等情况
     fun removeAll(): EdgeFragmentManagement {
         if (mFragmentManager.fragments.size > 0) {
-            var sfm = mFragmentManager.beginTransaction()
             mFragmentManager.fragments.forEach() {
+                var sfm = mFragmentManager.beginTransaction()
                 sfm.remove(it)
+                sfm.commit()
             }
-            sfm.commit()
         }
         return this
     }

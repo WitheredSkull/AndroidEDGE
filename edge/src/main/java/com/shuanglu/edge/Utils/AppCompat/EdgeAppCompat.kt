@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Build
 import android.support.annotation.ColorRes
 import android.content.pm.ApplicationInfo
+import android.support.annotation.LayoutRes
+import android.view.View
 import com.daniel.edge.Config.EdgeConfig
 
 
@@ -19,5 +21,11 @@ object EdgeAppCompat {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) EdgeConfig.CONTEXT.getColor(res) else EdgeConfig.CONTEXT.resources.getColor(
             res
         )
+    }
+
+    //通过Layout获取View
+    @JvmStatic
+    fun getView(context: Context, @LayoutRes layoutRes: Int): View {
+        return View.inflate(context, layoutRes, null)
     }
 }
