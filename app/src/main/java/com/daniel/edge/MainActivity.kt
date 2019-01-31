@@ -2,9 +2,11 @@ package com.daniel.edge
 
 import android.Manifest
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
@@ -24,11 +26,11 @@ import com.shuanglu.edge.Window.Dialog.IDialogCallback
 import com.shuanglu.edge.Window.Dialog.Model.EdgeBottomSheetConfig
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),OnEdgePermissionCallBack {
+
     var tv: TextView? = null;
     lateinit var tbv: TextBannerView<String>
-    lateinit var edgePermissionManagement: EdgePermissionManagement
-    lateinit var fragment:LinearLayout
+    lateinit var fragment: LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -86,22 +88,9 @@ class MainActivity : AppCompatActivity() {
         for (i in 0..4) {
             list.add("第${i}个")
         }
-        edgePermissionManagement = EdgePermissionManagement()
-        edgePermissionManagement.requestPackageNeedPermission()
-        edgePermissionManagement.setCallBack(object :OnEdgePermissionCallBack{
-            override fun onRequestPermissionSuccess() {
-                EdgeLog.show(javaClass,"请求成功")
-            }
-
-            override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
-                if (EdgePermissionManagement.isAgree(arrayListOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.MOUNT_UNMOUNT_FILESYSTEMS))){
-                    EdgeLog.show(javaClass,"请求储存成功")
-                }
-                EdgeLog.show(javaClass,"请求失败")
-            }
-
-        })
-        edgePermissionManagement.build(this)
+        EdgePermissionManagement()
+            .requestPackageNeedPermission()
+            .build(this)
 
 //        EdgeDownManagement.getInstance().down(
 //            Environment.getExternalStorageDirectory().absolutePath + "/",
@@ -110,20 +99,21 @@ class MainActivity : AppCompatActivity() {
         EdgeToastUtils.getInstance().show("弹出")
 
         fragment = this.findViewById(R.id.fragment)
-        var s  = "第一个"
+        var s = "第一个"
 
 
     }
 
-    lateinit var  fm: EdgeFragmentManagement
+    lateinit var fm: EdgeFragmentManagement
     override fun onResume() {
         super.onResume()
 
         fm = EdgeFragmentManagement(supportFragmentManager)
-        fm.introductionFragment(DemoFragment::class.java,MyFragment::class.java)
+        fm.introductionFragment(DemoFragment::class.java, MyFragment::class.java)
         fm.build(R.id.fragment)
         fm.show(0)
     }
+
     override fun onDestroy() {
         fm?.destroy()
         super.onDestroy()
@@ -131,16 +121,16 @@ class MainActivity : AppCompatActivity() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        edgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EdgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults,this)
     }
 
     var flag = true
     fun click(v: View) {
-        var config = EdgeBottomSheetConfig(supportFragmentManager,R.layout.dialog_test)
+        var config = EdgeBottomSheetConfig(supportFragmentManager, R.layout.dialog_test)
         config.tag = "測試"
         config.dimAmount = 0f
         config.maxHeight = 500
-        config.iDialogCallback = object :IDialogCallback{
+        config.iDialogCallback = object : IDialogCallback {
             override fun onDialogDisplay(v: View?, dialog: Dialog) {
 
             }
@@ -150,5 +140,13 @@ class MainActivity : AppCompatActivity() {
 
         }
         EdgeBottomSheetDialogFragment.build(config).show()
+    }
+
+    override fun onRequestPermissionSuccess() {
+        Log.w("权限全部给了","是的")
+    }
+
+    override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
+        Log.w("权限还差一点",permissions.toArray().toString())
     }
 }
