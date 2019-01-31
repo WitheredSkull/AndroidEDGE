@@ -12,6 +12,7 @@ import android.os.Build
 import android.support.v4.content.FileProvider
 import android.util.ArrayMap
 import com.daniel.edge.Config.EdgeConfig
+import com.daniel.edge.Utils.Log.EdgeLog
 import java.io.File
 
 /**
@@ -113,8 +114,9 @@ object EdgeApplicationManagement {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (Build.VERSION.SDK_INT >= 24) {
+            EdgeLog.show(javaClass,"版本${EdgeApplicationManagement.appPackageName()+".fileprovider"}")
             var apkUri =
-                FileProvider.getUriForFile(EdgeConfig.CONTEXT, EdgeApplicationManagement.appPackageName(), File(path))
+                FileProvider.getUriForFile(EdgeConfig.CONTEXT, EdgeApplicationManagement.appPackageName()+".fileprovider", File(path))
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
         } else {

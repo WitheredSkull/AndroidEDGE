@@ -1,8 +1,10 @@
 package com.shuanglu.edge.Utils.Time
 
 import android.text.TextUtils
+import android.widget.TextView
 import com.daniel.edge.Config.EdgeConfig
 import com.shuanglu.edge.R
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -33,7 +35,7 @@ object EdgeTimeUtils {
     }
 
     fun getFormatTime(
-        currentTimeMillis:Long,
+        currentTimeMillis: Long,
         year: String?,
         month: String?,
         day: String?,
@@ -81,5 +83,36 @@ object EdgeTimeUtils {
 
         val currentTime = Date(currentTimeMillis)
         return format.format(currentTime)
+    }
+
+    //毫秒格式化为多少分钟及其之后单位，最小为秒
+    fun getFormatTimeMinute(
+        millisecond: Long
+    ): String {
+        var second = BigDecimal(millisecond).divide(BigDecimal(1000), BigDecimal.ROUND_DOWN, 0).toBigInteger().toInt()
+        var minute = (second / 60)
+        second = second - minute * 60
+        if (second < 0) {
+            second = 0
+        }
+        return "${minute}分${second}秒"
+    }
+
+    //秒格式化为多少分钟及其之后单位，最小为秒
+    fun getFormatTimeMinuteFromSecond(
+        second: Int
+    ): String {
+        var minute = (second / 60)
+        var second1 = second - minute * 60
+        if (second1 < 0) {
+            second1 = 0
+        }
+        return "${minute}分${second1}秒"
+    }
+
+    fun FormatSimpleTimeFromTime(time:String):String{
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        var date = formatter.parse(time)
+        return formatter.format(date)
     }
 }

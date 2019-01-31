@@ -56,7 +56,7 @@ class EdgeManager(application: Application) {
             .build()
             .setType(EdgeLogType.WARN)
             .setLogName("EDGE")
-            .setHeadText("佛祖保佑，永无BUG//  ")
+            .setHeadText("")
             .setEndFlag(" END")
             .setLength(150)
             .setMarginLines(0)

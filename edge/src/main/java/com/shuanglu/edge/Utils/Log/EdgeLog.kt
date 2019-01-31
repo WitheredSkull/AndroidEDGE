@@ -73,6 +73,6 @@ object EdgeLog {
                     e.printStackTrace()
                 }
             } else
-                throw NullPointerException("EdgeLog-->日志系统找不到足够的参数")
+                Log.w("错误", "EdgeLog-->日志系统找不到足够的参数")
     }
 }

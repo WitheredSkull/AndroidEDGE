@@ -5,25 +5,18 @@ import android.animation.ObjectAnimator
 import android.app.Dialog
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
-import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.os.EnvironmentCompat
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.daniel.edge.Utils.Log.EdgeLog
+import com.dongtinghu.shellbay.View.Activity.Home.EdgeFragmentManagement
 import com.dongtinghu.shellbay.View.Activity.Home.Fragment.MyFragment
-import com.shuanglu.edge.Management.Download.EdgeDownManagement
-import com.shuanglu.edge.Management.File.EdgeFileManagement
-import com.shuanglu.edge.Management.Fragment.EdgeFragmentManagement
 import com.shuanglu.edge.Management.Permission.EdgePermissionManagement
 import com.shuanglu.edge.Management.Permission.OnEdgePermissionCallBack
 import com.shuanglu.edge.Utils.Toast.EdgeToastUtils
-import com.shuanglu.edge.Utils.Toast.Model.EdgeToastConfig
 import com.shuanglu.edge.View.Banner.TextBanner.Model.TextBannerAdapter
 import com.shuanglu.edge.View.Banner.TextBanner.View.TextBannerView
 import com.shuanglu.edge.Window.Dialog.BottomSheetDialog.EdgeBottomSheetDialogFragment
@@ -122,7 +115,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    lateinit var  fm:EdgeFragmentManagement
+    lateinit var  fm: EdgeFragmentManagement
     override fun onResume() {
         super.onResume()
 

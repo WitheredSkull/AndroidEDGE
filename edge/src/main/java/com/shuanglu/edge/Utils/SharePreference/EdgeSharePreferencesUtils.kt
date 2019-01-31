@@ -34,7 +34,7 @@ object EdgeSharePreferencesUtils {
             Int ->
                 return getSP(fileName).getInt(property, 0) as T;
             String ->
-                return getSP(fileName).getString(property, null) as T;
+                return getSP(fileName).getString(property, "") as T;
             Long ->
                 return getSP(fileName).getLong(property, 0) as T;
             Float ->

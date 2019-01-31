@@ -21,6 +21,32 @@ class EdgeActivityManagement {
         val INSTANCE = EdgeActivityManagement()
     }
 
+    fun <A:Activity> getActivity(clazz: Class<*>):A?{
+        var activity:Activity? = null
+        activities.forEachIndexed { index, a ->
+            if (clazz.simpleName.equals(a.javaClass.simpleName)) {
+                activity = a
+                return@forEachIndexed
+            }
+        }
+        return activity as A
+    }
+
+    fun getActivityPosition(clazz: Class<*>):Int{
+        var position = -1
+        activities.forEachIndexed { index, activity ->
+            if (clazz.simpleName.equals(activity.javaClass.simpleName)) {
+                position = index
+                return@forEachIndexed
+            }
+        }
+        return position
+    }
+
+    fun getSize():Int{
+        return activities.size
+    }
+
     //添加Activity
     fun add(activity: Activity?) {
         activities.add(activity!!)
@@ -33,9 +59,11 @@ class EdgeActivityManagement {
 
     //移除最后多少个Activities
     fun finishOnLastFew(num: Int) {
-        val start = (activities.size - 1) - num
-        for (i in start..activities.size - 1) {
-            activities.get(i).finish()
+        if (activities.size > 0 && num < activities.size) {
+            val start = (activities.size ) - num
+            for (i in start..activities.size - 1) {
+                activities.get(i).finish()
+            }
         }
     }
 

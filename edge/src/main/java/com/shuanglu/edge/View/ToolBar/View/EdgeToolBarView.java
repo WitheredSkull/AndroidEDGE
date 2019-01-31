@@ -55,20 +55,24 @@ public class EdgeToolBarView extends ConstraintLayout {
 
 
     private void initDefaultValue() {
-        if (ToolBarValue.BACKGROUND_COLOR != 0)
+        if (ToolBarValue.BACKGROUND_COLOR != 0) {
             mLayout.setBackgroundColor(ToolBarValue.BACKGROUND_COLOR);
+        }
 //        if (ToolBarValue.IMG_BACK != 0)
 //            mDrawableBack = AppCompatResources.getDrawable(getContext(), ToolBarValue.IMG_BACK);
 //        if (ToolBarValue.IMG_TITLE != 0)
 //            mDrawableTitle = AppCompatResources.getDrawable(getContext(), ToolBarValue.IMG_TITLE);
 //        if (ToolBarValue.IMG_MORE != 0)
 //            mDrawableMore = AppCompatResources.getDrawable(getContext(), ToolBarValue.IMG_MORE);
-        if (ToolBarValue.TEXT_COLOR != 0)
+        if (ToolBarValue.TEXT_COLOR != 0) {
             mColorText = ToolBarValue.TEXT_COLOR;
-        if (ToolBarValue.LINE_COLOR != 0)
+        }
+        if (ToolBarValue.LINE_COLOR != 0) {
             mColorLine = ToolBarValue.LINE_COLOR;
-        if (ToolBarValue.LINE_HEIGHT != 0)
+        }
+        if (ToolBarValue.LINE_HEIGHT != 0) {
             mHeightLine = ToolBarValue.LINE_HEIGHT;
+        }
     }
 
 
@@ -98,12 +102,15 @@ public class EdgeToolBarView extends ConstraintLayout {
         mTvBack.setText(mTextBack);
         mTvTitle.setText(mTextTitle);
         mTvMore.setText(mTextMore);
-        if (mDrawableBack != null)
-            mTvBack.setCompoundDrawablesRelativeWithIntrinsicBounds(mDrawableBack, null, null, null);
-        if (mDrawableTitle != null)
-            mTvTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(mDrawableTitle, null, null, null);
-        if (mDrawableMore != null)
-            mTvMore.setCompoundDrawablesRelativeWithIntrinsicBounds(mDrawableMore, null, null, null);
+        if (mDrawableBack != null) {
+            mTvBack.setCompoundDrawablesWithIntrinsicBounds(mDrawableBack, null, null, null);
+        }
+        if (mDrawableTitle != null) {
+            mTvTitle.setCompoundDrawablesWithIntrinsicBounds(mDrawableTitle, null, null, null);
+        }
+        if (mDrawableMore != null) {
+            mTvMore.setCompoundDrawablesWithIntrinsicBounds(mDrawableMore, null, null, null);
+        }
         if (mColorText != 0) {
             mTvBack.setTextColor(mColorText);
             mTvTitle.setTextColor(mColorText);
