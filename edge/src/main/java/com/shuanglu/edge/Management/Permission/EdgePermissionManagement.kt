@@ -3,8 +3,8 @@ package com.shuanglu.edge.Management.Permission
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.daniel.edge.Config.EdgeConfig
 import com.daniel.edge.Utils.Log.EdgeLog
 import com.shuanglu.edge.Management.Application.EdgeApplicationManagement

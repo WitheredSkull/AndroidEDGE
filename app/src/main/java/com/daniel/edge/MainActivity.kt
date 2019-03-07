@@ -4,7 +4,8 @@ import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.support.v7.app.AppCompatActivity
+import android.location.Location
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,8 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.TranslateAnimation
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.daniel.edge.Retrofit.RetrofitManager
+import com.daniel.edge.Retrofit.service.BaseService
 import com.daniel.edge.Utils.Log.EdgeLog
 import com.dongtinghu.shellbay.View.Activity.Home.EdgeFragmentManagement
 import com.dongtinghu.shellbay.View.Activity.Home.Fragment.MyFragment
@@ -24,18 +27,32 @@ import com.shuanglu.edge.View.Banner.TextBanner.View.TextBannerView
 import com.shuanglu.edge.Window.Dialog.BottomSheetDialog.EdgeBottomSheetDialogFragment
 import com.shuanglu.edge.Window.Dialog.IDialogCallback
 import com.shuanglu.edge.Window.Dialog.Model.EdgeBottomSheetConfig
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 
-
-class MainActivity : AppCompatActivity(),OnEdgePermissionCallBack {
+class MainActivity : AppCompatActivity(), OnEdgePermissionCallBack {
 
     var tv: TextView? = null;
     lateinit var tbv: TextBannerView<String>
     lateinit var fragment: LinearLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var sx = "我的日志打印系统"
+        var xx = ""
+        for (index in 0..100) {
+            xx += sx
+        }
+        EdgeLog.show(javaClass, "====${xx}")
 //        EdgeSharePreferencesUtils.getSP("appConfig").edit().putString("open","是的").commit()
-//        EdgeLog.show(javaClass,"===="+EdgeSharePreferencesUtils.getSPProperty<Long>("appConfig","xxx",Long))
 //        EdgeSharePreferencesUtils.setSPProperty("appConfig","age",1)
 //        EdgeLog.show(javaClass,"===="+EdgeSharePreferencesUtils.getSPProperty<Int>("appConfig","age",Int))
 //        EdgeSharePreferencesUtils.clearAppSP()
@@ -100,8 +117,45 @@ class MainActivity : AppCompatActivity(),OnEdgePermissionCallBack {
 
         fragment = this.findViewById(R.id.fragment)
         var s = "第一个"
+        val retrofit = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(
+                "http://wanandroid.com/"
+            )
+//            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        Observable.create<Int> {
+            it.onNext(1)
+            it.onNext(2)
+            it.onNext(3)
+//            var i = "撒大声地"
+//            var s = i.toInt()
+            it.onComplete()
+        }.doOnError {
+            it.printStackTrace()
+        }.doOnComplete {
+            EdgeLog.show(javaClass,"完成")
+        }.subscribe {
+            EdgeLog.show(javaClass,"进度${it}")
+        }
+        var service = RetrofitManager.getInstance().getService(BaseService::class.java)
 
-
+        service.GetList()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                EdgeLog.show(javaClass,"${Thread.currentThread().name}+${it.toString()}" )
+            }
+//        var service = retrofit.create(WanService::class.java)
+//        service.GetPublishNumber().enqueue(object : Callback<ModelJava> {
+//            override fun onFailure(call: Call<ModelJava>, t: Throwable) {
+//
+//            }
+//
+//            override fun onResponse(call: Call<ModelJava>, response: Response<ModelJava>) {
+//                EdgeLog.show(javaClass,response.body().toString())
+//            }
+//        })
     }
 
     lateinit var fm: EdgeFragmentManagement
@@ -121,7 +175,7 @@ class MainActivity : AppCompatActivity(),OnEdgePermissionCallBack {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EdgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults,this)
+        EdgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     var flag = true
@@ -143,10 +197,10 @@ class MainActivity : AppCompatActivity(),OnEdgePermissionCallBack {
     }
 
     override fun onRequestPermissionSuccess() {
-        Log.w("权限全部给了","是的")
+        Log.w("权限全部给了", "是的")
     }
 
     override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
-        Log.w("权限还差一点",permissions.toArray().toString())
+        Log.w("权限还差一点", permissions.toArray().toString())
     }
 }

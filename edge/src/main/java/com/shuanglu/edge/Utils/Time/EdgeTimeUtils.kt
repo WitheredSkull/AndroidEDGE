@@ -1,5 +1,6 @@
 package com.shuanglu.edge.Utils.Time
 
+import android.os.Build
 import android.text.TextUtils
 import android.widget.TextView
 import com.daniel.edge.Config.EdgeConfig
@@ -15,8 +16,7 @@ import java.util.*
  *
  */
 object EdgeTimeUtils {
-    fun getWeekday(): String {
-//        var format = SimpleDateFormat("yyyy-MM-dd")
+    fun getThisWeekday(): String {
         var calendar = Calendar.getInstance()
         val i = calendar.get(Calendar.DAY_OF_WEEK)
         var week = when (i) {
@@ -110,7 +110,7 @@ object EdgeTimeUtils {
         return "${minute}分${second1}秒"
     }
 
-    fun FormatSimpleTimeFromTime(time:String):String{
+    fun FormatSimpleTimeFromTime(time: String): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         var date = formatter.parse(time)
         return formatter.format(date)

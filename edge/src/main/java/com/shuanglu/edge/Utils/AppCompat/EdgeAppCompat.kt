@@ -2,9 +2,9 @@ package com.shuanglu.edge.Utils.AppCompat
 
 import android.content.Context
 import android.os.Build
-import android.support.annotation.ColorRes
+import androidx.annotation.ColorRes
 import android.content.pm.ApplicationInfo
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 import android.view.View
 import com.daniel.edge.Config.EdgeConfig
 

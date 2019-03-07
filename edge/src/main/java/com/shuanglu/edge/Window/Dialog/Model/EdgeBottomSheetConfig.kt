@@ -1,7 +1,7 @@
 package com.shuanglu.edge.Window.Dialog.Model
 
-import android.support.annotation.LayoutRes
-import android.support.v4.app.FragmentManager
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.FragmentManager
 import android.view.View
 import com.shuanglu.edge.Window.Dialog.IDialogCallback
 
@@ -11,7 +11,7 @@ import com.shuanglu.edge.Window.Dialog.IDialogCallback
  * @Description:
  */
 class EdgeBottomSheetConfig {
-    var fragmentManagement:FragmentManager? = null
+    var fragmentManagement: androidx.fragment.app.FragmentManager? = null
     @LayoutRes var layoutRes:Int = 0
     var layoutView: View? = null
     var realView:View? = null
@@ -21,12 +21,12 @@ class EdgeBottomSheetConfig {
     var iDialogCallback: IDialogCallback? = null
     var tag = "${System.currentTimeMillis()}"
 
-    constructor(fragmentManagement: FragmentManager?, layoutRes: Int) {
+    constructor(fragmentManagement: androidx.fragment.app.FragmentManager?, layoutRes: Int) {
         this.fragmentManagement = fragmentManagement
         this.layoutRes = layoutRes
     }
 
-    constructor(fragmentManagement: FragmentManager?, layoutView: View?) {
+    constructor(fragmentManagement: androidx.fragment.app.FragmentManager?, layoutView: View?) {
         this.fragmentManagement = fragmentManagement
         this.layoutView = layoutView
     }

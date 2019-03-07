@@ -1,8 +1,8 @@
 package com.shuanglu.edge.Utils.Toast.Model
 
-import android.support.annotation.Dimension
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
+import androidx.annotation.Dimension
+import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import com.daniel.edge.Utils.Convert.EdgeDensityUtils
 import com.shuanglu.edge.R
 

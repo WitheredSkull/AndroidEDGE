@@ -2,6 +2,8 @@ package com.daniel.edge.Utils.Log.Model
 
 import android.util.Log
 import com.daniel.edge.Utils.Text.EdgeTextUtils
+import java.nio.charset.Charset
+import kotlin.math.roundToInt
 
 // Create Time 2018/11/1
 // Create Author Daniel 
@@ -50,38 +52,22 @@ object EdgeLogModule {
     @JvmStatic
     private fun editContent(s: String): String {
         var content = StringBuffer();
-        var ss = s.split("\n")
-        ss.forEach() {
-            if (it.length > EdgeLogConfig.LENGTH) {
-                var lines: Int =
-                    Math.ceil(
-                        ((Math.ceil(EdgeTextUtils.textNum(s).toDouble() / EdgeLogConfig.LENGTH.toDouble())
-                                * EdgeTextUtils.textNum(EdgeLogConfig.HEAD_TEXT).toDouble())
-                                + EdgeTextUtils.textNum(s).toDouble())
-                                / EdgeLogConfig.LENGTH.toDouble()
-                    ).toInt()
-                var sb = StringBuffer(it)
-                sb.insert(0, EdgeLogConfig.HEAD_TEXT)
-                for (i in 1..lines) {
-                    if (i < lines) {
-                        var oldString = sb.toString()
-                        sb.delete(0, sb.length)
-                        sb.append(
-                            EdgeTextUtils.insertChinese(
-                                oldString,
-                                i * EdgeLogConfig.LENGTH,
-                                "\n" + EdgeLogConfig.HEAD_TEXT
-                            )
-                        )
-//                        sb.insert(i * EdgeLogConfig.LENGTH/2, "\n" + EdgeLogConfig.HEAD_TEXT)
+        var length = s.length
+        var lines = Math.ceil(length.toDouble().div(EdgeLogConfig.LENGTH)).roundToInt()
+        if (lines <= 1) {
+            return s.plus("\n")
+        }
+        for (index in 1..lines) {
+            content.appendln(
+                s.substring(
+                    (index - 1) * EdgeLogConfig.LENGTH,
+                    if (index >= lines) {
+                        s.length
                     } else {
-                        sb.append("\n")
+                        index * EdgeLogConfig.LENGTH
                     }
-                }
-                content.append(sb)
-            } else {
-                content.append(EdgeLogConfig.HEAD_TEXT + it + "\n")
-            }
+                )
+            )
         }
         return content.toString()
     }

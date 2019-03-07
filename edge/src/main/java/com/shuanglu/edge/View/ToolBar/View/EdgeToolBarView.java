@@ -5,8 +5,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.content.res.AppCompatResources;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,12 +126,17 @@ public class EdgeToolBarView extends ConstraintLayout {
         }
     }
 
+    /**
+     * 设置默认的点击事件，点击返回进行一次返回事件
+     */
     private void initListener() {
         try {
             mTvBack.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ((Activity) getContext()).finish();
+                    if (getContext() instanceof Activity) {
+                        ((Activity) getContext()).onBackPressed();
+                    }
                 }
             });
         } catch (Exception e) {

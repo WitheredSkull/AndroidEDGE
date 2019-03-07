@@ -3,11 +3,11 @@ package com.shuanglu.edge.Window.Dialog.BottomSheetDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
-import android.support.design.widget.BottomSheetDialog
-import android.support.design.widget.BottomSheetDialogFragment
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.FragmentTransaction
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentTransaction
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +33,8 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        bottomSheetDialog = BottomSheetDialog(context!!, R.style.TransparencyBottomSheetDialog)
+        bottomSheetDialog =
+            BottomSheetDialog(context!!, R.style.TransparencyBottomSheetDialog)
         if (config != null) {
             bottomSheetDialog!!.window.setDimAmount(config!!.dimAmount)
         }
@@ -79,7 +80,7 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment() {
         return show(config!!.fragmentManagement, config?.tag)
     }
 
-    override fun show(transaction: FragmentTransaction?, tag: String?): Int {
+    override fun show(transaction: androidx.fragment.app.FragmentTransaction?, tag: String?): Int {
         return super.show(transaction, tag)
     }
 

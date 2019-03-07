@@ -7,6 +7,9 @@ import android.view.View
  * 时间   2018/11/12.
  * 简介   xxx
  */
+/**
+ * @param T 泛型
+ */
 abstract class TextBannerAdapter<T>(list: ArrayList<T>) {
     var list: ArrayList<T>
 

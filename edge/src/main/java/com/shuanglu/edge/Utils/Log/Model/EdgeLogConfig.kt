@@ -18,8 +18,6 @@ class EdgeLogConfig {
         var LENGTH: Int = 150
         //上下对齐行数
         var LINES: Int = 1
-        //起始表情
-        var HEAD_TEXT = "⊙﹏⊙∥ "
         //结束标识符
         var END_FLAG = " END"
 
@@ -50,11 +48,6 @@ class EdgeLogConfig {
 
     fun setMarginLines(int: Int): EdgeLogConfig {
         LINES = int
-        return this
-    }
-
-    fun setHeadText(s: String): EdgeLogConfig {
-        HEAD_TEXT = s
         return this
     }
 

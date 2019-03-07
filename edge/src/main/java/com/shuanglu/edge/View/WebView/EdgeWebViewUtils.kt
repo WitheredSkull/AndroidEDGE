@@ -3,7 +3,7 @@ package com.daniel.edge.View.WebView
 import android.app.Activity
 import android.content.Context
 import android.os.Build
-import android.support.annotation.IdRes
+import androidx.annotation.IdRes
 import android.util.Log
 import android.webkit.WebSettings
 import android.webkit.WebView

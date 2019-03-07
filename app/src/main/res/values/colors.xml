@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorEdgePrimary">#2680F0</color>
-    <color name="colorEdgePrimaryDark">#408DEC</color>
-    <color name="colorEdgeAccent">#2680F0</color>
+    <color name="colorEdgePrimary">#7AA5F0</color>
+    <color name="colorEdgePrimaryDark">#7AA5F0</color>
+    <color name="colorEdgeAccent">#7AA5F0</color>
     <color name="colorEdgeGray">#cccccc</color>
 </resources>

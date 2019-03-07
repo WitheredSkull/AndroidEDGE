@@ -56,9 +56,8 @@ class EdgeManager(application: Application) {
             .build()
             .setType(EdgeLogType.WARN)
             .setLogName("EDGE")
-            .setHeadText("")
             .setEndFlag(" END")
-            .setLength(150)
+            .setLength(100)
             .setMarginLines(0)
             .setAutoReleaseCloseLog(true)
         return this

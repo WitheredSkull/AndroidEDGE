@@ -1,5 +1,8 @@
 package com.shuanglu.edge.Management.Application
 
+import android.app.ActivityManager
+import android.app.Application
+import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
@@ -9,7 +12,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
-import android.support.v4.content.FileProvider
+import androidx.core.content.FileProvider
 import android.util.ArrayMap
 import com.daniel.edge.Config.EdgeConfig
 import com.daniel.edge.Utils.Log.EdgeLog
@@ -21,6 +24,24 @@ import java.io.File
  * 简介   xxx
  */
 object EdgeApplicationManagement {
+    @JvmStatic
+    fun isMainProcess(application: Context): Boolean {
+        return application.packageName.equals(getCurrentProcessName(application))
+    }
+
+    @JvmStatic
+    fun getCurrentProcessName(application: Context): String {
+        var pid = android.os.Process.myPid()
+        var manager = application.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        var processName = ""
+        manager.runningAppProcesses.forEach {
+            if (it.pid == pid) {
+                processName = it.processName
+            }
+        }
+        return processName
+    }
+
     //获取应用包名
     @JvmStatic
     fun appPackageName(): String {
@@ -33,7 +54,7 @@ object EdgeApplicationManagement {
         var pm = EdgeConfig.CONTEXT.packageManager
         try {
             return pm.getPackageInfo(packageName, 0)
-        }catch (e:PackageManager.NameNotFoundException){
+        } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             return null
         }
@@ -45,11 +66,12 @@ object EdgeApplicationManagement {
         var pm = EdgeConfig.CONTEXT.packageManager
         try {
             return pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-        }catch (e:PackageManager.NameNotFoundException){
+        } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             return null
         }
     }
+
     //获取应用名
     @JvmStatic
     fun appName(packageName: String): String {
@@ -114,9 +136,13 @@ object EdgeApplicationManagement {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (Build.VERSION.SDK_INT >= 24) {
-            EdgeLog.show(javaClass,"版本${EdgeApplicationManagement.appPackageName()+".fileprovider"}")
+            EdgeLog.show(javaClass, "版本${EdgeApplicationManagement.appPackageName() + ".fileprovider"}")
             var apkUri =
-                FileProvider.getUriForFile(EdgeConfig.CONTEXT, EdgeApplicationManagement.appPackageName()+".fileprovider", File(path))
+                FileProvider.getUriForFile(
+                    EdgeConfig.CONTEXT,
+                    EdgeApplicationManagement.appPackageName() + ".fileprovider",
+                    File(path)
+                )
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive")
         } else {

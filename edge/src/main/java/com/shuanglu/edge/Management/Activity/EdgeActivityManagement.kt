@@ -1,7 +1,7 @@
 package com.shuanglu.edge.Management.Activity
 
 import android.app.Activity
-import android.support.annotation.NonNull
+import androidx.annotation.NonNull
 import com.daniel.edge.Utils.Log.EdgeLog
 
 /**

@@ -1,8 +1,8 @@
 package com.shuanglu.edge.View.ToolBar;
 
-import android.support.annotation.ColorInt;
-import android.support.annotation.Dimension;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.ColorInt;
+import androidx.annotation.Dimension;
+import androidx.annotation.DrawableRes;
 
 import com.daniel.edge.Utils.Convert.EdgeDensityUtils;
 import com.shuanglu.edge.View.ToolBar.Model.ToolBarValue;
