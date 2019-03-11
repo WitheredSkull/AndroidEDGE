@@ -1,6 +1,6 @@
 package com.daniel.edge.retrofit.converterFactory
 
-import com.daniel.edge.Utils.Log.EdgeLog
+import com.daniel.edge.utils.log.EdgeLog
 import com.google.gson.Gson
 import com.google.gson.JsonIOException
 import com.google.gson.reflect.TypeToken
@@ -47,7 +47,7 @@ class MultiFunctionResponseBodyConverter<T>(private var type: Type) : Converter<
         } finally {
             if (response != null) {
                 value.close()
-                EdgeLog.show(javaClass, "实体类型:${type}\n返回结果\n${response}")
+                EdgeLog.show(javaClass, "返回结果","实体类型:${type}\n返回结果\n${response}")
                 return response
             }
         }

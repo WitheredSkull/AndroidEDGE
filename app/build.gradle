@@ -36,6 +36,13 @@ android {
     dataBinding {
         enabled = true
     }
+
+    android {
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+    }
 }
 
 dependencies {
@@ -56,8 +63,14 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
     implementation project(path: ':edge')
+
+    //RxJava
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.7'
+
+    //RxJava内存泄漏工具
+    implementation 'com.uber.autodispose:autodispose-android-archcomponents:1.1.0'
+
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-scalars:$retrofit_version"
 //    implementation 'com.squareup.retrofit2:converter-gson:2.5.0' //源码在本地
@@ -77,4 +90,9 @@ dependencies {
     implementation "androidx.room:room-coroutines:$room_version"
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+
+    //Dagger
+    implementation 'com.google.dagger:dagger:2.21'
+    implementation 'com.google.dagger:dagger-android-support:2.21' // if you use the support libraries
+    kapt 'com.google.dagger:dagger-compiler:2.21'
 }

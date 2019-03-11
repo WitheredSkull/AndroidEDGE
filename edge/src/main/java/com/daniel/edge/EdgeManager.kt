@@ -4,13 +4,13 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import com.daniel.edge.Config.EdgeConfig
-import com.daniel.edge.Utils.Log.Model.EdgeLogConfig
-import com.daniel.edge.Utils.Log.Model.EdgeLogType
-import com.daniel.edge.Management.Activity.EdgeActivityManagement
-import com.daniel.edge.Utils.AppCompat.EdgeAppCompat
-import com.daniel.edge.Utils.Toast.Model.EdgeToastConfig
-import com.daniel.edge.View.ToolBar.TooBarViewUtils
+import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.utils.log.model.EdgeLogConfig
+import com.daniel.edge.utils.log.model.EdgeLogType
+import com.daniel.edge.management.activity.EdgeActivityManagement
+import com.daniel.edge.utils.appCompat.EdgeAppCompat
+import com.daniel.edge.utils.toast.model.EdgeToastConfig
+import com.daniel.edge.view.toolBar.TooBarViewUtils
 
 /**
  * 创建人 Daniel
