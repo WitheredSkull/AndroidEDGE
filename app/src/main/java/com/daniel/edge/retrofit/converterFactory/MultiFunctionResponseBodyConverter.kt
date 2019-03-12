@@ -15,6 +15,7 @@ import java.lang.reflect.Type
 
 class MultiFunctionResponseBodyConverter<T>(private var type: Type) : Converter<ResponseBody, T> {
 
+    @Suppress("UNCHECKED_CAST", "UNREACHABLE_CODE")
     @Throws(IOException::class)
     override fun convert(value: ResponseBody): T? {
         var response: T? = null

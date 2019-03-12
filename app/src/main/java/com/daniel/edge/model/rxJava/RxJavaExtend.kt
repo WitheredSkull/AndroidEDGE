@@ -1,4 +1,4 @@
-package com.daniel.edge.constant
+package com.daniel.edge.model.rxJava
 
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

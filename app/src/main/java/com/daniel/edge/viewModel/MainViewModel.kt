@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.daniel.edge.R
 import com.daniel.edge.utils.log.EdgeLog
-import com.daniel.edge.constant.applyThread
+import com.daniel.edge.model.rxJava.applyThread
 import com.daniel.edge.model.service.AccountService
 import com.daniel.edge.retrofit.manager.RetrofitManager
 import javax.inject.Inject

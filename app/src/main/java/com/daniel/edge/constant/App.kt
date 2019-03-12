@@ -12,31 +12,26 @@ import com.daniel.edge.dagger.module.AppModule
 import retrofit2.Retrofit
 import javax.inject.Inject
 
-class App: Application() {
+class App : Application() {
     companion object {
-        lateinit var CONTEXT:Context
         const val DB_NAME = "app.info"
+        lateinit var CONTEXT: Context
+        var appComponent: AppComponent? = null
     }
-
-//    @Inject
-//    lateinit var retrofit: Retrofit
-    @Inject
-    lateinit var context: Context
 
     override fun onCreate() {
         super.onCreate()
         CONTEXT = applicationContext
-        if (EdgeApplicationManagement.isMainProcess(this)){
-            DaggerHomeComponent.builder().appComponent(DaggerAppComponent.builder().appModule(AppModule(this)).build())
-                .build().inject(this)
-
+        if (EdgeApplicationManagement.isMainProcess(this)) {
+            if (appComponent == null) {
+                appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+            }
             initEdge()
             initDataBase()
-            EdgeLog.show(javaClass,"检测单例","$context")
         }
     }
 
-    fun initEdge(){
+    fun initEdge() {
         EdgeManager.initEdge(this)
             .initActivityManagement()
             .initDemoLog()
@@ -44,6 +39,6 @@ class App: Application() {
             .initToast()
     }
 
-    fun initDataBase(){
+    fun initDataBase() {
     }
 }

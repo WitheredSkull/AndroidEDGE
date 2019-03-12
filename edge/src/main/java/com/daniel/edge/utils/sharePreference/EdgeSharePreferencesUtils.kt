@@ -25,6 +25,7 @@ object EdgeSharePreferencesUtils {
     使用方法
     EdgeSharePreferencesUtils.getSPProperty<Long>("appConfig","xxx",Long)
     */
+    @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun <T> getSPProperty(fileName: String, property: String, type: Any): T {
         when (type) {

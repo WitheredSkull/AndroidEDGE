@@ -20,9 +20,10 @@ class EdgeActivityManagement {
         val INSTANCE = EdgeActivityManagement()
     }
 
+    @Suppress("UNCHECKED_CAST")
     fun <A:Activity> getActivity(clazz: Class<*>):A?{
         var activity:Activity? = null
-        activities.forEachIndexed { index, a ->
+        activities.forEachIndexed { _, a ->
             if (clazz.simpleName.equals(a.javaClass.simpleName)) {
                 activity = a
                 return@forEachIndexed

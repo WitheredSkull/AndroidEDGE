@@ -92,7 +92,7 @@ object EdgeFileManagement {
     //append表示是否使用追加模式
     @JvmStatic
     fun writeTextFileFileUseOutputStream(filePath: String, content: String, append: Boolean): Boolean {
-        var file = File(filePath)
+        val file = File(filePath)
         if (file.exists() && !append) {
             throw EdgeException("已存在文件")
             return false

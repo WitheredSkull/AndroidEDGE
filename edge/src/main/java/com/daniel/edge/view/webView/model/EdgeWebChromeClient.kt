@@ -43,12 +43,12 @@ class EdgeWebChromeClient : WebChromeClient {
     }
 
     //视频（video）控件在没有播放的时候将给用户展示一张“海报”图片（预览图）。其预览图是由Html中video标签的poster属性来指定的。如果开发者没有设置poster属性, 则可以通过这个方法来设置默认的预览图。
-    override fun getDefaultVideoPoster(): Bitmap {
+    override fun getDefaultVideoPoster(): Bitmap? {
         return super.getDefaultVideoPoster()
     }
 
     //播放视频时，在第一帧呈现之前，需要花一定的时间来进行数据缓冲。ChromeClient可以使用这个函数来提供一个在数据缓冲时显示的视图。 例如,ChromeClient可以在缓冲时显示一个转轮动画。
-    override fun getVideoLoadingProgressView(): View {
+    override fun getVideoLoadingProgressView(): View? {
         return super.getVideoLoadingProgressView()
     }
 

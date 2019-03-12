@@ -4,27 +4,26 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.daniel.edge.R
+import com.daniel.edge.constant.App
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.constant.AppDatabase
-import com.daniel.edge.constant.applyThread
-import com.daniel.edge.dagger.component.DaggerAppComponent
 import com.daniel.edge.dagger.component.DaggerHomeComponent
-import com.daniel.edge.dagger.module.AppModule
-import com.daniel.edge.dagger.module.HomeModule
+import com.daniel.edge.model.rxJava.applyThread
 import com.daniel.edge.model.modelDb.OpenDBEntity
-import com.daniel.edge.viewModel.MainViewModel
-import com.uber.autodispose.AutoDispose
-import com.uber.autodispose.android.lifecycle.AndroidLifecycleScopeProvider
+import com.daniel.edge.model.rxJava.AppObserver
+import com.daniel.edge.model.service.AccountService
+import com.daniel.edge.retrofit.manager.RetrofitManager
 import io.reactivex.Observable
-import retrofit2.Retrofit
+import io.reactivex.Observer
+import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.subscribeBy
+import io.reactivex.rxkotlin.toObservable
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-//    @Inject
-//    lateinit var mViewModel: MainViewModel
-//    @Inject
-//    lateinit var retrofit: Retrofit
+    @Inject
+    lateinit var service: AccountService
     @Inject
     lateinit var context: Context
 
@@ -37,13 +36,30 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
         DaggerHomeComponent.builder()
-            .appComponent(DaggerAppComponent.builder().appModule(AppModule(this)).build())
+            .appComponent(App.appComponent)
             .build().inject(this)
 
 //        DaggerAppComponent.builder().appModule(AppModule(this)).build().inject(this)
 //        DaggerHomeComponent.builder().homeModule(HomeModule()).build().inject(this)
 
+        EdgeLog.show(javaClass, "检测单例1", "${App.CONTEXT}")
         EdgeLog.show(javaClass, "检测单例2", "${context}")
+
+
+        RetrofitManager.getInstance().getService(AccountService::class.java).register("123456","123456","123456")
+            .applyThread()
+            .subscribeBy(onNext = {
+                EdgeLog.show(javaClass,"登录",it)
+            })
+
+        service.register("123456", "123456","123456")
+            .applyThread()
+            .subscribeBy(onError = {
+                it.printStackTrace()
+            },onNext = {
+                EdgeLog.show(javaClass,"登录",it)
+            })
+
 //
 //        mViewModel.userName.observeForever {
 //            EdgeLog.show(javaClass, "测试新的值", "${it}")
@@ -55,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 //        mViewModel.userName.value = "4"
 
         var b = "true"
-        EdgeLog.show(javaClass, "值","${b.toBoolean()}")
+        EdgeLog.show(javaClass, "值", "${b.toBoolean()}")
         Observable.create<String> {
             var appInfoList = AppDatabase.getInstance(applicationContext).getOpenDao().queryAll()
             if (appInfoList.any()) {
@@ -66,13 +82,13 @@ class MainActivity : AppCompatActivity() {
                     .insert(OpenDBEntity("${System.currentTimeMillis()}", 0))
             }
             appInfoList.forEach {
-                EdgeLog.show(javaClass, "第一次打印","${it}")
+                EdgeLog.show(javaClass, "第一次打印", "${it}")
             }
             AppDatabase.getInstance(applicationContext).getOpenDao().queryAll().forEach {
-                EdgeLog.show(javaClass, "第二次打印","${it}")
+                EdgeLog.show(javaClass, "第二次打印", "${it}")
             }
         }.applyThread()
-            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
+//            .`as`(AutoDispose.autoDisposable(AndroidLifecycleScopeProvider.from(this)))
 //            .subscribe {
 //            }
 

@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 // Create Time 2018/11/1
 // Create Author Daniel 
 object EdgeTextUtils {
-    inline fun formatJson(string: String): String {
+    fun formatJson(string: String): String {
         //替换可能导致出错的字符串
         string.replace("{\n", "{")
         string.replace("\n{", "{")
@@ -17,7 +17,7 @@ object EdgeTextUtils {
         string.replace("]\n", "]")
         string.replace(",\n", ",")
         string.replace("\n,", ",")
-        var formatString = StringBuffer();
+        val formatString = StringBuffer();
         var spaceNum: Int = 0
         for (char: Char in string) {
             when (char.toString()) {
@@ -43,7 +43,7 @@ object EdgeTextUtils {
      * @param num 生成空格数量
      */
     fun addSpace(num: Int): String {
-        var spaceString = StringBuffer()
+        val spaceString = StringBuffer()
         for (item in 1..num) {
             spaceString.append(" ")
         }
@@ -74,7 +74,7 @@ object EdgeTextUtils {
      * @return 返回新的字符串
      */
     fun insertChinese(oldString: String, offset: Int, insertString: String): String {
-        var newString = StringBuffer();
+        val newString = StringBuffer();
         var num = 0
         var isInsert = false
         oldString.forEach {
