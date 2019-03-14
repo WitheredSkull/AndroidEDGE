@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.nio.charset.Charset
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton

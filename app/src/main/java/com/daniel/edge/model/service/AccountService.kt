@@ -11,6 +11,7 @@ interface AccountService {
      */
     @FormUrlEncoded
     @POST("user/login")
+    @Headers("content-type:application/x-www-form-urlencoded")
     fun login(@Field("username") userName: String, @Field("password") pwd: String): Observable<String>
 
     /**
@@ -18,5 +19,6 @@ interface AccountService {
      */
     @FormUrlEncoded
     @POST("user/register")
+    @Headers("content-type:application/x-www-form-urlencoded")
     fun register(@Field("username") userName: String, @Field("password") pwd: String, @Field("repassword") rePwd: String): Observable<String>
 }

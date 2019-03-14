@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.daniel.edge.viewModel.AccountViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/account"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".view.account.LoginFragment">
+
+        <com.daniel.edge.view.slideLayout.EdgeSlideLinearLayout
+            android:id="@+id/sl"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/colorEdgeGray">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                >
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="#000000" />
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:background="#005000" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/top"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/colorEdgeAccent"
+                android:text="测试"
+                android:visibility="visible" />
+
+
+        </com.daniel.edge.view.slideLayout.EdgeSlideLinearLayout>
+
+        <com.daniel.edge.view.SlideView
+            android:id="@+id/v"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/colorEdgeAccent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_edge_launcher_round" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入账号"
+                android:text="@={viewModel.userName}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="请输入密码"
+                android:text="@={viewModel.userPwd}" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{viewModel::login}"
+            android:text="登录" />
+
+        <Button
+            android:id="@+id/register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{(view)->viewModel.jumpFragment(view,1)}"
+            android:text="注册" />
+
+    </LinearLayout>
+</layout>

@@ -4,6 +4,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 //View Binding使用
 apply plugin: 'kotlin-android-extensions'
+//apply plugin: "androidx.navigation.safeargs"
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 28
@@ -38,12 +40,12 @@ android {
         experimental = true
     }
 
-//    android {
-//        compileOptions {
-//            sourceCompatibility 1.8
-//            targetCompatibility 1.8
-//        }
-//    }
+    android {
+        compileOptions {
+            sourceCompatibility 1.8
+            targetCompatibility 1.8
+        }
+    }
 }
 
 dependencies {
@@ -60,6 +62,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_extensions_version"
     implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_extensions_version"
 
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
@@ -96,4 +99,15 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.21'
     implementation 'com.google.dagger:dagger-android-support:2.21' // if you use the support libraries
     kapt 'com.google.dagger:dagger-compiler:2.21'
+
+//    implementation "android.arch.navigation:navigation-runtime-ktx:1.0.0-alpha06"
+//    implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06"
+//    implementation "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0-alpha06"
+//    implementation "android.arch.navigation:navigation-testing-ktx:1.0.0-alpha06"
+//    implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha06'
+
+    def nav_version = "2.0.0-rc02"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version" // For Kotlin use navigation-fragment-ktx
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version" // For Kotlin use navigation-ui-ktx
 }

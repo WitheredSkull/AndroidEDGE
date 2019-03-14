@@ -9,13 +9,14 @@ import com.daniel.edge.dagger.module.AppModule
 import com.daniel.edge.dagger.module.HomeModule
 import com.daniel.edge.view.MainActivity
 import dagger.Component
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
-@Singleton
 @Component(modules = arrayOf(AppModule::class))
 interface AppComponent{
     fun getContext():Context
     fun provideAppDatabase():AppDatabase
+    fun provideOkHttp():OkHttpClient
     fun provideRetrofit():Retrofit
 }

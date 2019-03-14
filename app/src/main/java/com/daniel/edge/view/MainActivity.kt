@@ -18,14 +18,19 @@ import io.reactivex.Observer
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.rxkotlin.toObservable
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
+//    @Inject
+//    lateinit var service: AccountService
+
     @Inject
-    lateinit var service: AccountService
+    lateinit var okHttpClient: OkHttpClient
     @Inject
-    lateinit var context: Context
+    lateinit var retrofit: Retrofit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,26 +44,15 @@ class MainActivity : AppCompatActivity() {
             .appComponent(App.appComponent)
             .build().inject(this)
 
-//        DaggerAppComponent.builder().appModule(AppModule(this)).build().inject(this)
-//        DaggerHomeComponent.builder().homeModule(HomeModule()).build().inject(this)
+        EdgeLog.show(javaClass, "检测单例1", "${okHttpClient} == ${retrofit}")
 
-        EdgeLog.show(javaClass, "检测单例1", "${App.CONTEXT}")
-        EdgeLog.show(javaClass, "检测单例2", "${context}")
-
-
-        RetrofitManager.getInstance().getService(AccountService::class.java).register("123456","123456","123456")
-            .applyThread()
-            .subscribeBy(onNext = {
-                EdgeLog.show(javaClass,"登录",it)
-            })
-
-        service.register("123456", "123456","123456")
-            .applyThread()
-            .subscribeBy(onError = {
-                it.printStackTrace()
-            },onNext = {
-                EdgeLog.show(javaClass,"登录",it)
-            })
+//        service.register("123456", "123456","123456")
+//            .applyThread()
+//            .subscribeBy(onError = {
+//                it.printStackTrace()
+//            },onNext = {
+//                EdgeLog.show(javaClass,"登录",it)
+//            })
 
 //
 //        mViewModel.userName.observeForever {
