@@ -18,52 +18,116 @@
         android:orientation="vertical"
         tools:context=".view.account.LoginFragment">
 
-        <com.daniel.edge.view.slideLayout.EdgeSlideLinearLayout
+        <com.daniel.edge.view.slideLayout.view.EdgeSlideRelativeLayout
             android:id="@+id/sl"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:background="@color/colorEdgeGray">
+            android:layout_width="100dp"
+            android:layout_height="200dp"
+            android:background="@color/colorEdgeGray"
+            android:visibility="gone"
+            app:direction="bottom"
+            app:topViewId="@+id/ll_content">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                >
+                android:layout_alignParentTop="true">
 
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="#000000" />
-                <View
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:background="#005000" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/colorEdgeGray"
+                    android:gravity="center"
+                    android:text="删除" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/top"
+            <LinearLayout
+                android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@color/colorEdgeAccent"
-                android:text="测试"
-                android:visibility="visible" />
+                android:background="@android:color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorEdgeCyan"
+                    android:gravity="center"
+                    android:text="Left"
+                    android:textColor="@android:color/white" />
 
-        </com.daniel.edge.view.slideLayout.EdgeSlideLinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:background="@color/colorEdgeAccent"
+                    android:gravity="center"
+                    android:text="测试向左滑动" />
 
+            </LinearLayout>
+
+        </com.daniel.edge.view.slideLayout.view.EdgeSlideRelativeLayout>
+        <com.daniel.edge.view.nested.view.EdgeScaleScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/colorEdgeCyan"
+                    android:text="测试"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/colorEdgeBlueDark"
+                    android:text="测试"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/colorEdgeRed"
+                    android:text="测试"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/colorEdgeViolet"
+                    android:text="测试"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/white"
+                    />
+
+            </LinearLayout>
+
+        </com.daniel.edge.view.nested.view.EdgeScaleScrollView>
         <com.daniel.edge.view.SlideView
             android:id="@+id/v"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@color/colorEdgeAccent" />
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_edge_launcher_round" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_edge_launcher_round" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"

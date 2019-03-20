@@ -1,4 +1,4 @@
-package com.daniel.edge.view.slideLayout
+package com.daniel.edge.view.slideLayout.view
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
@@ -8,23 +8,27 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.RelativeLayout
+import androidx.annotation.Nullable
 import androidx.core.view.children
 import com.daniel.edge.R
+import com.daniel.edge.view.slideLayout.model.EdgeSlideDirection
+import com.daniel.edge.view.slideLayout.model.OnEdgeSlideListener
 
-class EdgeSlideLinearLayout : RelativeLayout {
+class EdgeSlideRelativeLayout : RelativeLayout {
 
     var mDirection = EdgeSlideDirection.Left
     //本次的点击位置
     var mDownPoint = 0
     var mOnEdgeSlideListener: OnEdgeSlideListener? = null
+    var mTopViewId = R.id.top
     var mTopView: View? = null
     var mTopViewBottom = 0
     var mTopViewLeft = 0
     var mTopViewRight = 0
     var mTopViewTop = 0
     var mTotalSize = 0
+    //上次顶层View的位置记录
     var mUpTopViewBottom = 0
-    //上次顶层View的左边位置
     var mUpTopViewLeft = 0
     var mUpTopViewRight = 0
     var mUpTopViewTop = 0
@@ -91,15 +95,15 @@ class EdgeSlideLinearLayout : RelativeLayout {
                 }
             }
             MotionEvent.ACTION_UP -> {
-                //移动了之后需要归位
-                if (mDirection == EdgeSlideDirection.Left || mDirection == EdgeSlideDirection.Right) {
-                    if (mTopView!!.left != mTopViewLeft) {
-                        animal(mDownPoint - event.x.toInt())
+                //移动了之后需要归位,这里获取到是开启还是关闭
+                if (mTopView!!.left != mTopViewLeft || mTopView!!.top != mTopViewTop) {
+                    var isOpen = when (mDirection) {
+                        EdgeSlideDirection.Left -> mTopView!!.right <= mTopView!!.width - mTotalSize / 2
+                        EdgeSlideDirection.Top -> mTopView!!.bottom <= mTopView!!.height - mTotalSize / 2
+                        EdgeSlideDirection.Right -> mTopView!!.left >= mTotalSize / 2
+                        EdgeSlideDirection.Bottom -> mTopView!!.top >= mTotalSize / 2
                     }
-                } else if (mDirection == EdgeSlideDirection.Top || mDirection == EdgeSlideDirection.Bottom) {
-                    if (mTopView!!.top != mTopViewTop) {
-                        animal(mDownPoint - event.y.toInt())
-                    }
+                    animal(isOpen)
                 } else {
                     //触发点击事件
                     performClick()
@@ -115,32 +119,54 @@ class EdgeSlideLinearLayout : RelativeLayout {
     }
 
     @SuppressLint("ObjectAnimatorBinding")
-    fun animal(move: Int) {
+    fun animal(isOpen: Boolean) {
         var interpolator = object : AccelerateInterpolator() {
             override fun getInterpolation(input: Float): Float {
                 when (mDirection) {
                     EdgeSlideDirection.Left, EdgeSlideDirection.Right -> {
-                        var topPoint = if (move >= mTotalSize / 2) {
-                            mOnEdgeSlideListener?.open()
-                            mTopViewLeft - mTotalSize
+                        var leftPoint = if (isOpen) {
+                            if (input == 1f) {
+                                mOnEdgeSlideListener?.open()
+                            }
+                            if (mDirection == EdgeSlideDirection.Left) {
+                                var point = mTopView!!.right
+                                (mTopViewLeft - (mTopView!!.width - point) - (mTotalSize - (mTopView!!.width - point)) * input).toInt()
+                            } else {
+                                var point = mTopView!!.left
+                                (mTopViewLeft + point + ((mTotalSize - point) * input)).toInt()
+                            }
                         } else {
-                            mOnEdgeSlideListener?.close()
-                            mTopViewLeft - (move - (move * input)).toInt()
+                            if (input == 1f) {
+                                mOnEdgeSlideListener?.close()
+                            }
+                            var point = mTopView!!.right
+                            (mTopViewLeft - ((mTopView!!.width - point) - (mTopView!!.width - point) * input)).toInt()
                         }
                         mTopView!!.layout(
-                            topPoint,
+                            leftPoint,
                             mTopView!!.top,
-                            topPoint + mTopView!!.width,
+                            leftPoint + mTopView!!.width,
                             mTopView!!.bottom
                         )
                     }
                     EdgeSlideDirection.Top, EdgeSlideDirection.Bottom -> {
-                        var topPoint = if (move >= mTotalSize / 2) {
-                            mOnEdgeSlideListener?.open()
-                            mTopViewTop - mTotalSize
+                        var topPoint = if (isOpen) {
+                            if (input == 1f) {
+                                mOnEdgeSlideListener?.open()
+                            }
+                            if (mDirection == EdgeSlideDirection.Top) {
+                                var point = mTopView!!.bottom
+                                (mTopViewTop - (mTopView!!.height - point) - (mTotalSize - (mTopView!!.height - point)) * input).toInt()
+                            } else {
+                                var point = mTopView!!.top
+                                (mTopViewTop + point + ((mTotalSize - point) * input)).toInt()
+                            }
                         } else {
-                            mOnEdgeSlideListener?.close()
-                            mTopViewTop - (move - (move * input)).toInt()
+                            if (input == 1f) {
+                                mOnEdgeSlideListener?.close()
+                            }
+                            var point = mTopView!!.bottom
+                            (mTopViewTop - ((mTopView!!.height - point) - (mTopView!!.height - point) * input)).toInt()
                         }
                         mTopView!!.layout(
                             mTopView!!.left,
@@ -160,12 +186,12 @@ class EdgeSlideLinearLayout : RelativeLayout {
 
     //关闭
     fun close() {
-        animal(0)
+        animal(false)
     }
 
     fun initSlideView() {
         mTopView = children.find {
-            if (it.id == R.id.top) {
+            if (it.id == mTopViewId) {
                 mTopViewLeft = it.left
                 mTopViewTop = it.top
                 mTopViewRight = it.right
@@ -176,7 +202,7 @@ class EdgeSlideLinearLayout : RelativeLayout {
             }
         }
         children.forEach {
-            if (it.id != R.id.top) {
+            if (it.id != mTopViewId) {
                 if (mDirection == EdgeSlideDirection.Left || mDirection == EdgeSlideDirection.Right) {
                     mTotalSize += it.width
                 } else if (mDirection == EdgeSlideDirection.Top || mDirection == EdgeSlideDirection.Bottom) {
@@ -188,10 +214,27 @@ class EdgeSlideLinearLayout : RelativeLayout {
 
     //打开
     fun open() {
-        animal(mTotalSize)
+        animal(true)
     }
 
-    constructor(context: Context?) : super(context)
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    fun init(@Nullable attrs: AttributeSet?) {
+        if (attrs != null) {
+            var type = context.obtainStyledAttributes(attrs, R.styleable.EdgeSlideRelativeLayout)
+            var direction = type.getInt(R.styleable.EdgeSlideRelativeLayout_direction, 0)
+            mDirection = EdgeSlideDirection.values().get(direction)
+            mTopViewId = type.getResourceId(R.styleable.EdgeSlideRelativeLayout_topViewId, R.id.top)
+        }
+    }
+
+    constructor(context: Context?) : super(context) {
+        init(null)
+    }
+
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
+        init(attrs)
+    }
+
+    constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init(attrs)
+    }
 }

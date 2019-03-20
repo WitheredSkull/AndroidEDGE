@@ -5,4 +5,10 @@
     <color name="colorEdgeAccent">#7AA5F0</color>
     <color name="colorEdgeGray">#cccccc</color>
     <color name="colorEdgeBlueDark">#7AA5F0</color>
+    <color name="colorEdgeRed">#F44336</color>
+    <color name="colorEdgeViolet">#9C27B0</color>
+    <color name="colorEdgeOrange">#FF9800</color>
+    <color name="colorEdgeYellow">#FFEB3B</color>
+    <color name="colorEdgeGreen">#4CAF50</color>
+    <color name="colorEdgeCyan">#8BC34A</color>
 </resources>
