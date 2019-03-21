@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.*
 import androidx.core.widget.NestedScrollView
+import com.daniel.edge.R
 import com.daniel.edge.utils.log.EdgeLog
 
 /**
@@ -19,7 +20,7 @@ class EdgeScaleScrollView : NestedScrollView {
     //记录点击的点（Finger MOVE时不符合条件也需要重新记录）
     var mRecordPoint = 0
     //滑动阻力值
-    private var mResistance = 0.5
+    var mSlideRatio = 0.25f
     //是否为向上滑动
     var isUp = true
 
@@ -40,13 +41,13 @@ class EdgeScaleScrollView : NestedScrollView {
             }
             MotionEvent.ACTION_MOVE -> {
                 //判断是否滑动到顶点或底部
-                if (((!canScrollVertically(1) && scrollY == height) ||
-                            (!canScrollVertically(-1)) || mChildView.top != 0)
+                if (((!mChildView.canScrollVertically(1) && scrollY == height) ||
+                            (!mChildView.canScrollVertically(-1)) || mChildView.top != 0)
                 ) {
                     //记录当前点的信息
                     var currentPoint = ev.y.toInt()
                     //计算手指移动距离以及结合滑动阻力后的距离
-                    var moveSpace = ((currentPoint - mRecordPoint) * mResistance).toInt()
+                    var moveSpace = ((currentPoint - mRecordPoint) * mSlideRatio).toInt()
                     //判断滑动方向，并且需要设置Y轴的中心点
                     if (moveSpace < 0) {
                         isUp = false
@@ -96,8 +97,21 @@ class EdgeScaleScrollView : NestedScrollView {
 //        mChildView.startAnimation(animation)
     }
 
+
+    fun init(attrs: AttributeSet?) {
+        if (attrs != null) {
+            var typedArray = context.obtainStyledAttributes(attrs, R.styleable.NestedScrollView)
+            mSlideRatio = typedArray.getFloat(R.styleable.NestedScrollView_slideRatio, 0.25f)
+        }
+    }
+
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init(attrs)
+    }
 
 }

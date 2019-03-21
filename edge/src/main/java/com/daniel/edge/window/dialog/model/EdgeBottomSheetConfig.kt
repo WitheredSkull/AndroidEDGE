@@ -16,7 +16,7 @@ class EdgeBottomSheetConfig {
     var realView:View? = null
     var isFullScreen = false
     var maxHeight = 0
-    var dimAmount:Float = 1f
+    var dimAmount:Float = 0f
     var iDialogCallback: IDialogCallback? = null
     var tag = "${System.currentTimeMillis()}"
 

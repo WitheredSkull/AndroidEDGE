@@ -9,10 +9,18 @@ import androidx.lifecycle.ViewModelProviders
 import com.daniel.edge.R
 import com.daniel.edge.databinding.ActivityDemoBinding
 import com.daniel.edge.management.fragment.EdgeFragmentManager
+import com.daniel.edge.management.permission.EdgePermissionManagement
+import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edge.viewModel.DemoViewModel
 import kotlinx.android.synthetic.main.activity_demo.*
 
-class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,OnEdgePermissionCallBack {
+    override fun onRequestPermissionSuccess() {
+
+    }
+
+    override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
+    }
 
     lateinit var activityDemoBinding: ActivityDemoBinding
     lateinit var viewModel:DemoViewModel
@@ -51,5 +59,12 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             DemoDashboardFragment::class.java,
             DemoNotificationsFragment::class.java
         )
+        EdgePermissionManagement().requestPackageNeedPermission()
+            .build(this)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EdgePermissionManagement.onRequestPermissionsResult(requestCode,permissions,grantResults,this)
     }
 }

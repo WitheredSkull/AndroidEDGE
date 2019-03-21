@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.daniel.edge.viewModel.HomeViewModel" />
+    </data>
+<com.daniel.edge.view.nested.view.EdgeScaleScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.edgeDemo.DemoHomeFragment">
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".view.edgeDemo.ScrollingActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="第一页" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="缩放ScrollView"
+            android:onClick="@{viewModel::scaleScrollView}"/>
+
+        <Button
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="平移ScrollView"
+            android:onClick="@{viewModel::translateScrollView}" />
+    </LinearLayout>
+
+</com.daniel.edge.view.nested.view.EdgeScaleScrollView>
+</layout>

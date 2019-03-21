@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="?textInputStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColorHint="@color/colorEdgeRed"
+        app:hintTextAppearance="@style/TextAppearance.AppCompat">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="输入滑动阻力值"
+            android:inputType="number"
+            android:text="0.25" />
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="确认" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

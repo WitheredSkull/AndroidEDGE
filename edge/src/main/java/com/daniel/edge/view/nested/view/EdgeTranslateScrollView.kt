@@ -10,6 +10,7 @@ import android.view.animation.LinearInterpolator
 import android.view.animation.OvershootInterpolator
 import android.view.animation.TranslateAnimation
 import androidx.core.widget.NestedScrollView
+import com.daniel.edge.R
 import com.daniel.edge.utils.log.EdgeLog
 
 /**
@@ -22,7 +23,7 @@ class EdgeTranslateScrollView : NestedScrollView {
     //记录点击的点（Finger MOVE时不符合条件也需要重新记录）
     var mRecordPoint = 0
     //滑动阻力值
-    private var mResistance = 0.5
+    var mSlideRatio = 0.25f
     // 用于记录mChildView的初始位置
     private var mTopRect = Rect()
 
@@ -46,15 +47,15 @@ class EdgeTranslateScrollView : NestedScrollView {
             }
             MotionEvent.ACTION_MOVE -> {
                 //判断是否滑动到顶点或底部
-                if (((!canScrollVertically(1) && scrollY == height) ||
-                            (!canScrollVertically(-1) && mTopRect.top == 0) || mChildView.top != 0)
+                if (((!mChildView.canScrollVertically(1) && scrollY == height) ||
+                            (!mChildView.canScrollVertically(-1) && mTopRect.top == 0) || mChildView.top != 0)
                 ) {
                     //记录当前点的信息
                     var currentPoint = ev.y.toInt()
                     //获取手指移动距离
                     var moveSpace = currentPoint - mRecordPoint
                     // 用于计算产生阻力后的滑动距离
-                    moveSpace = moveSpace - (moveSpace * mResistance).toInt()
+                    moveSpace = moveSpace - (moveSpace * mSlideRatio).toInt()
                     //移动View
                     mChildView.layout(
                         mTopRect.left,
@@ -108,7 +109,19 @@ class EdgeTranslateScrollView : NestedScrollView {
         mChildView.setAnimation(animation);
     }
 
+    fun init(attrs: AttributeSet?) {
+        if (attrs != null) {
+            var typedArray = context.obtainStyledAttributes(attrs, R.styleable.NestedScrollView)
+            mSlideRatio = typedArray.getFloat(R.styleable.NestedScrollView_slideRatio, 0.25f)
+        }
+    }
+
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        init(attrs)
+    }
+
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        init(attrs)
+    }
 }
