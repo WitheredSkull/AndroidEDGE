@@ -18,11 +18,11 @@ class EdgeScaleScrollView : NestedScrollView {
     //子视图
     private lateinit var mChildView: View
     //记录点击的点（Finger MOVE时不符合条件也需要重新记录）
-    var mRecordPoint = 0
+    private var mRecordPoint = 0
     //滑动阻力值
     var mSlideRatio = 0.25f
     //是否为向上滑动
-    var isUp = true
+    private var isUp = true
 
     //布局填充完毕时给子视图赋值
     override fun onFinishInflate() {

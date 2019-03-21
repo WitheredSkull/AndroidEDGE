@@ -1,74 +1,63 @@
-package com.daniel.edge.Utils.Log
+package com.daniel.edge.utils.log
 
 import android.text.TextUtils
 import android.util.Log
-import com.daniel.edge.Utils.Log.Model.EdgeLogConfig
-import com.daniel.edge.Utils.Log.Model.EdgeLogModule
-import com.daniel.edge.Utils.Log.Model.EdgeLogType
-import com.daniel.edge.Utils.Text.EdgeTextUtils
+import com.daniel.edge.utils.log.model.EdgeLogConfig
+import com.daniel.edge.utils.log.model.EdgeLogModule
+import com.daniel.edge.utils.log.model.EdgeLogType
+import com.daniel.edge.utils.text.EdgeTextUtils
 import java.lang.Exception
-import java.lang.NullPointerException
 
 // Create Time 2018/11/1
 // Create Author Daniel 
 object EdgeLog {
     @JvmStatic
-    fun show(clazz: Class<*>?, message: String?) {
-        show(EdgeLogConfig.TYPE, clazz, message)
+    fun show(clazz: Class<*>?, tag: String, message: String?) {
+        show(EdgeLogConfig.TYPE, clazz, tag, message)
     }
 
     @JvmStatic
-    fun showJson(clazz: Class<*>?, message: String?) {
-        show(clazz, EdgeTextUtils.formatJson(message!!))
-    }
-
-
-    @JvmStatic
-    fun v(clazz: Class<*>?, message: String?) {
-        show(EdgeLogType.VERBOSE, clazz, message)
-    }
-
-    @JvmStatic
-    fun d(clazz: Class<*>?, message: String?) {
-        show(EdgeLogType.DEBUG, clazz, message)
+    fun showJson(clazz: Class<*>?, tag: String, message: String?) {
+        show(clazz, tag, EdgeTextUtils.formatJson(message!!))
     }
 
 
     @JvmStatic
-    fun i(clazz: Class<*>?, message: String?) {
-        show(EdgeLogType.INFO, clazz, message)
+    fun v(clazz: Class<*>?, tag: String, message: String?) {
+        show(EdgeLogType.VERBOSE, clazz, tag, message)
     }
 
     @JvmStatic
-    fun w(clazz: Class<*>?, message: String?) {
-        show(EdgeLogType.WARN, clazz, message)
+    fun d(clazz: Class<*>?, tag: String, message: String?) {
+        show(EdgeLogType.DEBUG, clazz, tag, message)
+    }
+
+
+    @JvmStatic
+    fun i(clazz: Class<*>?, tag: String, message: String?) {
+        show(EdgeLogType.INFO, clazz, tag, message)
     }
 
     @JvmStatic
-    fun e(clazz: Class<*>?, message: String?) {
-        show(EdgeLogType.ERROR, clazz, message)
+    fun w(clazz: Class<*>?, tag: String, message: String?) {
+        show(EdgeLogType.WARN, clazz, tag, message)
     }
 
     @JvmStatic
-    fun normal(type: EdgeLogType, clazz: Class<*>?, message: String?) {
-        when (type) {
-            EdgeLogType.VERBOSE -> Log.v("${clazz!!.javaClass.simpleName}===", message)
-            EdgeLogType.DEBUG -> Log.d("${clazz!!.javaClass.simpleName}===", message)
-            EdgeLogType.INFO -> Log.i("${clazz!!.javaClass.simpleName}===", message)
-            EdgeLogType.WARN -> Log.w("${clazz!!.javaClass.simpleName}===", message)
-            EdgeLogType.ERROR -> Log.e("${clazz!!.javaClass.simpleName}===", message)
-            EdgeLogType.RELEASE -> {
-            }
+    fun e(clazz: Class<*>?, tag: String, message: String?) {
+        show(EdgeLogType.ERROR, clazz, tag, message)
+    }
+
+    @JvmStatic
+    private fun show(type: EdgeLogType, clazz: Class<*>?, tag: String, message: String?) {
+        var value = message
+        if (TextUtils.isEmpty(value)) {
+            value = "null"
         }
-    }
-
-
-    @JvmStatic
-    private fun show(type: EdgeLogType, clazz: Class<*>?, message: String?) {
-        if (clazz != null && !TextUtils.isEmpty(message))
+        if (clazz != null )
             if (type != EdgeLogType.RELEASE) {
                 try {
-                    EdgeLogModule.show(type, clazz, message!!)
+                    EdgeLogModule.show(type, clazz, tag, value!!)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

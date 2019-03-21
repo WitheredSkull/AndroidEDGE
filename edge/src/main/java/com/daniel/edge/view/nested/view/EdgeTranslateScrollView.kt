@@ -21,7 +21,7 @@ class EdgeTranslateScrollView : NestedScrollView {
     //子视图
     private lateinit var mChildView: View
     //记录点击的点（Finger MOVE时不符合条件也需要重新记录）
-    var mRecordPoint = 0
+    private var mRecordPoint = 0
     //滑动阻力值
     var mSlideRatio = 0.25f
     // 用于记录mChildView的初始位置
@@ -55,7 +55,7 @@ class EdgeTranslateScrollView : NestedScrollView {
                     //获取手指移动距离
                     var moveSpace = currentPoint - mRecordPoint
                     // 用于计算产生阻力后的滑动距离
-                    moveSpace = moveSpace - (moveSpace * mSlideRatio).toInt()
+                    moveSpace = (moveSpace * mSlideRatio).toInt()
                     //移动View
                     mChildView.layout(
                         mTopRect.left,
