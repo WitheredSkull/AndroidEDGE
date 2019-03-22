@@ -30,8 +30,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.daniel.edgeDemo.view.edgeDemo.DemoActivity"
-            android:label="@string/title_activity_demo"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:label="@string/title_activity_demo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
