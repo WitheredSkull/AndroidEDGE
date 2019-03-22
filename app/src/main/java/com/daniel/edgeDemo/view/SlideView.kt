@@ -7,6 +7,7 @@ import android.view.View
 import com.daniel.edge.utils.log.EdgeLog
 
 class SlideView : View {
+    121321
     var initLeft = 0
     var initTop = 0
     var initRight = 0
