@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.daniel.edge.view.account.LoginFragment"
+        android:name="com.daniel.edgeDemo.view.account.LoginFragment"
         android:label="LoginFragment"
         tools:layout="@layout/login_fragment"
         >
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
-        android:name="com.daniel.edge.view.account.RegisterFragment"
+        android:name="com.daniel.edgeDemo.view.account.RegisterFragment"
         android:label="fragment_register"
         tools:layout="@layout/register_fragment" />
 </navigation>

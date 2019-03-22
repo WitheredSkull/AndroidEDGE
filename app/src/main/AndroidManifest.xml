@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.daniel.edge">
+    package="com.daniel.edgeDemo">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -14,7 +14,7 @@
         tools:ignore="ProtectedPermissions" />
 
     <application
-        android:name=".constant.App"
+        android:name="com.daniel.edgeDemo.constant.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_edge_launcher"
         android:label="@string/app_name"
@@ -22,14 +22,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".view.edgeDemo.ScrollViewActivity"
+            android:name="com.daniel.edgeDemo.view.edgeDemo.ScrollViewActivity"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name=".view.edgeDemo.ScrollingActivity"
+            android:name="com.daniel.edgeDemo.view.edgeDemo.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.edgeDemo.DemoActivity"
+            android:name="com.daniel.edgeDemo.view.edgeDemo.DemoActivity"
             android:label="@string/title_activity_demo"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -38,9 +38,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.setting.SettingActivity" />
-        <activity android:name=".view.account.AccountActivity" />
-        <activity android:name=".view.MainActivity" />
+        <activity android:name="com.daniel.edgeDemo.view.setting.SettingActivity" />
+        <activity android:name="com.daniel.edgeDemo.view.account.AccountActivity" />
+        <activity android:name="com.daniel.edgeDemo.view.MainActivity" />
     </application>
 
 </manifest>

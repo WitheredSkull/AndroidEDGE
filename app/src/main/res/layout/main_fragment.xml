@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.daniel.edge.viewModel.MainViewModel" />
+            type="com.daniel.edgeDemo.viewModel.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

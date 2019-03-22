@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.daniel.edge.viewModel.AccountViewModel" />
+            type="com.daniel.edgeDemo.viewModel.AccountViewModel" />
     </data>
 
     <LinearLayout
@@ -116,7 +116,7 @@
             </LinearLayout>
 
         </com.daniel.edge.view.nested.view.EdgeScaleScrollView>
-        <com.daniel.edge.view.SlideView
+        <com.daniel.edgeDemo.view.SlideView
             android:id="@+id/v"
             android:layout_width="40dp"
             android:layout_height="40dp"

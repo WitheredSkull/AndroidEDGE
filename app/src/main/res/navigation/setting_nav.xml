@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.daniel.edge.view.setting.SettingFragment"
+        android:name="com.daniel.edgeDemo.view.setting.SettingFragment"
         android:label="fragment_setting"
         tools:layout="@layout/fragment_setting" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/exitFragment"
-        android:name="com.daniel.edge.view.setting.ExitFragment"
+        android:name="com.daniel.edgeDemo.view.setting.ExitFragment"
         android:label="fragment_exit"
         tools:layout="@layout/fragment_exit" />
 </navigation>

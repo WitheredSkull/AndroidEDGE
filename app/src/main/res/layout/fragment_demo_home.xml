@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.daniel.edge.viewModel.HomeViewModel" />
+            type="com.daniel.edgeDemo.viewModel.HomeViewModel" />
     </data>
 <com.daniel.edge.view.nested.view.EdgeScaleScrollView
     android:layout_width="match_parent"
