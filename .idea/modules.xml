@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/AndroidEDGE.iml" filepath="$PROJECT_DIR$/AndroidEDGE.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/edge/edge.iml" filepath="$PROJECT_DIR$/edge/edge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/keyboard/keyboard.iml" filepath="$PROJECT_DIR$/keyboard/keyboard.iml" />
     </modules>
   </component>
 </project>

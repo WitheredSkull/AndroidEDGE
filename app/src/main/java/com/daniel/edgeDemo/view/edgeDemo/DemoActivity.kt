@@ -13,7 +13,8 @@ import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edgeDemo.viewModel.DemoViewModel
 
-class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,OnEdgePermissionCallBack {
+class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+    OnEdgePermissionCallBack {
     override fun onRequestPermissionSuccess() {
 
     }
@@ -22,22 +23,34 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     lateinit var activityDemoBinding: ActivityDemoBinding
-    lateinit var viewModel:DemoViewModel
+    lateinit var viewModel: DemoViewModel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_home -> {
                 setTitle("DemoHomeFragment")
-                EdgeFragmentManager.switchFragment(supportFragmentManager,DemoHomeFragment::class.java)
+                EdgeFragmentManager.switchFragment(
+                    R.id.fragmentLayout,
+                    supportFragmentManager,
+                    DemoHomeFragment::class.java
+                )
                 return true
             }
             R.id.navigation_dashboard -> {
                 setTitle("DemoDashboardFragment")
-                EdgeFragmentManager.switchFragment(supportFragmentManager,DemoDashboardFragment::class.java)
+                EdgeFragmentManager.switchFragment(
+                    R.id.fragmentLayout,
+                    supportFragmentManager,
+                    DemoDashboardFragment::class.java
+                )
                 return true
             }
             R.id.navigation_notifications -> {
                 setTitle("DemoNotificationsFragment")
-                EdgeFragmentManager.switchFragment(supportFragmentManager,DemoNotificationsFragment::class.java)
+                EdgeFragmentManager.switchFragment(
+                    R.id.fragmentLayout,
+                    supportFragmentManager,
+                    DemoNotificationsFragment::class.java
+                )
                 return true
             }
         }
@@ -64,6 +77,6 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EdgePermissionManagement.onRequestPermissionsResult(requestCode,permissions,grantResults,this)
+        EdgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

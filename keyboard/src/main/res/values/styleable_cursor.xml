@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CursorView">
+        <attr name="text_left_top" format="string"/>
+        <attr name="cursor_tag" format="string"/>
+    </declare-styleable>
+</resources>

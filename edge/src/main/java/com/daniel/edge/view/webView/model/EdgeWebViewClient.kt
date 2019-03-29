@@ -7,6 +7,25 @@ import android.webkit.WebViewClient
 // Create Time 2018/10/31
 // Create Author Daniel 
 class EdgeWebViewClient : WebViewClient() {
+    override fun onPageFinished(view: WebView?, url: String?) {
+        super.onPageFinished(view, url)
+        var js = "Var length =0；\n" +
+                "Var videoTags = document.getElementsByTagName（\"video\"）;\n" +
+                "Var urlStrs = \"\"\n" +
+                "For(var i=0;i<videoTags.length;i++){\n" +
+                "       Try{\n" +
+                "               If(videoTags[i].src.length !=0)\n" +
+                "            {\n" +
+                "                 urlStrs=urlStrs + videoTags[i].src + \",\";//获取所有video\n" +
+                "                 length++;\n" +
+                "            }catch(err){\n" +
+                "}\n" +
+                "}\n" +
+                "alert(urlStrs)\n" +
+                "}"
+        view?.loadUrl("javascript:${js}")
+    }
+
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            if (view != null && request != null) {

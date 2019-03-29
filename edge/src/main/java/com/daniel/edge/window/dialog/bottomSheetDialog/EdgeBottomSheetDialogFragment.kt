@@ -23,7 +23,7 @@ import java.lang.Exception
  */
 class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
     override fun onClick(v: View) {
-        mOnClickListener?.onClick(v, dialog)
+        mOnClickListener?.onClick(mView!!,v, dialog)
     }
 
     //Dialog
@@ -53,6 +53,7 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
          */
         fun build(fm: FragmentManager, layoutRes: Int): EdgeBottomSheetDialogFragment {
             val dialogFragment = EdgeBottomSheetDialogFragment()
+            dialogFragment.mLayout = layoutRes
             dialogFragment.fm = fm
             return dialogFragment
         }
@@ -119,9 +120,14 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
         mDialogCallback?.onDialogDismiss()
     }
 
-    fun addOnClick(onClickListener: OnEdgeDialogClickListener, @IdRes vararg resId: Int): EdgeBottomSheetDialogFragment {
+    /**
+     * 设置点击事件
+     * @param onClickListener 点击回调接口
+     * @param resIds 资源ID
+     */
+    fun addOnClick(onClickListener: OnEdgeDialogClickListener, @IdRes vararg resIds: Int): EdgeBottomSheetDialogFragment {
         mOnClickListener = onClickListener
-        mOnClickIdRes.addAll(resId.toList())
+        mOnClickIdRes.addAll(resIds.toList())
         setOnClick()
         return this
     }

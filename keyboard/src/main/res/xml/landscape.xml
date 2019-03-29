@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android">
+    <Row>
+        <Key
+            android:codes="1"
+            android:keyLabel="1\nQ"
+            android:keyOutputText="@string/forget_pwd"
+            android:popupCharacters="Q"
+            />
+    </Row>
+</Keyboard>

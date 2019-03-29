@@ -1,1 +1,1 @@
-include ':app', ':edge'
+include ':app', ':edge', ':keyboard'

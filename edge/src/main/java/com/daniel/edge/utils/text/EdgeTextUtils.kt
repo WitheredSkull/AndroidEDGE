@@ -113,4 +113,27 @@ object EdgeTextUtils {
         }
         return sb.toString()
     }
+
+    /**
+     * @param text 传入的字符
+     * @return 是否为字母
+     */
+    fun isWord(text:String):Boolean{
+        return text.matches(Regex("^[A-Za-z]"))
+    }
+
+    /**
+     * @param text 传入的字符
+     * @return 是否是大写字符
+     */
+    fun isUpperWord(text:String):Boolean{
+        return text.matches(Regex("^[A-Z]"))
+    }
+    /**
+     * @param text 传入的字符
+     * @return 是否是小写字符
+     */
+    fun isLowerWord(text:String):Boolean{
+        return text.matches(Regex("^[a-z]"))
+    }
 }

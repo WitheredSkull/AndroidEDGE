@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import com.daniel.edge.config.EdgeConfig
 
 
-object NetWorkStatusUtils {
+object EdgeNetWorkStatusUtils {
     fun isNetworkConnected(): Boolean {
         val mConnectivityManager = EdgeConfig.CONTEXT
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

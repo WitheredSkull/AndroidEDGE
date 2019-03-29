@@ -4,5 +4,5 @@ import android.app.Dialog
 import android.view.View
 
 interface OnEdgeDialogClickListener {
-    fun onClick(view: View,dialog:Dialog )
+    fun onClick(parent:View,view: View,dialog:Dialog )
 }

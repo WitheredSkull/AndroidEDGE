@@ -76,6 +76,13 @@ class EdgeActivityManagement {
         }
     }
 
+    //退出所有的活动
+    fun exit(){
+        activities.forEach {
+            it.finish()
+        }
+    }
+
     //移除指定名字的Activity
     fun finishOnSimpleName(@NonNull simpleName: String) {
         activities.forEach {

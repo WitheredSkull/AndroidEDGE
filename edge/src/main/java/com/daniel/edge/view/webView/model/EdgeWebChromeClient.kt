@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Message
 import android.view.View
 import android.webkit.*
+import com.daniel.edge.utils.log.EdgeLog
 
 
 // Create Time 2018/10/30
@@ -25,6 +26,7 @@ class EdgeWebChromeClient : WebChromeClient {
     //通知应用程序当前网页加载的进度
     override fun onProgressChanged(p0: WebView?, p1: Int) {
         super.onProgressChanged(p0, p1)
+        EdgeLog.show(javaClass,"进度","${p1}")
     }
 
     //获取网页Icon

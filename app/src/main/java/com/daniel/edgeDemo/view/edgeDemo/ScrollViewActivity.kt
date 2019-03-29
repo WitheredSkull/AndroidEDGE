@@ -24,9 +24,9 @@ class ScrollViewActivity : AppCompatActivity() {
             EdgeBottomSheetDialogFragment.build(supportFragmentManager, R.layout.window_number_selector)
                 .setDimAmount(0f)
                 .addOnClick(object :OnEdgeDialogClickListener{
-                    override fun onClick(view: View, dialog: Dialog) {
-                        sv_translate.mSlideRatio = view.findViewById<TextView>(R.id.et_number).text.toString().toFloat()
-                        sv_scale.mSlideRatio = view.findViewById<TextView>(R.id.et_number).text.toString().toFloat()
+                    override fun onClick(parent:View,view: View, dialog: Dialog) {
+                        sv_translate.mSlideRatio = parent?.findViewById<TextView>(R.id.et_number)?.text.toString().toFloat()
+                        sv_scale.mSlideRatio = parent?.findViewById<TextView>(R.id.et_number)?.text.toString().toFloat()
                         dialog.dismiss()
                     }
 
