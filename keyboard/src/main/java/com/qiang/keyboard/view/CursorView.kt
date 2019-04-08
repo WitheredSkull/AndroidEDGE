@@ -1,5 +1,7 @@
 package com.qiang.keyboard.view
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
@@ -9,17 +11,22 @@ import android.graphics.Rect
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.util.EventLog
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AnimationSet
+import android.view.animation.ScaleAnimation
 import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.text.EdgeTextUtils
 import com.qiang.keyboard.presenter.KeyboardController
 import com.qiang.keyboard.service.KeyboardReceiver
 import com.qiang.keyboard.service.KeyboardReceiverFunction
 import com.qiang.keyboard.R
+import com.qiang.keyboard.constant.App
 import com.qiang.keyboard.model.EventBusFunction
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -62,43 +69,50 @@ class CursorView : TextView {
         super.onLayout(changed, left, top, right, bottom)
         mWidth = width
         mHeight = height
+        var measureTextSize = if (mWidth > mHeight) {
+            mHeight.toFloat() / 4
+        } else {
+            mWidth.toFloat() / 4
+        }
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, measureTextSize)
+        mPaint.textSize = textSize
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                mTextLayout = View.inflate(context, R.layout.dialog_keyboard, null)
-                mTextPopup = PopupWindow(
-                    mTextLayout,
-                    mWidth,
-                    mHeight,
-                    false
-                )
-                mTextPopup?.isFocusable = false
-                mTextPopup?.isTouchable = false
-                mTextPopup?.isOutsideTouchable = true
-                val location = IntArray(2)
-                getLocationOnScreen(location)
-                mTextLayout?.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-                mPopTextView = mTextLayout?.findViewById<TextView>(R.id.tv_tip_text)
-                mPopTextView?.setText(text)
-                var popHeight = mTextLayout!!.measuredHeight
-                var popWidth = mTextLayout!!.measuredWidth
-                mTextPopup?.showAtLocation(
-                    this,
-                    Gravity.NO_GRAVITY,
-                    (location[0]) - popWidth / 2,
-                    location[1] - popHeight
-                )
-            }
-            MotionEvent.ACTION_UP -> {
-                mTextPopup?.let {
-                    if (it.isShowing) {
-                        it.dismiss()
-                    }
-                }
-            }
-        }
+//        when (event.action) {
+//            MotionEvent.ACTION_DOWN -> {
+//                mTextLayout = View.inflate(context, R.layout.dialog_keyboard, null)
+//                mTextPopup = PopupWindow(
+//                    mTextLayout,
+//                    mWidth,
+//                    mHeight,
+//                    false
+//                )
+//                mTextPopup?.isFocusable = false
+//                mTextPopup?.isTouchable = false
+//                mTextPopup?.isOutsideTouchable = true
+//                val location = IntArray(2)
+//                getLocationOnScreen(location)
+//                mTextLayout?.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+//                mPopTextView = mTextLayout?.findViewById<TextView>(R.id.tv_tip_text)
+//                mPopTextView?.setText(text)
+//                var popHeight = mTextLayout!!.measuredHeight
+//                var popWidth = mTextLayout!!.measuredWidth
+//                mTextPopup?.showAtLocation(
+//                    this,
+//                    Gravity.NO_GRAVITY,
+//                    (location[0]) - popWidth / 2,
+//                    location[1] - popHeight
+//                )
+//            }
+//            MotionEvent.ACTION_UP -> {
+//                mTextPopup?.let {
+//                    if (it.isShowing) {
+//                        it.dismiss()
+//                    }
+//                }
+//            }
+//        }
 
         if (!TextUtils.isEmpty(mTextLeftTop)) {
             when (event.action) {
@@ -140,6 +154,16 @@ class CursorView : TextView {
         intent.putExtra(KeyboardReceiver.IsLongClick, false)
         intent.putExtra(KeyboardReceiver.Tag, mTag)
         context?.sendBroadcast(intent)
+
+        var objectAnimatorX = ObjectAnimator.ofFloat(this, "scaleX", 1f, 0.8f, 1f)
+        var objectAnimatorY = ObjectAnimator.ofFloat(this, "scaleY", 1f, 0.8f, 1f)
+        var set = AnimatorSet()
+        set.play(objectAnimatorX).with(objectAnimatorY)
+        set.duration = 100
+        set.start()
+//        var animator = ObjectAnimator.ofFloat(this,"scaleY",0.5f,1.0f)
+//        animator.duration = 200
+//        animator.start()
         return super.performClick()
     }
 
@@ -159,19 +183,11 @@ class CursorView : TextView {
         if (!TextUtils.isEmpty(mTextLeftTop)) {
             canvas.drawText(
                 mTextLeftTop,
-                mWidth.toFloat() / 2 + mTextLeftTopWidth / 2,
-                mHeight.toFloat() / 2 - mTextLeftTopHeight / 2,
+                mWidth.toFloat() / 2 + mTextLeftTopWidth,
+                mHeight.toFloat() / 2 - mTextLeftTopHeight / 3,
                 mPaint
             )
         }
-        mPaint.style = Paint.Style.STROKE
-        mPaint.color = resources.getColor(R.color.colorPrimary)
-        canvas.drawRect(Rect(0, 0, mWidth, mHeight), mPaint)
-        var path = Path()
-        path.moveTo(mWidth.toFloat() - 10, 0f)
-        path.lineTo(mWidth.toFloat() - 10, mHeight.toFloat() - 10)
-        path.lineTo(0f, mHeight.toFloat() - 10)
-        canvas.drawPath(path,mPaint)
     }
 
     override fun onDetachedFromWindow() {
@@ -210,9 +226,10 @@ class CursorView : TextView {
             return
         }
         if (KeyboardController.getInstance(mTag).isShift && text.equals("Shift")) {
-            setBackgroundColor(resources.getColor(R.color.colorPrimary))
+            setBackgroundColor(resources.getColor(R.color.white_gray))
+            setBackgroundResource(R.drawable.ic_key_down)
         } else {
-            setBackgroundColor(resources.getColor(R.color.white))
+            setBackgroundResource(R.drawable.ic_key)
         }
     }
 
@@ -259,9 +276,9 @@ class CursorView : TextView {
                 KeyboardController.getInstance(mTag)
                     .isNumber = !KeyboardController.getInstance(mTag).isNumber
                 if (KeyboardController.getInstance(mTag).isNumber) {
-                    setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                    setBackgroundColor(resources.getColor(R.color.white_gray))
                 } else {
-                    setBackgroundColor(resources.getColor(R.color.white))
+                    setBackgroundResource(R.drawable.ic_key)
                 }
             }
             "Enter" ->
@@ -271,9 +288,9 @@ class CursorView : TextView {
                 KeyboardController.getInstance(mTag)
                     .isCapital = !KeyboardController.getInstance(mTag).isCapital
                 if (KeyboardController.getInstance(mTag).isCapital) {
-                    setBackgroundColor(resources.getColor(R.color.colorPrimary))
+                    setBackgroundColor(resources.getColor(R.color.white_gray))
                 } else {
-                    setBackgroundColor(resources.getColor(R.color.white))
+                    setBackgroundResource(R.drawable.ic_key)
                 }
             }
             "Shift" -> {
@@ -299,7 +316,7 @@ class CursorView : TextView {
         mPaint = Paint()
         mPaint.isAntiAlias = true
         mPaint.color = textColors.defaultColor
-        mPaint.textSize = textSize
+        setBackgroundResource(R.drawable.ic_key)
         //禁止父控件拦截点击事件
         setOnClickListener { }
         //禁止父控件拦截长按事件

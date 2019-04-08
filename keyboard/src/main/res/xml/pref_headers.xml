@@ -1,0 +1,15 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="com.qiang.keyboard.view.SettingsActivity$GeneralPreferenceFragment"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/setting_keyboard" />
+
+    <header
+        android:fragment="com.qiang.keyboard.view.SettingsActivity$ThemePreferenceFragment"
+        android:icon="@drawable/shape_theme_gradual"
+        android:title="@string/settings_theme" />
+
+</preference-headers>

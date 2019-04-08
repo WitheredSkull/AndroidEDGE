@@ -1,5 +1,6 @@
 package com.daniel.edge.view.webView.model
 
+import android.os.Build
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -27,11 +28,11 @@ class EdgeWebViewClient : WebViewClient() {
     }
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            if (view != null && request != null) {
-//                view.loadUrl(request.url.encodedPath)
-//            }
-//        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (view != null && request != null) {
+                view.loadUrl(request.url.encodedPath)
+            }
+        }
         return super.shouldOverrideUrlLoading(view, request)
     }
 

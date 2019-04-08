@@ -3,6 +3,7 @@
     package="com.qiang.keyboard">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".constant.App"
@@ -12,10 +13,28 @@
         android:roundIcon="@mipmap/ic_qkey_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--连接和断开的广播-->
+        <receiver
+            android:name=".service.WebSocketReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="WebSocketReceiverPermission" />
+        <!--按键广播-->
+        <receiver
+            android:name=".service.KeyboardReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="KeyboardReceiver" />
+        <!--文本发送服务-->
+        <service
+            android:name=".service.WebSocketService"
+            android:enabled="true"
+            android:exported="true" />
 
-        <activity android:name=".view.LoginActivity"
+        <activity
+            android:name=".view.LoginActivity"
             android:screenOrientation="portrait"
-            >
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -25,19 +44,23 @@
         </activity>
 
         <activity
-            android:name=".view.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-
-        <activity android:name=".view.EditActivity" />
-
-        <receiver
-            android:name=".service.KeyboardReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="KeyboardReceiver" />
+            android:name=".view.SelectActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:launchMode="singleTask" />
 
         <activity
-            android:name=".view.KeyboardActivity"
+            android:name=".view.SendHalfKeyboardActivity"
+            android:screenOrientation="landscape" />
+        <activity
+            android:name=".view.SendAccountantActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.SendTextActivity" />
+        <activity
+            android:name=".view.SettingsActivity"
+            android:label="@string/action_settings" />
+
+        <activity
+            android:name=".view.SendKeyboardActivity"
             android:screenOrientation="landscape" />
     </application>
 

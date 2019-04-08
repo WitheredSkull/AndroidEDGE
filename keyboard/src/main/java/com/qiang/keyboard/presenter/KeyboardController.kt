@@ -1,5 +1,7 @@
 package com.qiang.keyboard.presenter
 
+import android.os.Build
+import android.os.VibrationEffect
 import com.qiang.keyboard.constant.App
 import okhttp3.Request
 import okhttp3.Response
@@ -23,36 +25,7 @@ class KeyboardController {
 
         @Synchronized
         fun getTagMap() = KeyboardControllerMap
-    }
 
-    //设置webSocket
-    fun setWebSocket() {
-        var request = Request.Builder().url("").build()
-        var webSocket = App.okHttpClient.newWebSocket(request, object : WebSocketListener() {
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-            }
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-            }
-        })
     }
 
 

@@ -29,12 +29,11 @@ class DemoDashboardFragment : Fragment() {
         mView =inflater.inflate(R.layout.fragment_demo_dashboard, container, false)
         mViewHolder = ViewHolderUtils(mView)
         mWebViewUtils = EdgeWebViewUtils.build(activity!!,mViewHolder.webView,R.id.webView)
-        mWebViewUtils.initDefaultChromeClient()
+//        mWebViewUtils.initDefaultChromeClient()
         mWebViewUtils.initDefaultClient()
         mWebViewUtils.initDefaultSetting()
         mWebViewUtils.webView.loadUrl("https://www.baidu.com")
         return mView
     }
-
 
 }

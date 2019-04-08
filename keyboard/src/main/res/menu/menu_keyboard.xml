@@ -3,6 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
+        android:id="@+id/action_menu"
+        android:orderInCategory="98"
+        android:title="@string/select_keyboard"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_setting"
+        android:orderInCategory="99"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/action_back"
         android:orderInCategory="100"
         android:title="@string/action_back"

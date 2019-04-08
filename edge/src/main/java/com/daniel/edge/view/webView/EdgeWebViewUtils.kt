@@ -60,32 +60,32 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
     fun initDefaultSetting(): EdgeWebViewUtils {
         webSettings = webView.settings;
         //定位是否可用,默认为true
-//        webSettings.setGeolocationEnabled(true)
+        webSettings.setGeolocationEnabled(true)
         //开启javascript
-//        webSettings.javaScriptEnabled = true
+        webSettings.javaScriptEnabled = true
         //支持通过JS打开新窗口
-//        webSettings.javaScriptCanOpenWindowsAutomatically = true
+        webSettings.javaScriptCanOpenWindowsAutomatically = true
         /*LOAD_CACHE_ONLY: 不使用网络，只读取本地缓存数据
         LOAD_DEFAULT: 根据cache-control决定是否从网络上取数据。
         LOAD_CACHE_NORMAL: API level 17中已经废弃, 从API level 11开始作用同LOAD_DEFAULT模式
         LOAD_NO_CACHE: 不使用缓存，只从网络获取数据.
         LOAD_CACHE_ELSE_NETWORK，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。*/
-//        if (EdgeNetWorkStatusUtils.isNetworkConnected()) {
-//            webSettings.cacheMode = WebSettings.LOAD_DEFAULT
-//        }else{
-//            webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
-//        }
+        if (EdgeNetWorkStatusUtils.isNetworkConnected()) {
+            webSettings.cacheMode = WebSettings.LOAD_DEFAULT
+        }else{
+            webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
+        }
         //设置缓存路径
-//        webSettings.setAppCachePath(edgeCachePath)
+        webSettings.setAppCachePath(edgeCachePath)
         /*我们能够有选择的缓冲web浏览器中所有的东西，从页面、图片到脚本、css等等。
         尤其在涉及到应用于网站的多个页面上的CSS和JavaScript文件的时候非常有用。其大小目前通常是5M。*/
-//        webSettings.setAppCacheEnabled(true)
+        webSettings.setAppCacheEnabled(true)
 
         /*存储一些简单的用key/value对即可解决的数据，根据作用范围的不同，有Session
         Storage和Local Storage两种，分别用于会话级别的存储（页面关闭即消失）和本地化存储（除非主动*/
-//        webSettings.domStorageEnabled = true
+        webSettings.domStorageEnabled = true
 
-//        webSettings.setNeedInitialFocus(true)
+        webSettings.setNeedInitialFocus(true)
         //开启database
 //        webSettings.databaseEnabled = true
         //设置数据库缓存地址
@@ -100,7 +100,7 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
         //是否使用内置的缩放机制。内置的缩放机制包括屏幕上的缩放控件（浮于WebView内容之上）和缩放手势的运用。通过setDisplayZoomControls(boolean)可以控制是否显示这些控件，默认值为false。
         webSettings.builtInZoomControls = true
         //使用内置的缩放机制时是否展示缩放控件，默认值true。参见setBuiltInZoomControls(boolean).
-        webSettings.displayZoomControls = true
+        webSettings.displayZoomControls = false
 //        (下面三项可能导致被攻击者攻击)
         // 设置是否允许 WebView 使用 File 协议(开启可能导致百度无法搜索中文)
 //        webSettings.allowFileAccess = false

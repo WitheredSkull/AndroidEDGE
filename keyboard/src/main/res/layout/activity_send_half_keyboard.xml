@@ -1,0 +1,770 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.SendHalfKeyboardActivity">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fillViewport="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/ll_word_right"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="请开始输入" />
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/ll_word_left"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="ESC"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F1"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F2"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F3"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F4"
+                app:cursor_tag="@string/action_half_left" />
+
+        </LinearLayout>
+
+        <View
+            style="@style/HLine"
+            android:layout_height="@dimen/dp_10"
+            android:background="@color/white_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/point"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="`"
+                app:cursor_tag="@string/action_half_left"
+                app:text_left_top="~" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ic_key"
+                android:gravity="center"
+                android:text="1"
+                app:cursor_tag="@string/action_half_left"
+                app:text_left_top="!" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2"
+                app:cursor_tag="@string/action_half_left"
+                app:text_left_top="\@" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="3"
+                app:cursor_tag="@string/action_half_left"
+                app:text_left_top="#" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="4"
+                app:cursor_tag="@string/action_half_left"
+                app:text_left_top="$" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="5"
+                app:cursor_tag="@string/action_half_left"
+                app:text_left_top="%" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/Tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Tab"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/Q"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="q"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/W"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="w"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/E"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="e"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/R"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="r"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/t"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="t"
+                app:cursor_tag="@string/action_half_left" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Caps"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="a"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/S"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="s"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/D"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="d"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/F"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="f"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/G"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="g"
+                app:cursor_tag="@string/action_half_left" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Shift"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/Z"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="z"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/X"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="x"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/C"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="c"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/V"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="v"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/B"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="b"
+                app:cursor_tag="@string/action_half_left" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:gravity="center"
+                android:text="Ctrl"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2.5"
+                android:gravity="center"
+                android:text="Alter"
+                app:cursor_tag="@string/action_half_left" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Space"
+                app:cursor_tag="@string/action_half_left" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_word_right"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F5"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F6"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F7"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F8"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F9"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F10"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F11"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="F12"
+                app:cursor_tag="@string/action_half_right" />
+        </LinearLayout>
+
+        <View
+            style="@style/HLine"
+            android:layout_height="@dimen/dp_10"
+            android:background="@color/white_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="6"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="^" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="7"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="&amp;" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="8"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="*" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="9"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="(" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top=")" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="-"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="-" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text=" ="
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="+" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/delete"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="←"
+                android:textStyle="bold"
+                app:cursor_tag="@string/action_half_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/Y"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="y"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/U"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="u"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/I"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="i"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/O"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="o"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/P"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="p"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="["
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="{" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="]"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="}" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="\\"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="|" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal"
+            android:weightSum="8">
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/H"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1666"
+                android:gravity="center"
+                android:text="h"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/J"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1666"
+                android:gravity="center"
+                android:text="j"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/K"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1666"
+                android:gravity="center"
+                android:text="k"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/L"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1666"
+                android:gravity="center"
+                android:text="l"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1666"
+                android:gravity="center"
+                android:text=";"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top=":" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.1666"
+                android:gravity="center"
+                android:text="'"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="&quot;" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Enter"
+                app:cursor_tag="@string/action_half_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:layout_weight="8"
+            android:orientation="horizontal">
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/N"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center"
+                android:text="n"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:id="@+id/M"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center"
+                android:text="m"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center"
+                android:text=","
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="&lt;" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center"
+                android:text="."
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="&gt;" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center"
+                android:text="/"
+                app:cursor_tag="@string/action_half_right"
+                app:text_left_top="\?" />
+
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Shift"
+                app:cursor_tag="@string/action_half_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_42"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Space"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="Alter"
+                app:cursor_tag="@string/action_half_right" />
+
+            <com.qiang.keyboard.view.CursorView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:gravity="center"
+                android:text="Ctrl"
+                app:cursor_tag="@string/action_half_right" />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
