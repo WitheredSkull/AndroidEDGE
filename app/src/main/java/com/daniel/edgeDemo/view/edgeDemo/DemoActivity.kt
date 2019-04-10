@@ -75,6 +75,19 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             .build(this)
     }
 
+    override fun onBackPressed() {
+        var isBack = false
+        supportFragmentManager.fragments.forEach {
+            if (it is DemoDashboardFragment) {
+                if (it.onBack()) {
+                    isBack = true
+                }
+            }
+        }
+        if (!isBack)
+            super.onBackPressed()
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EdgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults, this)

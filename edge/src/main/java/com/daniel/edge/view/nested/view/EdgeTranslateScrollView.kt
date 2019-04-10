@@ -5,8 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.OvershootInterpolator
-import android.view.animation.TranslateAnimation
+import android.view.animation.*
 import androidx.core.widget.NestedScrollView
 import com.daniel.edge.R
 import com.daniel.edge.utils.log.EdgeLog
@@ -39,7 +38,6 @@ class EdgeTranslateScrollView : NestedScrollView {
         when (ev.action) {
             MotionEvent.ACTION_DOWN -> {
                 mTopRect.set(mChildView.left, mChildView.top, mChildView.right, mChildView.bottom)
-                EdgeLog.show(javaClass,"定位",mTopRect.toShortString())
                 mRecordPoint = ev.y.toInt()
             }
             MotionEvent.ACTION_MOVE -> {
@@ -94,7 +92,6 @@ class EdgeTranslateScrollView : NestedScrollView {
 
     // 初始化上下回弹的动画效果
     fun backOriginalPositionAnimation() {
-        EdgeLog.show(javaClass,"定位2",mTopRect.toShortString())
         //采用平移动画
         var animation = TranslateAnimation(
             0.0f, 0.0f,
@@ -103,8 +100,8 @@ class EdgeTranslateScrollView : NestedScrollView {
         animation.setDuration(400)
         animation.setFillAfter(true)
         //设置阻尼动画效果
-        animation.setInterpolator(OvershootInterpolator())
-        mChildView.setAnimation(animation);
+        animation.setInterpolator(DecelerateInterpolator())
+        mChildView.startAnimation(animation);
     }
 
     fun init(attrs: AttributeSet?) {

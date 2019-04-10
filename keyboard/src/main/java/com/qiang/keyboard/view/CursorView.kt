@@ -27,6 +27,7 @@ import com.qiang.keyboard.service.KeyboardReceiver
 import com.qiang.keyboard.service.KeyboardReceiverFunction
 import com.qiang.keyboard.R
 import com.qiang.keyboard.constant.App
+import com.qiang.keyboard.constant.KeyboardConfig
 import com.qiang.keyboard.model.EventBusFunction
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -300,9 +301,15 @@ class CursorView : TextView {
                     .post(EventBusFunction.SwitchButton(mTag, KeyboardController.getInstance(mTag).isShift))
                 EventBus.getDefault().post(EventBusFunction.Refresh(mTag))
             }
-            else ->
-                intent.putExtra(KeyboardReceiver.Function, KeyboardReceiverFunction.Input.ordinal)
         }
+        //是否需要拼接和展示
+        var isSend = true
+        KeyboardConfig.getInstance().KeyboardFillter.forEach {
+            if (it.equals(mTag)) {
+                isSend = false
+            }
+        }
+        intent.putExtra(KeyboardReceiver.IsSendText, isSend)
     }
 
     constructor(context: Context?) : super(context)

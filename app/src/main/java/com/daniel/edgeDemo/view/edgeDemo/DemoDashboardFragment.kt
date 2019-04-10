@@ -18,22 +18,32 @@ import kotlinx.android.synthetic.main.fragment_demo_dashboard.*
  *
  */
 class DemoDashboardFragment : Fragment() {
-    lateinit var mView:View
-    lateinit var mViewHolder:ViewHolderUtils
+    lateinit var mView: View
+    lateinit var mViewHolder: ViewHolderUtils
     lateinit var mWebViewUtils: EdgeWebViewUtils
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        mView =inflater.inflate(R.layout.fragment_demo_dashboard, container, false)
+        mView = inflater.inflate(R.layout.fragment_demo_dashboard, container, false)
         mViewHolder = ViewHolderUtils(mView)
-        mWebViewUtils = EdgeWebViewUtils.build(activity!!,mViewHolder.webView,R.id.webView)
+        mWebViewUtils = EdgeWebViewUtils.build(activity!!, mViewHolder.webView, R.id.webView)
 //        mWebViewUtils.initDefaultChromeClient()
+        mWebViewUtils.initDefaultChromeClient()
         mWebViewUtils.initDefaultClient()
         mWebViewUtils.initDefaultSetting()
         mWebViewUtils.webView.loadUrl("https://www.baidu.com")
         return mView
+    }
+
+    fun onBack():Boolean {
+        if (mWebViewUtils.webView.canGoBack()){
+            mWebViewUtils.webView.goBack()
+            return true
+        }else{
+            return false
+        }
     }
 
 }

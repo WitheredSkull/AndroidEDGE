@@ -3,6 +3,7 @@ package com.qiang.keyboard.service
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.nfc.Tag
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
@@ -10,6 +11,7 @@ import android.text.TextUtils
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.qiang.keyboard.IKeyboardAidlInterface
+import com.qiang.keyboard.R
 import com.qiang.keyboard.constant.App
 import com.qiang.keyboard.model.api.BaseApi
 import com.qiang.keyboard.presenter.KeyboardInterface
@@ -18,6 +20,7 @@ import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
+import java.util.concurrent.LinkedBlockingQueue
 
 class WebSocketService : Service, KeyboardInterface {
 
@@ -34,8 +37,8 @@ class WebSocketService : Service, KeyboardInterface {
     var mIsConnection = false
     //按键反馈服务
     var mKeyboardReceiver: KeyboardReceiver? = null
+    var mLinkedQueue = LinkedBlockingQueue<String>(1024)
     val mRequest = Request.Builder().url(BaseApi.KeyboardWebSocket).build()
-    var mWebSocket: WebSocket? = null
     var mRunnable = object : Runnable {
         override fun run() {
             mHandler.postDelayed(this, 100)
@@ -45,6 +48,7 @@ class WebSocketService : Service, KeyboardInterface {
             }
         }
     }
+    var mWebSocket: WebSocket? = null
     var mWebSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
             EdgeLog.show(javaClass, "WebSocket", "链接成功${Thread.currentThread().name}")
@@ -54,6 +58,9 @@ class WebSocketService : Service, KeyboardInterface {
             msg.data.putString("msg", "服务器连接成功!")
             mHandler.sendMessage(msg)
             super.onOpen(webSocket, response)
+            while (!mLinkedQueue.isEmpty()) {
+                sendMessage(mLinkedQueue.take())
+            }
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
@@ -91,16 +98,15 @@ class WebSocketService : Service, KeyboardInterface {
     }
     var stub = object : IKeyboardAidlInterface.Stub() {
         override fun sendData(text: String?) {
-            mWebSocket?.send(BaseApi.getKeyboardFormatWord(text!!))
+            sendMessage(text!!)
         }
     }
 
-    override fun onSendText(text: String) {
-        mWebSocket?.send(BaseApi.getKeyboardFormatText(text))
+    override fun onChart(text: String) {
     }
 
     override fun onInput(text: String) {
-        mWebSocket?.send(BaseApi.getKeyboardFormatWord(text))
+        sendMessage(text)
     }
 
     override fun onBack() {
@@ -145,6 +151,14 @@ class WebSocketService : Service, KeyboardInterface {
         intent.putExtra(WebSocketReceiver.Function, WebSocketReceiver.Key_IsConnection)
         intent.putExtra(WebSocketReceiver.Key_IsConnection, mIsConnection)
         sendBroadcast(intent)
+    }
+
+    fun sendMessage(text: String) {
+        if (!mIsConnection) {
+            mLinkedQueue.put(BaseApi.getKeyboardFormatWord(text))
+        } else {
+            mWebSocket?.send(BaseApi.getKeyboardFormatWord(text))
+        }
     }
 
     //设置webSocket

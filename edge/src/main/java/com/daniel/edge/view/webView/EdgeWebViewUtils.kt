@@ -12,6 +12,7 @@ import com.daniel.edge.view.webView.model.EdgeWebViewClient
 import java.io.File
 import androidx.core.view.ViewCompat.setLayerType
 import com.daniel.edge.utils.netWork.EdgeNetWorkStatusUtils
+import com.daniel.edge.view.webView.model.JavascriptResponse
 
 
 // Create Time 2018/11/1
@@ -92,7 +93,7 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
 //        webSettings.databasePath =
 
         //设置默认编码
-        webSettings.defaultTextEncodingName = "utf-8"
+//        webSettings.defaultTextEncodingName = "utf-8"
         //WebView是否需要用户的手势进行媒体播放，默认值为true。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             webSettings.mediaPlaybackRequiresUserGesture = true
@@ -128,7 +129,7 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
         //默认缩放模式 是 ZoomDensity.MEDIUM
 //        webSettings.defaultZoom = WebSettings.ZoomDensity.MEDIUM
         //WebView是否支持HTML的“viewport”标签或者使用wide viewport。设置值为true时，布局的宽度总是与WebView控件上的设备无关像素（device-dependent pixels）宽度一致。当值为true且页面包含viewport标记，将使用标签指定的宽度。如果页面不包含标签或者标签没有提供宽度，那就使用wide viewport。
-        webSettings.useWideViewPort = false
+        webSettings.useWideViewPort = true
         //设置WebView是否支持多窗口。如果设置为true，主程序要实现onCreateWindow(WebView, boolean, boolean, Message)，默认false。
         webSettings.setSupportMultipleWindows(false)
         //设置WebView是否支持多窗口。如果设置为true，主程序要实现onCreateWindow(WebView, boolean, boolean, Message)，默认false。
@@ -162,6 +163,7 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }
+        webView.addJavascriptInterface(JavascriptResponse(),"android")
         return this
     }
 

@@ -1,4 +1,4 @@
-package com.qiang.keyboard.view
+package com.qiang.keyboard.view.keyboard
 
 import android.content.IntentFilter
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.daniel.edge.utils.log.EdgeLog
 import com.qiang.keyboard.expand.createOptionsMenu
 import com.qiang.keyboard.expand.optionsItemSelected
 import com.qiang.keyboard.presenter.KeyboardInterface
@@ -16,14 +17,17 @@ abstract class BaseKeyboardActivity : AppCompatActivity(), KeyboardInterface, Ob
 
     //View的Cursor TAG
     var mAction = ""
-    //是否需要返回
     var mIsNeedBack = true
     //按键反馈服务
     var mKeyboardReceiver: KeyboardReceiver? = null
+    var mMessage: StringBuilder = StringBuilder()
     var mMessageLiveData = MutableLiveData<String>().apply {
         value = "请开始输入:"
     }
-    var mMessage: StringBuilder = StringBuilder()
+
+    override fun onChart(text: String) {
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +43,7 @@ abstract class BaseKeyboardActivity : AppCompatActivity(), KeyboardInterface, Ob
 
     override fun onChanged(s: String?) {
         s?.let {
-            changeText(it)
+            appendText(mMessage.toString())
         }
     }
 
@@ -52,10 +56,6 @@ abstract class BaseKeyboardActivity : AppCompatActivity(), KeyboardInterface, Ob
             return true
         else
             super.onOptionsItemSelected(item)
-    }
-
-    override fun onSendText(text: String) {
-
     }
 
     override fun onDelete() {
@@ -97,10 +97,11 @@ abstract class BaseKeyboardActivity : AppCompatActivity(), KeyboardInterface, Ob
     override fun onDestroy() {
         unregisterReceiver(mKeyboardReceiver)
         mMessageLiveData.removeObserver(this)
+        mMessage.clear()
         super.onDestroy()
     }
 
-    abstract fun changeText(text: String)
+    abstract fun appendText(text: String)
     abstract fun initAction(): String
 
 }

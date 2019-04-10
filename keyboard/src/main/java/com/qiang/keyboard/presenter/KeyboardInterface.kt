@@ -1,7 +1,8 @@
 package com.qiang.keyboard.presenter
 
 interface KeyboardInterface {
-    fun onSendText(text: String)
+    fun onChart(text: String)
+    //当为Input时会发送数据
     fun onInput(text: String)
     fun onBack()
     fun onDelete()

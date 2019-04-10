@@ -121,7 +121,8 @@ class EdgeWebChromeClient : WebChromeClient {
 
     //控制台輸出
     override fun onConsoleMessage(p0: ConsoleMessage?): Boolean {
-        return super.onConsoleMessage(p0)
+        EdgeLog.show(javaClass,"打印日志",p0?.message())
+        return true
     }
 
     //获得所有访问历史项目的列表，用于链接着色。

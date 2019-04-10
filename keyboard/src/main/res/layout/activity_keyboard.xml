@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.SendKeyboardActivity">
+    tools:context=".view.keyboard.KeyboardActivity">
 
-    <androidx.core.widget.NestedScrollView
+    <com.daniel.edge.view.nested.view.EdgeScaleScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="请开始输入" />
-    </androidx.core.widget.NestedScrollView>
+    </com.daniel.edge.view.nested.view.EdgeScaleScrollView>
 
     <LinearLayout
         android:id="@+id/ll_word"

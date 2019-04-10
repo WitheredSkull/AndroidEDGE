@@ -89,11 +89,11 @@ class EdgeScaleScrollView : NestedScrollView {
                 mChildView.height.toFloat()
             }
         )
-        animation.setDuration(500)
+        animation.setDuration(400)
 //        animation.setFillAfter(true)
         //设置阻尼动画效果
-        animation.setInterpolator(OvershootInterpolator())
-        mChildView.setAnimation(animation)
+        animation.setInterpolator(DecelerateInterpolator())
+        mChildView.startAnimation(animation)
 //        mChildView.startAnimation(animation)
     }
 

@@ -20,10 +20,8 @@ class KeyboardReceiver : BroadcastReceiver {
         if (intent != null && intent.action.equals(KeyboardAction)) {
             var text = intent.getStringExtra(Text)
             when (intent.getIntExtra(Function, 0)) {
-                KeyboardReceiverFunction.Input.ordinal -> {
-                    text?.let {
-                        keyboardInterface?.onInput(it)
-                    }
+                KeyboardReceiverFunction.Other.ordinal -> {
+                    //这里是不触发任何功能性按键
                 }
                 KeyboardReceiverFunction.Enter.ordinal -> {
                     keyboardInterface?.onEnter()
@@ -38,16 +36,19 @@ class KeyboardReceiver : BroadcastReceiver {
                     keyboardInterface?.onHideNumber(!KeyboardController.getInstance(intent.getStringExtra(Tag)).isNumber)
                 }
                 KeyboardReceiverFunction.Cap.ordinal -> EdgeLog.show(javaClass, "功能", "大写模式")
-                KeyboardReceiverFunction.SendText.ordinal -> keyboardInterface?.onSendText(
-                    intent.getStringExtra(
-                        SendText
-                    )
-                )
-                else -> EdgeLog.show(javaClass, "功能", "启动了其他功能")
+                else -> EdgeLog.show(javaClass, "功能", "启动了其他功能:${text}")
+            }
+
+            text?.let {
+                if (intent.getBooleanExtra(IsSendText, true)) {
+                    keyboardInterface?.onInput(it)
+                } else {
+                    keyboardInterface?.onChart(it)
+                }
             }
             //然后回首播放一个声音
             text?.let {
-                keyboardInterface?.onInput(it)
+                AudioUtils.getInstance().sound(it)
             }
         }
     }
@@ -65,13 +66,12 @@ class KeyboardReceiver : BroadcastReceiver {
         const val KeyboardAction = "Keyboard"
         const val Tag = "Tag"
         const val Text = "Text"
-        const val SendText = "SendText"
+        const val IsSendText = "IsSendText"
     }
 }
 
 enum class KeyboardReceiverFunction {
-    SendText,
-    Input,
+    Other,
     Delete,
     Enter,
     Space,

@@ -57,7 +57,7 @@ class ScrollViewActivity : AppCompatActivity() {
     }
 
     fun setData() {
-        for (index in 0..20) {
+        for (index in 0..5) {
             list.add("这是第 $index 个选项")
         }
         rv.layoutManager = LinearLayoutManager(this)

@@ -1,16 +1,15 @@
-package com.qiang.keyboard.view
+package com.qiang.keyboard.view.keyboard
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.qiang.keyboard.R
 import kotlinx.android.synthetic.main.activity_send_accountant.*
 
-class SendAccountantActivity : BaseKeyboardActivity() {
+class AccountantActivity : BaseKeyboardActivity() {
     override fun initAction(): String {
         return getString(R.string.action_accountant)
     }
 
-    override fun changeText(text: String) {
+    override fun appendText(text: String) {
         tv_text.text = text
     }
 

@@ -12,6 +12,11 @@ import com.qiang.keyboard.R
 import com.qiang.keyboard.service.OnWebSocketConnectListener
 import com.qiang.keyboard.service.WebSocketReceiver
 import com.qiang.keyboard.service.WebSocketService
+import com.qiang.keyboard.view.keyboard.AccountantActivity
+import com.qiang.keyboard.view.keyboard.CalculateActivity
+import com.qiang.keyboard.view.keyboard.HalfKeyboardActivity
+import com.qiang.keyboard.view.keyboard.KeyboardActivity
+import com.qiang.keyboard.view.text.TextActivity
 import kotlinx.android.synthetic.main.activity_select.*
 
 class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketConnectListener {
@@ -52,24 +57,26 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
         }
         when (v.id) {
             //文本键盘
-            R.id.tv_send_text -> startActivity(Intent(this, SendTextActivity::class.java))
+            R.id.tv_send_text -> startActivity(Intent(this, TextActivity::class.java))
             //即时键盘
-            R.id.tv_send_forthwith -> startActivity(Intent(this, SendKeyboardActivity::class.java))
+            R.id.tv_send_forthwith -> startActivity(Intent(this, KeyboardActivity::class.java))
             //左半键盘
 
             R.id.tv_send_half_left -> {
-                var intent = Intent(this, SendHalfKeyboardActivity::class.java)
-                intent.putExtra(SendHalfKeyboardActivity.ACTION_AWAY, 0)
+                var intent = Intent(this, HalfKeyboardActivity::class.java)
+                intent.putExtra(HalfKeyboardActivity.ACTION_AWAY, 0)
                 startActivity(intent)
             }
             //右半键盘
             R.id.tv_send_half_right -> {
-                var intent = Intent(this, SendHalfKeyboardActivity::class.java)
-                intent.putExtra(SendHalfKeyboardActivity.ACTION_AWAY, 1)
+                var intent = Intent(this, HalfKeyboardActivity::class.java)
+                intent.putExtra(HalfKeyboardActivity.ACTION_AWAY, 1)
                 startActivity(intent)
             }
             //会计键盘
-            R.id.tv_send_accountant -> startActivity(Intent(this, SendAccountantActivity::class.java))
+            R.id.tv_send_accountant -> startActivity(Intent(this, AccountantActivity::class.java))
+            //计算器
+            R.id.tv_calculate -> startActivity(Intent(this, CalculateActivity::class.java))
         }
     }
 
@@ -82,7 +89,8 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
             tv_send_forthwith,
             tv_send_half_left,
             tv_send_half_right,
-            tv_send_accountant
+            tv_send_accountant,
+            tv_calculate
         )
         onClose()
         mWebSocketIntent = Intent(this, WebSocketService::class.java)

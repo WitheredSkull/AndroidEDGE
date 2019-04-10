@@ -1,0 +1,18 @@
+<script>
+    var child = document.children;
+    var arr = [];//用来存放获取到的所有的标签
+    function findSrc(obj) {
+        for (var i = 0; i < obj.length; i++) {
+
+            if (obj[i].children) {//当当前元素还存在子元素的时候,递归
+                findSrc(obj[i].children);
+            }
+            var srcNotNull = obj[i].getAttribute("src")
+            if(srcNotNull != null&&srcNotNull.length>0){
+                arr.push(srcNotNull); //遍历到的元素添加到arr这个数组中间
+            }
+        }
+    }
+    findSrc(child);
+    console.log(arr)
+</script>

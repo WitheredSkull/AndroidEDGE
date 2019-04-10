@@ -1,21 +1,13 @@
-package com.qiang.keyboard.view
+package com.qiang.keyboard.view.keyboard
 
-import android.content.IntentFilter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.daniel.edge.management.activity.EdgeActivityManagement
-import com.qiang.keyboard.presenter.KeyboardInterface
-import com.qiang.keyboard.service.KeyboardReceiver
 import com.qiang.keyboard.R
-import java.lang.StringBuilder
 
-class SendKeyboardActivity : BaseKeyboardActivity() {
-    override fun changeText(text: String) {
+class KeyboardActivity : BaseKeyboardActivity() {
+    override fun appendText(text: String) {
         tv_message.text = text
     }
 

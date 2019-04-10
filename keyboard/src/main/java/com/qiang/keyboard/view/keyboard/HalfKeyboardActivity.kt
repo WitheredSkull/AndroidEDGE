@@ -1,4 +1,4 @@
-package com.qiang.keyboard.view
+package com.qiang.keyboard.view.keyboard
 
 import android.os.Bundle
 import android.view.View
@@ -6,13 +6,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.qiang.keyboard.R
 
-class SendHalfKeyboardActivity : BaseKeyboardActivity() {
+class HalfKeyboardActivity : BaseKeyboardActivity() {
     lateinit var mTVText: TextView
     lateinit var mLLLeft: LinearLayout
     lateinit var mLLRight: LinearLayout
-    var mAwayType: AwayKeyboardType = AwayKeyboardType.Left
+    var mAwayType: AwayKeyboardType =
+        AwayKeyboardType.Left
 
-    override fun changeText(text: String) {
+    override fun appendText(text: String) {
         mTVText.text = text
     }
 
@@ -26,7 +27,8 @@ class SendHalfKeyboardActivity : BaseKeyboardActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         intent?.let {
-            mAwayType = AwayKeyboardType.values()[it.getIntExtra(ACTION_AWAY, 0)]
+            mAwayType = AwayKeyboardType.values()[it.getIntExtra(
+                ACTION_AWAY, 0)]
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_half_keyboard)
