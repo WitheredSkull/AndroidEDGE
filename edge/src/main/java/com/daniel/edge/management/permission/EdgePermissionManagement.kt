@@ -1,11 +1,13 @@
 package com.daniel.edge.management.permission
 
+import android.Manifest
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
-import androidx.appcompat.app.AppCompatActivity
-import com.daniel.edge.config.EdgeConfig
-import com.daniel.edge.management.application.EdgeApplicationManagement
+import com.daniel.edge.config.Edge
+import com.daniel.edge.utils.log.EdgeLog
 
 /**
  * @Author:      Daniel
@@ -13,117 +15,95 @@ import com.daniel.edge.management.application.EdgeApplicationManagement
  * @Description:
  *
  */
-class EdgePermissionManagement() {
-    var mList = arrayListOf<String>()
+class EdgePermissionManagement() : IEdgePermissionManagement {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>?,
+        grantResults: IntArray?
+    ) {
+        if (requestCode == REQUEST_PERMISSION && permissions != null && grantResults != null) {
+            if (grantResults.size > 0) {
+                val dangerPermissions = arrayListOf<String>()
+                for (i in grantResults.indices) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        dangerPermissions.add(permissions[i])
+                    }
+                }
+                if (dangerPermissions.size > 0) {
+                    onEdgePermissionCallBack?.onRequestPermissionFailure(dangerPermissions)
+                } else {
+                    onEdgePermissionCallBack?.onRequestPermissionSuccess()
+                }
+            }
+        } else {
+            onEdgePermissionCallBack?.onRequestPermissionSuccess()
+        }
+        mReceiver?.let {
+            Edge.CONTEXT.unregisterReceiver(mReceiver)
+        }
+    }
+
 
     companion object {
         val REQUEST_PERMISSION = 999
+        private var onEdgePermissionCallBack: OnEdgePermissionCallBack? = null
+        private var mList = arrayListOf<String>()
+        private var mReceiver: EdgePermissionReceiver? = null
 
-        //返回结果，并且调用回调
-        fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray,
-            callBack: OnEdgePermissionCallBack
-        ) {
-            if (requestCode == REQUEST_PERMISSION) {
-                if (grantResults.size > 0) {
-                    val dangerPermissions = arrayListOf<String>()
-                    for (i in grantResults.indices) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            dangerPermissions.add(permissions[i])
-                        }
-                    }
-                    if (dangerPermissions.size > 0) {
-                        callBack?.onRequestPermissionFailure(dangerPermissions)
-                    } else {
-                        callBack?.onRequestPermissionSuccess()
-                    }
-                }
-            }
+        fun setOnCallBack(onEdgePermissionCallBack: OnEdgePermissionCallBack): EdgePermissionManagement.Companion {
+            this.onEdgePermissionCallBack = onEdgePermissionCallBack
+            return this
         }
 
-        //过滤出来所有需要的权限
-        fun getNeedPermission(permission: ArrayList<String>): List<String>? {
+        /**
+         * @param permission 请求Manifest.permission中选中的权限，不支持Manifest.group
+         */
+        fun requestPermission(vararg permission: String): EdgePermissionManagement.Companion {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                mList.addAll(permission)
                 //Filtrate Agree Permission
-                var list = permission.filter {
-                    ContextCompat.checkSelfPermission(
-                        EdgeConfig.CONTEXT,
-                        it
-                    ) != PackageManager.PERMISSION_GRANTED
+                var listFilter = mList.filter {
+                    if (ContextCompat.checkSelfPermission(Edge.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
+                        false
+                    } else {
+                        true
+                    }
                 }
-                return list
+                mList.clear()
+                mList.addAll(listFilter)
             }
-            return null
+            return this
         }
 
-        //判断权限是否获取了
-        fun isAgree(permission: ArrayList<String>): Boolean {
+        /**
+         * 请求所有的权限
+         */
+        fun requestPackageNeedPermission(): EdgePermissionManagement.Companion {
+            var permissions = EdgePermissionUtils.getPackageNeedPermission()
+            permissions?.forEach {
+                mList.add(it)
+            }
+            return this
+        }
 
-            var list = getNeedPermission(permission)
-            if (list == null || list.size == 0) {
-                return true
+        /**
+         * @return 如果版本大于6.0则申请权限，版本小于6.0直接回调成功
+         */
+        fun build(): EdgePermissionManagement {
+            val instance = EdgePermissionManagement()
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && mList.isNotEmpty()) {
+                //打开隐藏的Activity去申请权限
+                mReceiver = EdgePermissionReceiver(instance)
+                val intentReceiver = IntentFilter(EdgePermissionReceiver.ACTION)
+                Edge.CONTEXT.registerReceiver(mReceiver, intentReceiver)
+                val activityIntent = Intent(Edge.CONTEXT, EdgePermissionActivity::class.java)
+                activityIntent.putExtra(EdgePermissionActivity.PREMISSION_PARAMETER, mList.toTypedArray())
+                Edge.CONTEXT.startActivity(activityIntent)
             } else {
-                return false
+                instance.onRequestPermissionsResult(REQUEST_PERMISSION, null, null)
             }
+            return instance
         }
-
-        //获取包名所需权限
-        fun getPackageNeedPermission(): ArrayList<String>? {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            } else {
-                return null
-            }
-            var permissions =
-                EdgeApplicationManagement.appPermissionFromPackageInfo(EdgeApplicationManagement.appPackageName())
-                    ?.requestedPermissions
-            var listFilter = permissions?.filter {
-                if (ContextCompat.checkSelfPermission(EdgeConfig.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
-                    false
-                } else {
-                    true
-                }
-            }
-            var permissionList = arrayListOf<String>()
-            permissionList.addAll(listFilter!!)
-            return permissionList
-        }
-    }
-
-    fun requestPermission(vararg permission: String): EdgePermissionManagement {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mList.addAll(permission)
-            //Filtrate Agree Permission
-            var listFilter = mList.filter {
-                if (ContextCompat.checkSelfPermission(EdgeConfig.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
-                    false
-                } else {
-                    true
-                }
-            }
-            mList.clear()
-            mList.addAll(listFilter)
-        }
-        return this
-    }
-
-    fun requestPackageNeedPermission(): EdgePermissionManagement {
-        var permissions = getPackageNeedPermission()
-        permissions?.forEach {
-            mList.add(it)
-        }
-        return this
-    }
-
-    fun build(activity: AppCompatActivity): EdgePermissionManagement {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            activity?.requestPermissions(mList.toTypedArray(), REQUEST_PERMISSION)
-        } else {
-            activity.onRequestPermissionsResult(REQUEST_PERMISSION, arrayOf(), intArrayOf())
-        }
-        return this
     }
 
 }

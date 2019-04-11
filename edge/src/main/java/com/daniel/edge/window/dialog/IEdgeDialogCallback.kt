@@ -8,7 +8,7 @@ import android.view.View
  * @Date: 2018/12/11
  * @Description:
  */
-interface IDialogCallback {
+interface IEdgeDialogCallback {
     fun onDialogDisplay(v: View?,dialog:Dialog )
     fun onDialogDismiss()
 }

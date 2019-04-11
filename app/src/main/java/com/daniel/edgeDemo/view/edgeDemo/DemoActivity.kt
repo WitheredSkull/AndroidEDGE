@@ -1,5 +1,6 @@
 package com.daniel.edgeDemo.view.edgeDemo
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.daniel.edgeDemo.R
 import com.daniel.edgeDemo.databinding.ActivityDemoBinding
 import com.daniel.edge.management.fragment.EdgeFragmentManager
+import com.daniel.edge.management.permission.EdgePermissionActivity
 import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edgeDemo.viewModel.DemoViewModel
@@ -16,10 +18,18 @@ import com.daniel.edgeDemo.viewModel.DemoViewModel
 class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     OnEdgePermissionCallBack {
     override fun onRequestPermissionSuccess() {
-
+        activityDemoBinding.navigation.setOnNavigationItemSelectedListener(this)
+        EdgeFragmentManager.addFragments(
+            R.id.fragmentLayout,
+            supportFragmentManager,
+            DemoHomeFragment::class.java,
+            DemoDashboardFragment::class.java,
+            DemoNotificationsFragment::class.java
+        )
     }
 
     override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
+        onRequestPermissionSuccess()
     }
 
     lateinit var activityDemoBinding: ActivityDemoBinding
@@ -60,19 +70,13 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityDemoBinding = DataBindingUtil.setContentView(this, R.layout.activity_demo)
-        activityDemoBinding.navigation.setOnNavigationItemSelectedListener(this)
         viewModel = ViewModelProviders.of(this).get(DemoViewModel::class.java)
         activityDemoBinding.viewModel = viewModel
         activityDemoBinding.lifecycleOwner = this
-        EdgeFragmentManager.addFragments(
-            R.id.fragmentLayout,
-            supportFragmentManager,
-            DemoHomeFragment::class.java,
-            DemoDashboardFragment::class.java,
-            DemoNotificationsFragment::class.java
-        )
-        EdgePermissionManagement().requestPackageNeedPermission()
-            .build(this)
+        EdgePermissionManagement
+            .setOnCallBack(this)
+            .requestPackageNeedPermission()
+            .build()
     }
 
     override fun onBackPressed() {
@@ -86,10 +90,5 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         if (!isBack)
             super.onBackPressed()
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        EdgePermissionManagement.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }

@@ -1,47 +1,52 @@
 package com.daniel.edge.view.webView.model
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
+import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.daniel.edge.config.EdgeConfig
+import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
+import com.daniel.edge.R
+import com.daniel.edge.config.Edge
 import com.daniel.edge.management.application.EdgeApplicationManagement
-import com.daniel.edge.utils.log.EdgeLog
-import com.daniel.edge.utils.toast.EdgeToastUtils
+import com.daniel.edge.utils.text.EdgeTextUtils
+import com.daniel.edge.window.dialog.IEdgeDialogCallback
+import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
+import com.daniel.edge.window.dialog.bottomSheetDialog.model.OnEdgeDialogClickListener
 import java.lang.Exception
+import java.lang.ref.WeakReference
 import java.net.URLDecoder
 
 // Create Time 2018/10/31
 // Create Author Daniel 
-class EdgeWebViewClient : WebViewClient() {
-    companion object {
-        /**
-         * intent ' s scheme
-         */
-        val INTENT_SCHEME = "intent://"
-        /**
-         * Wechat pay scheme ，用于唤醒微信支付
-         */
-        val WEBCHAT_PAY_SCHEME = "weixin://wap/pay?"
-        /**
-         * 支付宝
-         */
-        val ALIPAYS_SCHEME = "alipays://"
-        /**
-         * http scheme
-         */
-        val HTTP_SCHEME = "http://"
-        /**
-         * https scheme
-         */
-        val HTTPS_SCHEME = "https://"
+class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
+
+    var activity: WeakReference<FragmentActivity>
+    var mCacheOpenAppName: String? = null
+    var mCacheOpenIntent: Intent? = null
+    override fun onClick(parent: View, view: View, dialog: Dialog) {
+        when (view.id) {
+            R.id.tv_allow -> {
+                onOpenAppAllow()
+            }
+            R.id.tv_reject -> {
+            }
+        }
+        if (dialog.isShowing) {
+            dialog.dismiss()
+        }
+        //做完操作后需要删除记录保证程序的稳定运行
+        mCacheOpenAppName = null
+        mCacheOpenIntent = null
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
         super.onPageFinished(view, url)
-        var js =
+        val js =
             "var child = document.children;" +
                     "var arr = [];" +
                     "function findSrc(obj) {" +
@@ -68,13 +73,8 @@ class EdgeWebViewClient : WebViewClient() {
         } else if (url.startsWith(HTTP_SCHEME) || url.startsWith(HTTPS_SCHEME)) {
             return false
         } else {
-            try {
-                startActivity(url)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                return true
-            }
+            startActivity(url)
+            return true
         }
 
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -89,25 +89,86 @@ class EdgeWebViewClient : WebViewClient() {
         return super.shouldInterceptRequest(view, url)
     }
 
+    open fun onOpenAppAllow() {
+        try {
+            Edge.CONTEXT.startActivity(mCacheOpenIntent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+        }
+    }
+
     fun startActivity(url: String) {
-        val intent = Intent()
-        intent.action = Intent.ACTION_VIEW
-        var uri = Uri.parse(url)
+        mCacheOpenIntent = Intent()
+        mCacheOpenIntent?.action = Intent.ACTION_VIEW
+        val uri = Uri.parse(url)
+        mCacheOpenIntent?.data = uri
         var deCodeUrl = URLDecoder.decode(url)
-        var appName: String? = null
-        if (deCodeUrl.contains("package")) {
+        if (deCodeUrl.contains(WEBCHAT_PAY_SCHEME)) {
+            mCacheOpenAppName = "微信"
+        } else if (deCodeUrl.contains(ALIPAYS_SCHEME)) {
+            mCacheOpenAppName = "支付宝"
+        } else if (deCodeUrl.contains(Baidu_SCHEME)) {
+            mCacheOpenAppName = "百度"
+        } else if (deCodeUrl.contains("package")) {
             deCodeUrl = deCodeUrl.substring(deCodeUrl.indexOf("package=") + 8, deCodeUrl.length)
             deCodeUrl = deCodeUrl.substring(0, deCodeUrl.indexOf(";"))
-            appName = EdgeApplicationManagement.appName(deCodeUrl)
-        } else if (deCodeUrl.contains(WEBCHAT_PAY_SCHEME)) {
-            appName = "微信"
-        } else if (deCodeUrl.contains(ALIPAYS_SCHEME)) {
-            appName = "支付宝"
+            mCacheOpenAppName = EdgeApplicationManagement.appName(deCodeUrl)
+            if (mCacheOpenAppName.isNullOrEmpty() && !deCodeUrl.isNullOrEmpty()) {
+                mCacheOpenAppName = deCodeUrl
+            }
         }
-        if (appName.isNullOrEmpty()){
-            EdgeToastUtils.getInstance().show(appName!!)
+
+        activity.get()?.let {
+            EdgeBottomSheetDialogFragment.build(it.supportFragmentManager, R.layout.dialog_baise)
+                .setTransparencyBottomSheetDialog()
+                .addOnClick(this, R.id.tv_allow, R.id.tv_reject)
+                .setDialogCallback(object : IEdgeDialogCallback {
+                    override fun onDialogDismiss() {
+
+                    }
+
+                    override fun onDialogDisplay(v: View?, dialog: Dialog) {
+                        v?.findViewById<TextView>(R.id.tv_content)?.text =
+                            if (EdgeTextUtils.isEmpty(mCacheOpenAppName)) {
+                                Edge.CONTEXT.getString(R.string.open_external_app_format)
+                            } else {
+                                String.format(Edge.CONTEXT.getString(R.string.open_app_format), mCacheOpenAppName)
+                            }
+                    }
+                })
+                .show()
         }
-        intent.data = uri
-        EdgeConfig.CONTEXT.startActivity(intent)
+    }
+
+    constructor(activity: WeakReference<FragmentActivity>) : super() {
+        this.activity = activity
+    }
+
+    companion object {
+        /**
+         * 支付宝
+         */
+        val ALIPAYS_SCHEME = "alipays://"
+        /**
+         * 百度
+         */
+        val Baidu_SCHEME = "baiduboxapp://"
+        /**
+         * https scheme
+         */
+        val HTTPS_SCHEME = "https://"
+        /**
+         * http scheme
+         */
+        val HTTP_SCHEME = "http://"
+        /**
+         * intent ' s scheme
+         */
+        val INTENT_SCHEME = "intent://"
+        /**
+         * Wechat pay scheme ，用于唤醒微信支付
+         */
+        val WEBCHAT_PAY_SCHEME = "weixin://wap/pay?"
     }
 }

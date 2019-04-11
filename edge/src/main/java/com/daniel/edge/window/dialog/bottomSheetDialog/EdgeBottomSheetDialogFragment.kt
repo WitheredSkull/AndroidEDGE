@@ -10,9 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.IdRes
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentManager
 import com.daniel.edge.R
-import com.daniel.edge.window.dialog.IDialogCallback
+import com.daniel.edge.window.dialog.IEdgeDialogCallback
 import com.daniel.edge.window.dialog.bottomSheetDialog.model.OnEdgeDialogClickListener
 import java.lang.Exception
 
@@ -22,76 +23,41 @@ import java.lang.Exception
  * @Description:
  */
 class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
-    override fun onClick(v: View) {
-        mOnClickListener?.onClick(mView!!,v, dialog)
-    }
 
     //Dialog
     private var bottomSheetDialog: BottomSheetDialog? = null
-    //打开次数
-    private var startCount = 0
     //管理器
     private var fm: FragmentManager? = null
-    //View
-    private var mView: View? = null
+    //透明度
+    private var mDimAmount = -1f
+    //Dialog现实和关闭回调
+    private var mEdgeDialogCallback: IEdgeDialogCallback? = null
+    //是否使用透明主题
+    private var mIsTransparencyBottomSheetDialog = false
     //布局
     private var mLayout: Int? = null
-    //透明度
-    private var mDimAmount = 0f
-    //Dialog现实和关闭回调
-    private var mDialogCallback: IDialogCallback? = null
     //点击事件Id集合
     private var mOnClickIdRes = arrayListOf<Int>()
     //点击事件
     private var mOnClickListener: OnEdgeDialogClickListener? = null
+    //View
+    private var mView: View? = null
+    //打开次数
+    private var startCount = 0
 
-    companion object {
-        /**
-         * @return 返回BottomSheetDialogFragment
-         * @param fm 管理器
-         * @param layoutRes 布局
-         */
-        fun build(fm: FragmentManager, layoutRes: Int): EdgeBottomSheetDialogFragment {
-            val dialogFragment = EdgeBottomSheetDialogFragment()
-            dialogFragment.mLayout = layoutRes
-            dialogFragment.fm = fm
-            return dialogFragment
-        }
-
-        /**
-         * @return 返回BottomSheetDialogFragment
-         * @param fm 管理器
-         * @param layoutView 布局
-         */
-        fun build(fm: FragmentManager, layoutView: View): EdgeBottomSheetDialogFragment {
-            val dialogFragment = EdgeBottomSheetDialogFragment()
-            dialogFragment.mView = layoutView
-            dialogFragment.fm = fm
-            return dialogFragment
-        }
-    }
-
-    /**
-     * @param callback 设置Dialog的回调
-     */
-    fun setDialogCallback(callback: IDialogCallback): EdgeBottomSheetDialogFragment {
-        mDialogCallback = callback
-        return this
-    }
-
-    /**
-     * @param dimAmount 界面透明度
-     */
-    fun setDimAmount(dimAmount: Float): EdgeBottomSheetDialogFragment {
-        mDimAmount = dimAmount
-        bottomSheetDialog?.window?.setDimAmount(mDimAmount)
-        return this
+    override fun onClick(v: View) {
+        mOnClickListener?.onClick(mView!!, v, dialog)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //设置主题样式和对象
-        bottomSheetDialog =
-            BottomSheetDialog(context!!, R.style.TransparencyBottomSheetDialog)
+        if (mIsTransparencyBottomSheetDialog) {
+            bottomSheetDialog =
+                BottomSheetDialog(context!!, R.style.TransparencyBottomSheetDialog)
+        }else{
+            bottomSheetDialog =
+                BottomSheetDialog(context!!)
+        }
         if (mView == null && mLayout == null) {
             throw Exception("没有Build或没有传入正确的视图\nNo EdgeBottomSheetDialogFragment.build Or not pass in the specified parameter!!!")
         }
@@ -106,38 +72,20 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
         //初始化点击事件
         setOnClick()
         //初始化透明度
-        bottomSheetDialog?.window?.setDimAmount(mDimAmount)
+        if (mDimAmount != -1f) {
+            bottomSheetDialog?.window?.setDimAmount(mDimAmount)
+        }
         return bottomSheetDialog!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mDialogCallback?.onDialogDisplay(mView, dialog)
+        mEdgeDialogCallback?.onDialogDisplay(mView, dialog)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
-        mDialogCallback?.onDialogDismiss()
-    }
-
-    /**
-     * 设置点击事件
-     * @param onClickListener 点击回调接口
-     * @param resIds 资源ID
-     */
-    fun addOnClick(onClickListener: OnEdgeDialogClickListener, @IdRes vararg resIds: Int): EdgeBottomSheetDialogFragment {
-        mOnClickListener = onClickListener
-        mOnClickIdRes.addAll(resIds.toList())
-        setOnClick()
-        return this
-    }
-
-    private fun setOnClick() {
-        mView?.let {
-            mOnClickIdRes.forEach {
-                mView!!.findViewById<View>(it)?.setOnClickListener(this)
-            }
-        }
+        mEdgeDialogCallback?.onDialogDismiss()
     }
 
     override fun onStart() {
@@ -155,11 +103,79 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
         }
     }
 
+    /**
+     * 设置点击事件
+     * @param onClickListener 点击回调接口
+     * @param resIds 资源ID
+     */
+    fun addOnClick(onClickListener: OnEdgeDialogClickListener, @IdRes vararg resIds: Int): EdgeBottomSheetDialogFragment {
+        mOnClickListener = onClickListener
+        mOnClickIdRes.addAll(resIds.toList())
+        setOnClick()
+        return this
+    }
+
+    /**
+     * @param callbackEdge 设置Dialog的回调
+     */
+    fun setDialogCallback(callbackEdge: IEdgeDialogCallback): EdgeBottomSheetDialogFragment {
+        mEdgeDialogCallback = callbackEdge
+        return this
+    }
+
+    /**
+     * @param dimAmount 界面透明度
+     */
+    fun setDimAmount(dimAmount: Float): EdgeBottomSheetDialogFragment {
+        mDimAmount = dimAmount
+        bottomSheetDialog?.window?.setDimAmount(mDimAmount)
+        return this
+    }
+
+    fun setTransparencyBottomSheetDialog():EdgeBottomSheetDialogFragment {
+        mIsTransparencyBottomSheetDialog = true
+        return this
+    }
+
     fun show(tag: String? = null) {
         if (TextUtils.isEmpty(tag)) {
             return show(fm, "${System.currentTimeMillis()}")
         } else {
             return show(fm, tag)
+        }
+    }
+
+    private fun setOnClick() {
+        mView?.let {
+            mOnClickIdRes.forEach {
+                mView!!.findViewById<View>(it)?.setOnClickListener(this)
+            }
+        }
+    }
+
+    companion object {
+        /**
+         * @return 返回BottomSheetDialogFragment
+         * @param fm 管理器
+         * @param layoutRes 布局
+         */
+        fun build(fm: FragmentManager, @LayoutRes layoutRes: Int): EdgeBottomSheetDialogFragment {
+            val dialogFragment = EdgeBottomSheetDialogFragment()
+            dialogFragment.mLayout = layoutRes
+            dialogFragment.fm = fm
+            return dialogFragment
+        }
+
+        /**
+         * @return 返回BottomSheetDialogFragment
+         * @param fm 管理器
+         * @param layoutView 布局
+         */
+        fun build(fm: FragmentManager, layoutView: View): EdgeBottomSheetDialogFragment {
+            val dialogFragment = EdgeBottomSheetDialogFragment()
+            dialogFragment.mView = layoutView
+            dialogFragment.fm = fm
+            return dialogFragment
         }
     }
 

@@ -2,10 +2,9 @@ package com.daniel.edge.utils.sharePreference
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.daniel.edge.management.file.EdgeFileManagement
 import com.daniel.edge.management.file.model.EdgeBaseFileProperty
-import com.daniel.edge.utils.log.EdgeLog
 import java.lang.ClassCastException
 
 /**
@@ -18,7 +17,7 @@ object EdgeSharePreferencesUtils {
     //获取SharedPreferences
     @JvmStatic
     fun getSP(fileName: String): SharedPreferences {
-        return EdgeConfig.CONTEXT.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+        return Edge.CONTEXT.getSharedPreferences(fileName, Context.MODE_PRIVATE)
     }
 
     //通过文件名属性名以及基础类型获取属性值

@@ -1,21 +1,34 @@
 package com.daniel.edge.view.webView.model
 
+import android.Manifest
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Message
 import android.view.View
 import android.webkit.*
+import androidx.fragment.app.FragmentActivity
+import com.daniel.edge.R
+import com.daniel.edge.config.Edge
+import com.daniel.edge.management.permission.EdgePermissionManagement
+import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edge.utils.log.EdgeLog
+import com.daniel.edge.utils.text.EdgeTextUtils
+import com.daniel.edge.utils.viewUtils.EdgeViewHelperUtils
+import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
+import java.lang.ref.WeakReference
 
 
 // Create Time 2018/10/30
 // Create Author Daniel 
 class EdgeWebChromeClient : WebChromeClient {
-    var context: Context
+    var mWebView: WeakReference<WebView>
+    var activity: WeakReference<FragmentActivity>
+    var mWebTitle: String? = null
 
-    constructor(context: Context) {
-        this.context = context
+    constructor(activity: WeakReference<FragmentActivity>, webView: WebView) : super() {
+        this.mWebView = WeakReference(webView)
+        this.activity = activity
     }
 
     //请求打开上传文件
@@ -26,7 +39,7 @@ class EdgeWebChromeClient : WebChromeClient {
     //通知应用程序当前网页加载的进度
     override fun onProgressChanged(p0: WebView?, p1: Int) {
         super.onProgressChanged(p0, p1)
-        EdgeLog.show(javaClass,"进度","${p1}")
+        EdgeLog.show(javaClass, "进度", "${p1}")
     }
 
     //获取网页Icon
@@ -36,6 +49,7 @@ class EdgeWebChromeClient : WebChromeClient {
 
     //获取网页标题
     override fun onReceivedTitle(p0: WebView?, p1: String?) {
+        mWebTitle = p1
         super.onReceivedTitle(p0, p1)
     }
 
@@ -62,6 +76,7 @@ class EdgeWebChromeClient : WebChromeClient {
     override fun onShowCustomView(view: View?, requestedOrientation: Int, callback: CustomViewCallback?) {
         super.onShowCustomView(view, requestedOrientation, callback)
     }
+
     //退出视频通知
     override fun onHideCustomView() {
         super.onHideCustomView()
@@ -111,6 +126,48 @@ class EdgeWebChromeClient : WebChromeClient {
 
     //当前页面请求是否允许进行定位。
     override fun onGeolocationPermissionsShowPrompt(origin: String?, callback: GeolocationPermissions.Callback?) {
+        EdgeLog.show(javaClass,"获取权限","需要")
+        activity.get()?.let {
+            EdgePermissionManagement.setOnCallBack(object : OnEdgePermissionCallBack {
+                override fun onRequestPermissionSuccess() {
+                    EdgeViewHelperUtils.showBasicsDialog(
+                        it.supportFragmentManager, R.layout.dialog_baise, Edge.CONTEXT.getString(R.string.edge_tip),
+                        String.format(
+                            Edge.CONTEXT.getString(R.string.need_location_format),
+                            if (EdgeTextUtils.isEmpty(mWebTitle)) {
+                                ""
+                            } else {
+                                mWebTitle
+                            }
+                        ),
+                        Edge.CONTEXT.getString(R.string.allow),
+                        Edge.CONTEXT.getString(R.string.reject),
+                        object : View.OnClickListener {
+                            override fun onClick(v: View?) {
+                                callback?.invoke(origin, true, true)
+                                mWebView.get()?.reload()
+                            }
+                        },
+                        null
+                    )
+                }
+
+                override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
+                    var haveLocation = true
+                    permissions.forEach {
+                        if (it.contains("LOCATION")){
+                            haveLocation = false
+                        }
+                    }
+                    if (haveLocation){
+                        onRequestPermissionSuccess()
+                    }
+                }
+
+            }).requestPermission(Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                .build()
+        }
         super.onGeolocationPermissionsShowPrompt(origin, callback)
     }
 
@@ -121,7 +178,7 @@ class EdgeWebChromeClient : WebChromeClient {
 
     //控制台輸出
     override fun onConsoleMessage(p0: ConsoleMessage?): Boolean {
-        EdgeLog.show(javaClass,"打印日志",p0?.message())
+        EdgeLog.show(javaClass, "打印日志", p0?.message())
         return true
     }
 

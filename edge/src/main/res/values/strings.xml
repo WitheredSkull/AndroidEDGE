@@ -13,4 +13,15 @@
     <string name="thursday">星期四</string>
     <string name="friday">星期五</string>
     <string name="saturday">星期六</string>
+
+    <!--打开软件-->
+    <string name="open_app_format">是否允许在线打开%1$s</string>
+    <string name="open_external_app_format">是否允许打开外部应用</string>
+    <string name="allow">允许</string>
+    <string name="reject">拒绝</string>
+
+    <!--Web-->
+    <string name="edge_tip">提示</string>
+    <string name="need_location_format">%1$s需要定位权限</string>
+
 </resources>

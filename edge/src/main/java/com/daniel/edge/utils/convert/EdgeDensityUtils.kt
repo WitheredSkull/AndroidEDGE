@@ -1,7 +1,7 @@
 package com.daniel.edge.utils.convert
 
 import android.util.TypedValue
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 
 /**
  * 创建人 Daniel
@@ -36,22 +36,22 @@ object EdgeDensityUtils {
     //DP转PX系统转换
     @JvmStatic
     fun dp2pxSystem(dp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, EdgeConfig.CONTEXT.resources.displayMetrics)
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Edge.CONTEXT.resources.displayMetrics)
             .toInt()
     }
 
     //SP转PX系统转换
     @JvmStatic
     fun sp2pxSystem(sp: Float): Int {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, EdgeConfig.CONTEXT.resources.displayMetrics)
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, Edge.CONTEXT.resources.displayMetrics)
             .toInt()
     }
 
     private fun getDensity(): Float {
-        return EdgeConfig.CONTEXT.resources.displayMetrics.density
+        return Edge.CONTEXT.resources.displayMetrics.density
     }
 
     private fun getScaledDensity(): Float {
-        return EdgeConfig.CONTEXT.resources.displayMetrics.scaledDensity
+        return Edge.CONTEXT.resources.displayMetrics.scaledDensity
     }
 }

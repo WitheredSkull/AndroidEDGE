@@ -3,7 +3,7 @@ package com.daniel.edge.management.file
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.text.TextUtils
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.daniel.edge.management.file.model.EdgeBaseFileProperty
 import com.daniel.edge.utils.exception.EdgeException
 import java.io.*
@@ -19,7 +19,7 @@ object EdgeFileManagement {
     //读取data/data/包名目录
     @JvmStatic
     fun getPackagePath(): String {
-        return EdgeConfig.CONTEXT.cacheDir.parent
+        return Edge.CONTEXT.cacheDir.parent
     }
 
     //读取SP目录

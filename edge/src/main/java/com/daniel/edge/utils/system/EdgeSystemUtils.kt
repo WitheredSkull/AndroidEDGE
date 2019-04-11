@@ -3,7 +3,7 @@ package com.daniel.edge.utils.system
 import android.app.ActivityManager
 import android.content.Context
 import android.content.pm.ApplicationInfo
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 
 /**
  * 创建人 Daniel
@@ -15,7 +15,7 @@ object EdgeSystemUtils {
     @JvmStatic
     fun isApkInDebug(): Boolean {
         try {
-            val info = EdgeConfig.CONTEXT.applicationInfo
+            val info = Edge.CONTEXT.applicationInfo
             return info.flags and ApplicationInfo.FLAG_DEBUGGABLE != 0
         } catch (e: Exception) {
             e.printStackTrace()
@@ -25,7 +25,7 @@ object EdgeSystemUtils {
 
     @JvmStatic
     fun isMainProcess():Boolean{
-        if (EdgeConfig.CONTEXT.getPackageName().equals(processName())){
+        if (Edge.CONTEXT.getPackageName().equals(processName())){
             return true
         }else{
             return false
@@ -35,7 +35,7 @@ object EdgeSystemUtils {
     @JvmStatic
     fun processName():String{
         var pid = android.os.Process.myPid()
-        var manager = EdgeConfig.CONTEXT.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        var manager = Edge.CONTEXT.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         manager.runningAppProcesses.forEach {
             if (it.pid == pid){
                 return it.processName

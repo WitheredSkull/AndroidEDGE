@@ -41,5 +41,4 @@
         <activity android:name="com.daniel.edgeDemo.view.account.AccountActivity" />
         <activity android:name="com.daniel.edgeDemo.view.MainActivity" />
     </application>
-
 </manifest>

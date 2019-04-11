@@ -156,4 +156,12 @@ object EdgeTextUtils {
         }
         return s
     }
+
+    fun isEmpty(_s: String?): Boolean {
+        if (_s.isNullOrEmpty() || _s!!.toLowerCase().equals("null")) {
+            return true
+        }else{
+            return false
+        }
+    }
 }

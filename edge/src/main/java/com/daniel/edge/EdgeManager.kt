@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.os.Bundle
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.daniel.edge.utils.log.model.EdgeLogConfig
 import com.daniel.edge.utils.log.model.EdgeLogType
 import com.daniel.edge.management.activity.EdgeActivityManagement
@@ -39,14 +39,14 @@ class EdgeManager(application: Application) {
     }
 
     init {
-        EdgeConfig.CONTEXT = application.applicationContext
+        Edge.CONTEXT = application.applicationContext
         context = application.applicationContext
         this.application = application
     }
 
     //设置数据库版本哈
     fun initEdgeDatabaseVersion(version:Int):EdgeManager{
-        EdgeConfig.DATABASE_VERSION = version
+        Edge.DATABASE_VERSION = version
         return this
     }
 

@@ -1,10 +1,17 @@
 package com.daniel.edge.utils.viewUtils
 
+import android.app.Dialog
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.LayoutRes
+import androidx.fragment.app.FragmentManager
+import com.daniel.edge.R
+import com.daniel.edge.window.dialog.IEdgeDialogCallback
+import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
+import com.daniel.edge.window.dialog.bottomSheetDialog.model.OnEdgeDialogClickListener
 
 /**
  * @Author:      Daniel
@@ -72,5 +79,43 @@ object EdgeViewHelperUtils {
             }
         }
         return true
+    }
+
+    fun showBasicsDialog(
+        fm: FragmentManager, @LayoutRes layoutRes: Int,
+        title: String,
+        content: String,
+        confirm: String,
+        reject: String,
+        onConfirmClickListener: View.OnClickListener?,
+        onRejectClickListener: View.OnClickListener?
+    ) {
+        EdgeBottomSheetDialogFragment.build(fm, layoutRes)
+            .setTransparencyBottomSheetDialog()
+            .setDialogCallback(object : IEdgeDialogCallback {
+                override fun onDialogDisplay(v: View?, dialog: Dialog) {
+                    v?.findViewById<TextView>(R.id.tv_title)?.text = title
+                    v?.findViewById<TextView>(R.id.tv_content)?.text = content
+                    v?.findViewById<TextView>(R.id.tv_allow)?.text = confirm
+                    v?.findViewById<TextView>(R.id.tv_reject)?.text = reject
+                }
+
+                override fun onDialogDismiss() {
+                }
+            })
+            .addOnClick(object : OnEdgeDialogClickListener {
+                override fun onClick(parent: View, view: View, dialog: Dialog) {
+                    when (view.id) {
+                        R.id.tv_allow -> {
+                            onConfirmClickListener?.onClick(view)
+                        }
+                        R.id.tv_reject -> {
+                            onRejectClickListener?.onClick(view)
+                        }
+                    }
+                    dialog.dismiss()
+                }
+            }, R.id.tv_allow, R.id.tv_allow)
+            .show()
     }
 }

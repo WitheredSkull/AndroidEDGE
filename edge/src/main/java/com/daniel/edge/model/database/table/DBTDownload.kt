@@ -2,7 +2,7 @@ package com.daniel.edge.model.database.table
 
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.management.download.model.EdgeDownloadModel
 import com.daniel.edge.model.database.sqlite.DatabaseHelper
@@ -43,7 +43,7 @@ class DBTDownload {
 
 
     init {
-        db = DatabaseHelper(EdgeConfig.CONTEXT).writableDatabase
+        db = DatabaseHelper(Edge.CONTEXT).writableDatabase
     }
 
 

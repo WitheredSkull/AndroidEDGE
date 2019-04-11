@@ -1,7 +1,7 @@
 package com.daniel.edge.utils.time
 
 import android.text.TextUtils
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.daniel.edge.R
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
@@ -18,13 +18,13 @@ object EdgeTimeUtils {
         var calendar = Calendar.getInstance()
         val i = calendar.get(Calendar.DAY_OF_WEEK)
         var week = when (i) {
-            1 -> EdgeConfig.CONTEXT.getString(R.string.sunday)
-            2 -> EdgeConfig.CONTEXT.getString(R.string.monday)
-            3 -> EdgeConfig.CONTEXT.getString(R.string.tuesday)
-            4 -> EdgeConfig.CONTEXT.getString(R.string.wednesday)
-            5 -> EdgeConfig.CONTEXT.getString(R.string.thursday)
-            6 -> EdgeConfig.CONTEXT.getString(R.string.friday)
-            7 -> EdgeConfig.CONTEXT.getString(R.string.saturday)
+            1 -> Edge.CONTEXT.getString(R.string.sunday)
+            2 -> Edge.CONTEXT.getString(R.string.monday)
+            3 -> Edge.CONTEXT.getString(R.string.tuesday)
+            4 -> Edge.CONTEXT.getString(R.string.wednesday)
+            5 -> Edge.CONTEXT.getString(R.string.thursday)
+            6 -> Edge.CONTEXT.getString(R.string.friday)
+            7 -> Edge.CONTEXT.getString(R.string.saturday)
             else -> {
                 ""
             }

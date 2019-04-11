@@ -1,5 +1,6 @@
 package com.daniel.edge.config
 
+import android.annotation.SuppressLint
 import android.content.Context
 
 /**
@@ -7,7 +8,8 @@ import android.content.Context
  * 时间   2018/11/6.
  * 简介   xxx
  */
-object EdgeConfig {
+@SuppressLint("StaticFieldLeak")
+object Edge {
     @JvmStatic
     lateinit var CONTEXT:Context
     @JvmStatic

@@ -1,7 +1,5 @@
 package com.daniel.edge.view.webView
 
-import android.app.Activity
-import android.content.Context
 import android.os.Build
 import android.view.View
 import androidx.annotation.IdRes
@@ -10,17 +8,19 @@ import android.webkit.WebView
 import com.daniel.edge.view.webView.model.EdgeWebChromeClient
 import com.daniel.edge.view.webView.model.EdgeWebViewClient
 import java.io.File
-import androidx.core.view.ViewCompat.setLayerType
+import androidx.fragment.app.FragmentActivity
+import com.daniel.edge.config.Edge
 import com.daniel.edge.utils.netWork.EdgeNetWorkStatusUtils
 import com.daniel.edge.view.webView.model.JavascriptResponse
+import java.lang.ref.WeakReference
 
 
 // Create Time 2018/11/1
 // Create Author Daniel 
-class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
+class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebView, @IdRes id: Int) {
 
 
-    var activity: Activity
+    var activity: WeakReference<FragmentActivity>
     var edgeCachePath: String;
     lateinit var webChromeClient: EdgeWebChromeClient
     lateinit var webSettings: WebSettings
@@ -42,18 +42,17 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
 
     fun closeWebView(): EdgeWebViewUtils {
         webView.destroy()
-        activity.finish()
         return this
     }
 
     fun initDefaultChromeClient(): EdgeWebViewUtils {
-        webChromeClient = EdgeWebChromeClient(activity as Context);
+        webChromeClient = EdgeWebChromeClient(activity,webView);
         webView.webChromeClient = webChromeClient
         return this
     }
 
     fun initDefaultClient(): EdgeWebViewUtils {
-        webViewClient = EdgeWebViewClient();
+        webViewClient = EdgeWebViewClient(activity);
         webView.webViewClient = webViewClient;
         return this
     }
@@ -73,7 +72,7 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
         LOAD_CACHE_ELSE_NETWORK，只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。*/
         if (EdgeNetWorkStatusUtils.isNetworkConnected()) {
             webSettings.cacheMode = WebSettings.LOAD_DEFAULT
-        }else{
+        } else {
             webSettings.cacheMode = WebSettings.LOAD_CACHE_ELSE_NETWORK
         }
         //设置缓存路径
@@ -163,7 +162,7 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         }
-        webView.addJavascriptInterface(JavascriptResponse(),"android")
+        webView.addJavascriptInterface(JavascriptResponse(), "android")
         return this
     }
 
@@ -181,12 +180,12 @@ class EdgeWebViewUtils(activity: Activity,webView:WebView, @IdRes id: Int) {
     init {
         this.activity = activity
         this.webView = webView
-        edgeCachePath = activity.externalCacheDir.absolutePath + "/EdgeWebCache";
+        edgeCachePath = Edge.CONTEXT.externalCacheDir.absolutePath + "/EdgeWebCache";
     }
 
     companion object {
-        fun build(activity: Activity,webView:WebView, @IdRes id: Int): EdgeWebViewUtils {
-            var webViewUtils = EdgeWebViewUtils(activity,webView, id)
+        fun build(activity: FragmentActivity, webView: WebView, @IdRes id: Int): EdgeWebViewUtils {
+            var webViewUtils = EdgeWebViewUtils(WeakReference(activity), webView, id)
             return webViewUtils
         }
     }

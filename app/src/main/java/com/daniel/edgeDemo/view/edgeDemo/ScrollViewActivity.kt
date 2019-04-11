@@ -7,9 +7,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.daniel.edgeDemo.R
-import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.daniel.edgeDemo.view.edgeDemo.model.NumberAdapter
-import com.daniel.edge.window.dialog.IDialogCallback
+import com.daniel.edge.window.dialog.IEdgeDialogCallback
 import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
 import com.daniel.edge.window.dialog.bottomSheetDialog.model.OnEdgeDialogClickListener
 import kotlinx.android.synthetic.main.activity_scroll_view.*
@@ -31,7 +30,7 @@ class ScrollViewActivity : AppCompatActivity() {
                     }
 
                 },R.id.confirm)
-                .setDialogCallback(object : IDialogCallback {
+                .setDialogCallback(object : IEdgeDialogCallback {
                     override fun onDialogDismiss() {
 
                     }

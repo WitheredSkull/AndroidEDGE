@@ -5,7 +5,7 @@ import android.os.Build
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import android.view.View
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 
 
 /**
@@ -17,7 +17,7 @@ object EdgeAppCompat {
     //获取颜色值兼容6.0以下
     @JvmStatic
     fun getColor(@ColorRes res: Int): Int {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) EdgeConfig.CONTEXT.getColor(res) else EdgeConfig.CONTEXT.resources.getColor(
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) Edge.CONTEXT.getColor(res) else Edge.CONTEXT.resources.getColor(
             res
         )
     }

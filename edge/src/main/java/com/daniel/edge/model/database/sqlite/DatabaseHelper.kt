@@ -3,7 +3,7 @@ package com.daniel.edge.model.database.sqlite
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.daniel.edge.model.database.table.DBTDownload
 
 /**
@@ -21,7 +21,7 @@ class DatabaseHelper : SQLiteOpenHelper {
         context,
         EDGE_LIBRARY_NAME,
         null,
-        EdgeConfig.DATABASE_VERSION
+        Edge.DATABASE_VERSION
     )
 
     override fun onCreate(db: SQLiteDatabase?) {

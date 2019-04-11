@@ -4,8 +4,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.preference.PreferenceManager
-import com.daniel.edge.config.EdgeConfig
-import com.daniel.edge.utils.log.EdgeLog
+import com.daniel.edge.config.Edge
 import com.qiang.keyboard.R
 import com.qiang.keyboard.constant.SPConfig
 import java.lang.Exception
@@ -57,38 +56,38 @@ class AudioUtils {
                 }
                 when (flag) {
                     1 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.mechanical_key_01, 1)
-//                        mediaPlayer = MediaPlayer.create(EdgeConfig.CONTEXT, R.raw.mechanical_key_01)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.mechanical_key_01, 1)
+//                        mediaPlayer = MediaPlayer.create(Edge.CONTEXT, R.raw.mechanical_key_01)
                     2 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.mechanical_key_02, 1)
-//                        mediaPlayer = MediaPlayer.create(EdgeConfig.CONTEXT, R.raw.mechanical_key_02)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.mechanical_key_02, 1)
+//                        mediaPlayer = MediaPlayer.create(Edge.CONTEXT, R.raw.mechanical_key_02)
                     3 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.mechanical_key_03, 1)
-//                        mediaPlayer = MediaPlayer.create(EdgeConfig.CONTEXT, R.raw.mechanical_key_03)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.mechanical_key_03, 1)
+//                        mediaPlayer = MediaPlayer.create(Edge.CONTEXT, R.raw.mechanical_key_03)
                     4 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.mechanical_key_04, 1)
-//                        mediaPlayer = MediaPlayer.create(EdgeConfig.CONTEXT, R.raw.mechanical_key_04)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.mechanical_key_04, 1)
+//                        mediaPlayer = MediaPlayer.create(Edge.CONTEXT, R.raw.mechanical_key_04)
                     5 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.mechanical_key_05, 1)
-//                        mediaPlayer = MediaPlayer.create(EdgeConfig.CONTEXT, R.raw.mechanical_key_05)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.mechanical_key_05, 1)
+//                        mediaPlayer = MediaPlayer.create(Edge.CONTEXT, R.raw.mechanical_key_05)
                     else -> {
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.mechanical_key_01, 1)
-//                        mediaPlayer = MediaPlayer.create(EdgeConfig.CONTEXT, R.raw.mechanical_key_01)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.mechanical_key_01, 1)
+//                        mediaPlayer = MediaPlayer.create(Edge.CONTEXT, R.raw.mechanical_key_01)
                         flag = 0
                     }
                 }
             }
             AudioType.System -> {
                 if (key.equals("Enter")) {
-                    soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.system_enter, 1)
+                    soundId = soundPool.load(Edge.CONTEXT, R.raw.system_enter, 1)
                 } else {
-                    soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.system_key, 1)
+                    soundId = soundPool.load(Edge.CONTEXT, R.raw.system_key, 1)
                 }
                 flag = 0
             }
             AudioType.Typewriter -> {
                 if (key.equals("Enter")) {
-                    soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_enter, 1)
+                    soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_enter, 1)
                     return soundId
                 }
                 if (flag < 5) {
@@ -98,17 +97,17 @@ class AudioUtils {
                 }
                 when (flag) {
                     1 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_key_01, 1)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_key_01, 1)
                     2 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_key_02, 1)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_key_02, 1)
                     3 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_key_03, 1)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_key_03, 1)
                     4 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_key_04, 1)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_key_04, 1)
                     5 ->
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_key_05, 1)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_key_05, 1)
                     else -> {
-                        soundId = soundPool.load(EdgeConfig.CONTEXT, R.raw.typewriter_key_01, 1)
+                        soundId = soundPool.load(Edge.CONTEXT, R.raw.typewriter_key_01, 1)
                         flag = 0
                     }
                 }
@@ -141,7 +140,7 @@ class AudioUtils {
             //获取系统设置的音效类型
             try {
                 AUDIOTYPE =
-                    AudioType.values()[PreferenceManager.getDefaultSharedPreferences(EdgeConfig.CONTEXT).getString(
+                    AudioType.values()[PreferenceManager.getDefaultSharedPreferences(Edge.CONTEXT).getString(
                         SPConfig.AUDIO_TYPE,
                         "1"
                     ).toInt()]

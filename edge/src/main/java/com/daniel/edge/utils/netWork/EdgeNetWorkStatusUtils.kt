@@ -2,12 +2,12 @@ package com.daniel.edge.utils.netWork
 
 import android.content.Context
 import android.net.ConnectivityManager
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 
 
 object EdgeNetWorkStatusUtils {
     fun isNetworkConnected(): Boolean {
-        val mConnectivityManager = EdgeConfig.CONTEXT
+        val mConnectivityManager = Edge.CONTEXT
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val mNetworkInfo = mConnectivityManager.activeNetworkInfo
         if (mNetworkInfo != null) {
@@ -17,7 +17,7 @@ object EdgeNetWorkStatusUtils {
     }
 
     fun isWifiConnected(): Boolean {
-        val mConnectivityManager = EdgeConfig.CONTEXT
+        val mConnectivityManager = Edge.CONTEXT
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val mWiFiNetworkInfo = mConnectivityManager
             .getNetworkInfo(ConnectivityManager.TYPE_WIFI)

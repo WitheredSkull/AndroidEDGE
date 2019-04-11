@@ -1,6 +1,6 @@
 package com.qiang.keyboard.constant
 
-import com.daniel.edge.config.EdgeConfig
+import com.daniel.edge.config.Edge
 import com.qiang.keyboard.R
 
 class KeyboardConfig {
@@ -14,5 +14,5 @@ class KeyboardConfig {
         fun getInstance() = requireNotNull(mInstance)
     }
 
-    val KeyboardFillter = arrayOf(EdgeConfig.CONTEXT.getString(R.string.action_calculate))
+    val KeyboardFillter = arrayOf(Edge.CONTEXT.getString(R.string.action_calculate))
 }

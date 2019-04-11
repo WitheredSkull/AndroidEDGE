@@ -3,15 +3,14 @@ package com.qiang.keyboard.utlis
 import android.os.Build
 import android.os.VibrationEffect
 import android.preference.PreferenceManager
-import com.daniel.edge.config.EdgeConfig
-import com.daniel.edge.utils.log.EdgeLog
+import com.daniel.edge.config.Edge
 import com.qiang.keyboard.constant.App
 import com.qiang.keyboard.constant.SPConfig
 
 object VibrateUtlis {
 
     fun vibrator() {
-        if (isSupport() && PreferenceManager.getDefaultSharedPreferences(EdgeConfig.CONTEXT).getBoolean(
+        if (isSupport() && PreferenceManager.getDefaultSharedPreferences(Edge.CONTEXT).getBoolean(
                 SPConfig.VIBRATION,
                 true
             )) {
