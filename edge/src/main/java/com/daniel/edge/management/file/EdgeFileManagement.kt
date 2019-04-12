@@ -2,6 +2,7 @@ package com.daniel.edge.management.file
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
 import android.text.TextUtils
 import com.daniel.edge.config.Edge
 import com.daniel.edge.management.file.model.EdgeBaseFileProperty
@@ -15,6 +16,14 @@ import java.util.*
  * 简介   获取
  */
 object EdgeFileManagement {
+
+    /**
+     * 获取储存路径
+     */
+    @JvmStatic
+    fun getExternalStorageDirectory():String{
+        return Environment.getExternalStorageDirectory().absolutePath
+    }
 
     //读取data/data/包名目录
     @JvmStatic

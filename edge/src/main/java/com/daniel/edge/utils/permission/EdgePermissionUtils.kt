@@ -1,4 +1,4 @@
-package com.daniel.edge.management.permission
+package com.daniel.edge.utils.permission
 
 import android.content.pm.PackageManager
 import android.os.Build

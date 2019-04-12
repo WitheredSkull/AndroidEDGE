@@ -1,6 +1,7 @@
 package com.daniel.edgeDemo.view.edgeDemo
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,20 +29,21 @@ class DemoDashboardFragment : Fragment() {
     ): View? {
         mView = inflater.inflate(R.layout.fragment_demo_dashboard, container, false)
         mViewHolder = ViewHolderUtils(mView)
-        mWebViewUtils = EdgeWebViewUtils.build(activity!!, mViewHolder.webView, R.id.webView)
+        mWebViewUtils = EdgeWebViewUtils.Build(activity!!, mViewHolder.webView, R.id.webView)
 //        mWebViewUtils.initDefaultChromeClient()
         mWebViewUtils.initDefaultChromeClient()
-        mWebViewUtils.initDefaultClient()
-        mWebViewUtils.initDefaultSetting()
-        mWebViewUtils.webView.loadUrl("https://www.baidu.com")
+            .initDefaultClient()
+            .initDefaultSetting()
+            .load("http://chuantu.biz/")
+            .build()
         return mView
     }
 
-    fun onBack():Boolean {
-        if (mWebViewUtils.webView.canGoBack()){
+    fun onBack(): Boolean {
+        if (mWebViewUtils.webView.canGoBack()) {
             mWebViewUtils.webView.goBack()
             return true
-        }else{
+        } else {
             return false
         }
     }

@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.daniel.edgeDemo.R
 import com.daniel.edgeDemo.databinding.ActivityDemoBinding
 import com.daniel.edge.management.fragment.EdgeFragmentManager
-import com.daniel.edge.management.permission.EdgePermissionActivity
 import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edgeDemo.viewModel.DemoViewModel
@@ -74,9 +73,14 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         activityDemoBinding.viewModel = viewModel
         activityDemoBinding.lifecycleOwner = this
         EdgePermissionManagement
+            .Build()
             .setOnCallBack(this)
             .requestPackageNeedPermission()
             .build()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun onBackPressed() {

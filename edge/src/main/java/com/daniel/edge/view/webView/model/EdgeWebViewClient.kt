@@ -27,13 +27,18 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
 
     var activity: WeakReference<FragmentActivity>
     var mCacheOpenAppName: String? = null
+    var mCacheOpenAppURL: String? = null
     var mCacheOpenIntent: Intent? = null
+    var mOpenAppHistory = arrayListOf<String>()
     override fun onClick(parent: View, view: View, dialog: Dialog) {
         when (view.id) {
             R.id.tv_allow -> {
                 onOpenAppAllow()
             }
             R.id.tv_reject -> {
+                mCacheOpenAppURL?.let {
+                    mOpenAppHistory.add(it)
+                }
             }
         }
         if (dialog.isShowing) {
@@ -42,6 +47,7 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
         //做完操作后需要删除记录保证程序的稳定运行
         mCacheOpenAppName = null
         mCacheOpenIntent = null
+        mCacheOpenAppURL = null
     }
 
     override fun onPageFinished(view: WebView?, url: String?) {
@@ -99,6 +105,10 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
     }
 
     fun startActivity(url: String) {
+        if (mOpenAppHistory.contains(url)) {
+            return
+        }
+        mCacheOpenAppURL = url
         mCacheOpenIntent = Intent()
         mCacheOpenIntent?.action = Intent.ACTION_VIEW
         val uri = Uri.parse(url)

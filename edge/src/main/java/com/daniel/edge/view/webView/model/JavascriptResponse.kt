@@ -9,7 +9,7 @@ class JavascriptResponse {
     fun showToast(array: Array<String>) {
         kotlin.run {
             array.forEach {
-                EdgeLog.show(javaClass, "资源嗅探", it)
+//                EdgeLog.show(javaClass, "资源嗅探", it)
             }
         }
     }

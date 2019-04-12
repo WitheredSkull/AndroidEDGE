@@ -1,5 +1,6 @@
 package com.daniel.edge.view.webView
 
+import android.content.Intent
 import android.os.Build
 import android.view.View
 import androidx.annotation.IdRes
@@ -21,11 +22,12 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
 
 
     var activity: WeakReference<FragmentActivity>
-    var edgeCachePath: String;
-    lateinit var webChromeClient: EdgeWebChromeClient
+    var edgeCachePath: String
+    var webChromeClient: EdgeWebChromeClient? = null
     lateinit var webSettings: WebSettings
     var webView: WebView
-    lateinit var webViewClient: EdgeWebViewClient
+    var webViewClient: EdgeWebViewClient? = null
+    fun build() = this
     //清除浏览器缓存
     fun clearEdgeWebViewCache(): EdgeWebViewUtils {
         webView.clearCache(true)
@@ -46,7 +48,7 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
     }
 
     fun initDefaultChromeClient(): EdgeWebViewUtils {
-        webChromeClient = EdgeWebChromeClient(activity,webView);
+        webChromeClient = EdgeWebChromeClient(activity, webView);
         webView.webChromeClient = webChromeClient
         return this
     }
@@ -59,6 +61,9 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
 
     fun initDefaultSetting(): EdgeWebViewUtils {
         webSettings = webView.settings;
+        //设置定位的数据库路径
+//        val dir = Edge.CONTEXT.getDir("database", Context.MODE_PRIVATE).getPath()
+//        webSettings.setGeolocationDatabasePath(dir)
         //定位是否可用,默认为true
         webSettings.setGeolocationEnabled(true)
         //开启javascript
@@ -167,7 +172,14 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
     }
 
     fun load(url: String): EdgeWebViewUtils {
-        webView.loadUrl(url)
+        webView.loadUrl(
+            if (url.startsWith(EdgeWebViewClient.HTTP_SCHEME) || url.startsWith(EdgeWebViewClient.HTTPS_SCHEME)) {
+                url
+            } else {
+                "http://${url}"
+            }
+        )
+
         return this
     }
 
@@ -184,8 +196,8 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
     }
 
     companion object {
-        fun build(activity: FragmentActivity, webView: WebView, @IdRes id: Int): EdgeWebViewUtils {
-            var webViewUtils = EdgeWebViewUtils(WeakReference(activity), webView, id)
+        fun Build(activity: FragmentActivity, webView: WebView, @IdRes id: Int): EdgeWebViewUtils {
+            val webViewUtils = EdgeWebViewUtils(WeakReference(activity), webView, id)
             return webViewUtils
         }
     }

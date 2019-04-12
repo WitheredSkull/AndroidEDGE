@@ -6,4 +6,12 @@ interface IEdgePermissionManagement {
         permissions: Array<out String>?,
         grantResults: IntArray?
     )
+
+    fun setOnCallBack(onEdgePermissionCallBack: OnEdgePermissionCallBack):EdgePermissionManagement
+
+    fun requestPermission(vararg permission: String):EdgePermissionManagement
+
+    fun requestPackageNeedPermission():EdgePermissionManagement
+
+    fun build()
 }

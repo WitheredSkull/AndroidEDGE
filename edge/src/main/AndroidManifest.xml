@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.daniel.edge">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -9,16 +10,32 @@
     <uses-permission android:name="android.permission.ACCESS_GPS" />
     <uses-permission android:name="android.permission.ACCESS_ASSISTED_GPS" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"
+        tools:ignore="ProtectedPermissions" />
 
-    <application>
+    <application android:usesCleartextTraffic="true">
+
         <receiver
-            android:name=".management.permission.EdgePermissionReceiver"
+            android:name=".recriver.EdgeReceiver"
             android:enabled="true"
-            android:exported="true"></receiver>
+            android:exported="true"
+            android:permission="EdgePermissionReceiver" />
 
         <activity
-            android:name=".management.permission.EdgePermissionActivity"
-            android:theme="@style/AppTransparent" />
+            android:name=".view.activity.EdgeReceiverActivity"
+            android:exported="false"
+            android:theme="@style/AppTransparent"
+            android:windowSoftInputMode="stateHidden|stateAlwaysHidden" />
+
+        <provider
+            android:name=".config.EdgeFileProvider"
+            android:authorities="${applicationId}.EdgeFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/edge_file_paths" />
+        </provider>
     </application>
 
 </manifest>
