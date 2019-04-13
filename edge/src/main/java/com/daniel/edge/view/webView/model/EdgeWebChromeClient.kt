@@ -13,25 +13,24 @@ import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.text.EdgeTextUtils
 import com.daniel.edge.utils.viewUtils.EdgeViewHelperUtils
-import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
 import java.lang.ref.WeakReference
-import android.content.Intent
-import android.content.IntentFilter
-import android.os.Build
 import com.daniel.edge.R
-import com.daniel.edge.recriver.EdgeReceiveFunction
-import com.daniel.edge.recriver.EdgeReceiver
-import com.daniel.edge.view.activity.EdgeActivityFunction
-import com.daniel.edge.view.activity.EdgeReceiverActivity
+import com.daniel.edge.management.file.EdgeFileManagement
+import com.daniel.edge.utils.photo.EdgePhotoUtils
+import com.daniel.edge.utils.photo.OnPhotoListener
+import com.daniel.edge.utils.photo.PhotoMethod
 import java.lang.Exception
 
 
 // Create Time 2018/10/30
 // Create Author Daniel 
-class EdgeWebChromeClient : WebChromeClient, IEdgeWebChromeClient {
+class EdgeWebChromeClient : WebChromeClient, OnPhotoListener {
+    override fun onChooseUri(uris: Array<Uri>?) {
+        mUploadMessageAboveL?.onReceiveValue(uris)
+        mUploadMessageAboveL = null
+    }
 
     var activity: WeakReference<FragmentActivity>
-    var mReceiver: EdgeReceiver? = null
     var mUploadMessageAboveL: ValueCallback<Array<Uri>>? = null
     var mWebTitle: String? = null
     var mWebView: WeakReference<WebView>
@@ -156,17 +155,11 @@ class EdgeWebChromeClient : WebChromeClient, IEdgeWebChromeClient {
         return super.onJsTimeout()
     }
 
-    override fun onOpenFileResult(resultCode: Int, data: Intent?) {
-        data?.let {
-            mUploadMessageAboveL?.onReceiveValue(FileChooserParams.parseResult(resultCode, it))
-            mUploadMessageAboveL = null
-        }
-    }
 
     //通知应用程序当前网页加载的进度
     override fun onProgressChanged(p0: WebView?, p1: Int) {
         super.onProgressChanged(p0, p1)
-        EdgeLog.show(javaClass, "进度", "${p1}")
+//        EdgeLog.show(javaClass, "进度", "${p1}")
     }
 
     //获取网页Icon
@@ -201,20 +194,18 @@ class EdgeWebChromeClient : WebChromeClient, IEdgeWebChromeClient {
         try {
             openImageChooserActivity()
             return true
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             return super.onShowFileChooser(p0, p1, p2)
         }
     }
 
     private fun openImageChooserActivity() {
-//        val intentFilter = IntentFilter(EdgeReceiveFunction.FILE_CHOOSER.ACTION_FILE_CHOOSER)
-//        mReceiver = EdgeReceiver(this)
-//        Edge.CONTEXT.registerReceiver(mReceiver, intentFilter)
-        EdgeReceiverActivity.iEdgeWebChromeClient = this
-        var intent = Intent(Edge.CONTEXT, EdgeReceiverActivity::class.java)
-        intent.putExtra(EdgeActivityFunction.FUNCTION, EdgeActivityFunction.FILE_CHOOSE.FILE_CHOOSE)
-        Edge.CONTEXT.startActivity(intent)
+        EdgePhotoUtils()
+            .setOnPhotoListener(this)
+            .setPhotoPath("${EdgeFileManagement.getEdgeExternalDCIMPath()}/${System.currentTimeMillis()}.jpg")
+            .setChooseMethod(PhotoMethod.ALL)
+            .build()
     }
 
     constructor(activity: WeakReference<FragmentActivity>, webView: WebView) : super() {
@@ -223,8 +214,6 @@ class EdgeWebChromeClient : WebChromeClient, IEdgeWebChromeClient {
     }
 
     companion object {
-        val REQUEST_OPEN_FILE_CODE = 3422
-        val REQUEST_OPEN_CAMERA_CODE = 3423
     }
 }
 

@@ -8,7 +8,9 @@ object EdgeActivityFunction {
         val PERMISSION_PARAMETER = "PERMISSION_PARAMETER"
     }
 
-    object FILE_CHOOSE {
-        val FILE_CHOOSE = "FILE_CHOOSE"
+    object PHOTO_CHOOSE {
+        val PHOTO_CHOOSE = "PHOTO_CHOOSE"
+        val PHOTO_PATH = "PHOTO_PATH"
+        val PHOTO_METHOD = "PHOTO_METHOD"
     }
 }

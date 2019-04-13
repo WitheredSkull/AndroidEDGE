@@ -19,6 +19,12 @@
     <string name="open_external_app_format">是否允许打开外部应用</string>
     <string name="allow">允许</string>
     <string name="reject">拒绝</string>
+    <string name="cancel">取消</string>
+
+    <string-array name="choose_photo">
+        <item>相机</item>
+        <item>相册</item>
+    </string-array>
 
     <!--Web-->
     <string name="edge_tip">提示</string>

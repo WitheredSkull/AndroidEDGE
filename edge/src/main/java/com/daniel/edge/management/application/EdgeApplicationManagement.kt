@@ -139,11 +139,11 @@ object EdgeApplicationManagement {
         val intent = Intent(Intent.ACTION_VIEW)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (Build.VERSION.SDK_INT >= 24) {
-            EdgeLog.show(javaClass, "版本", "${EdgeApplicationManagement.appPackageName() + ".fileprovider"}")
+            EdgeLog.show(javaClass, "版本", "${appPackageName() + ".fileprovider"}")
             var apkUri =
                 FileProvider.getUriForFile(
                     Edge.CONTEXT,
-                    EdgeApplicationManagement.appPackageName() + ".fileprovider",
+                    appPackageName() + ".EdgeFileProvider",
                     File(path)
                 )
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

@@ -16,12 +16,44 @@ import java.util.*
  * 简介   获取
  */
 object EdgeFileManagement {
+    val EDGE_EXTERNAL_PATH = getEdgeExternalPath()
+    val EDGE_EXTERNAL_DCIM_PATH = getEdgeExternalDCIMPath()
+
+    @JvmStatic
+    fun getEdgeExternalPath(): String {
+        val file = File(Environment.getExternalStorageDirectory().absolutePath + "/Edge")
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+        return file.absolutePath
+    }
+
+    @JvmStatic
+    fun getEdgeExternalDCIMPath(): String {
+        val file = File(Environment.getExternalStorageDirectory().absolutePath + "/Edge/DCIM")
+        if (!file.exists()) {
+            file.mkdirs()
+        }
+        return file.absolutePath
+    }
+
+    @JvmStatic
+    fun newFile(path: String): File {
+        val file = File(path)
+        if (!file.exists()) {
+            file.parentFile.mkdirs()
+            if (!file.createNewFile()) {
+                newFile(path)
+            }
+        }
+        return file
+    }
 
     /**
      * 获取储存路径
      */
     @JvmStatic
-    fun getExternalStorageDirectory():String{
+    fun getExternalStorageDirectory(): String {
         return Environment.getExternalStorageDirectory().absolutePath
     }
 
@@ -68,11 +100,11 @@ object EdgeFileManagement {
 
     //创建文件，会自动删除之前存在的文件
     @JvmStatic
-    fun createFile(path:String):File{
+    fun createFile(path: String): File {
         var file = File(path)
-        if (file.exists()){
+        if (file.exists()) {
             file.delete()
-        }else{
+        } else {
             file.parentFile.mkdirs()
         }
         file.createNewFile()
@@ -264,22 +296,22 @@ object EdgeFileManagement {
 
     //Bitmap保存成文件
     @JvmStatic
-    fun saveBitmapToLocal(filePath: String,bitmap: Bitmap,format: Bitmap.CompressFormat){
+    fun saveBitmapToLocal(filePath: String, bitmap: Bitmap, format: Bitmap.CompressFormat) {
         var file = File(filePath)
         if (file.exists()) {
             file.delete()
         }
         var fos = FileOutputStream(file)
-        bitmap.compress(format,100,fos)
+        bitmap.compress(format, 100, fos)
         fos.flush()
         fos.close()
     }
 
     //文件读取成Bitma
     @JvmStatic
-    fun readLocalToBitmap(filePath: String):Bitmap?{
+    fun readLocalToBitmap(filePath: String): Bitmap? {
         var file = File(filePath)
-        if (!file.exists()){
+        if (!file.exists()) {
             return null
         }
         return BitmapFactory.decodeFile(filePath)

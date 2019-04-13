@@ -11,6 +11,7 @@ import com.daniel.edge.management.activity.EdgeActivityManagement
 import com.daniel.edge.utils.appCompat.EdgeAppCompat
 import com.daniel.edge.utils.toast.model.EdgeToastConfig
 import com.daniel.edge.view.toolBar.TooBarViewUtils
+import com.squareup.leakcanary.LeakCanary
 
 /**
  * 创建人 Daniel
@@ -42,6 +43,9 @@ class EdgeManager(application: Application) {
         Edge.CONTEXT = application.applicationContext
         context = application.applicationContext
         this.application = application
+        if (!LeakCanary.isInAnalyzerProcess(context)) {
+            LeakCanary.install(application)
+        }
     }
 
     //设置数据库版本哈

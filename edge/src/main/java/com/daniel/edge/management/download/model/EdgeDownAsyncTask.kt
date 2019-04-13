@@ -147,7 +147,7 @@ class EdgeDownAsyncTask : AsyncTask<String, Int, Boolean> {
 
     override fun onProgressUpdate(vararg values: Int?) {
         super.onProgressUpdate(*values)
-        EdgeLog.show(javaClass, "进度", "${values[0]}")
+//        EdgeLog.show(javaClass, "进度", "${values[0]}")
     }
 
 

@@ -116,7 +116,7 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
         //是否允许在WebView中访问内容URL（Content Url），默认允许。内容Url访问允许WebView从安装在系统中的内容提供者载入内容。
 //        webSettings.allowContentAccess = true
         //是否允许WebView度超出以概览的方式载入页面，默认false。即缩小内容以适应屏幕宽度。该项设置在内容宽度超出WebView控件的宽度时生效，例如当getUseWideViewPort() 返回true时缩放至屏幕的大小
-        webSettings.loadWithOverviewMode = false
+        webSettings.loadWithOverviewMode = true
 
         //WebView是否保存表单数据，默认值true。
         webSettings.saveFormData = true
@@ -143,7 +143,6 @@ class EdgeWebViewUtils(activity: WeakReference<FragmentActivity>, webView: WebVi
         } else {
             webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL)
         }
-
         //WebView是否下载图片资源，默认为true。注意，该方法控制所有图片的下载，包括使用URI嵌入的图片（使用setBlockNetworkImage(boolean) 只控制使用网络URI的图片的下载）。如果该设置项的值由false变为true，WebView展示的内容所引用的所有的图片资源将自动下载。
         webSettings.loadsImagesAutomatically = true
         //是否禁止从网络（通过http和https URI schemes访问的资源）下载图片资源，默认值为false。注意，除非getLoadsImagesAutomatically()返回true,否则该方法无效。还请注意，即使此项设置为false，使用setBlockNetworkLoads(boolean)禁止所有网络加载也会阻止网络图片的加载。当此项设置的值从true变为false，WebView当前显示的内容所引用的网络图片资源会自动获取。
