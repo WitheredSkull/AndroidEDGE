@@ -6,7 +6,7 @@ import android.os.Environment
 import android.text.TextUtils
 import com.daniel.edge.config.Edge
 import com.daniel.edge.management.file.model.EdgeBaseFileProperty
-import com.daniel.edge.utils.exception.EdgeException
+import com.daniel.edge.model.exception.EdgeException
 import java.io.*
 import java.util.*
 
@@ -19,6 +19,9 @@ object EdgeFileManagement {
     val EDGE_EXTERNAL_PATH = getEdgeExternalPath()
     val EDGE_EXTERNAL_DCIM_PATH = getEdgeExternalDCIMPath()
 
+    /**
+     * @return 获取Edge的默认路径
+     */
     @JvmStatic
     fun getEdgeExternalPath(): String {
         val file = File(Environment.getExternalStorageDirectory().absolutePath + "/Edge")
@@ -28,6 +31,9 @@ object EdgeFileManagement {
         return file.absolutePath
     }
 
+    /**
+     * @return 获取Edge的默认图片路径
+     */
     @JvmStatic
     fun getEdgeExternalDCIMPath(): String {
         val file = File(Environment.getExternalStorageDirectory().absolutePath + "/Edge/DCIM")
@@ -37,6 +43,9 @@ object EdgeFileManagement {
         return file.absolutePath
     }
 
+    /**
+     * @return 创建一个新的文件
+     */
     @JvmStatic
     fun newFile(path: String): File {
         val file = File(path)

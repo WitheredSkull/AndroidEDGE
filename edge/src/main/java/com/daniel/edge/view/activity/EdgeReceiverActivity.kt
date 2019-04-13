@@ -1,5 +1,6 @@
 package com.daniel.edge.view.activity
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -19,6 +20,7 @@ import com.daniel.edge.R
 import com.daniel.edge.management.application.EdgeApplicationManagement
 import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.IEdgePermissionManagement
+import com.daniel.edge.utils.permission.EdgePermissionUtils
 import com.daniel.edge.utils.photo.IEdgePhoto
 import com.daniel.edge.utils.photo.PhotoMethod
 import com.daniel.edge.utils.system.EdgeSystemUtils
@@ -36,11 +38,10 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
 
     lateinit var mChooseStrings: Array<String>
     var mFileUri: Uri? = null
-    var mTempPhoto: String? = null
     var mIsResult = false
+    var mTempPhoto: String? = null
     override fun onClick(parent: View, view: View, dialog: Dialog) {
         dialog.dismiss()
-        IEdgePhoto?.onChoosePhotoUris(null)
         clear()
     }
 
@@ -79,10 +80,6 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
         if (requestCode == EdgePermissionManagement.REQUEST_PERMISSION) {
             mIsResult = true
             resultPermission(permissions, grantResults)
-            //不排除自己调用自己的时候会意外结束，所以加入判断，如果是获取权限时才结束权限，否则不结束
-            if (EdgeActivityFunction.PERMISSION.PERMISSION.equals(intent.getStringExtra(EdgeActivityFunction.FUNCTION))) {
-                clear()
-            }
         }
     }
 
@@ -92,6 +89,7 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
 
     //清空资源
     open fun clear() {
+        IEdgePhoto?.onChoosePhotoUris(null)
         mTempPhoto = null
         mFileUri = null
         IEdgePhoto = null
@@ -116,15 +114,9 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
                     )
                 }
                 EdgeActivityFunction.PHOTO_CHOOSE.PHOTO_CHOOSE -> {
-                    //获取照片
+                    //获取照片,前提是必须拥有权限
                     mTempPhoto = intent.getStringExtra(EdgeActivityFunction.PHOTO_CHOOSE.PHOTO_PATH)
-                    initPhoto(
-                        PhotoMethod.values()[intent.getIntExtra(
-                            EdgeActivityFunction.PHOTO_CHOOSE.PHOTO_METHOD,
-                            PhotoMethod.ALL.ordinal
-                        )],
-                        mTempPhoto
-                    )
+                    initPermission(PHOTO_PERMISSION)
                 }
             }
         } catch (e: Exception) {
@@ -160,7 +152,6 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
 
                         override fun onDialogDismiss() {
                             if (!mIsResult) {
-                                IEdgePhoto?.onChoosePhotoUris(null)
                                 clear()
                             }
                         }
@@ -207,8 +198,6 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
         //有可能是没有拍照哦
         if (mFileUri != null && File(mFileUri?.encodedPath).exists()) {
             IEdgePhoto?.onChoosePhotoUris(arrayOf(mFileUri!!))
-        } else {
-            IEdgePhoto?.onChoosePhotoUris(null)
         }
     }
 
@@ -237,11 +226,32 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
             }
         }
         IEdgePermissionManagement?.onResult(dangerPermissions)
+        //不排除自己调用自己的时候会意外结束，所以加入判断，
+        when (intent.getStringExtra(EdgeActivityFunction.FUNCTION)) {
+            EdgeActivityFunction.PHOTO_CHOOSE.PHOTO_CHOOSE -> {
+                // 有权限时继续，没有权限时获取权限才被允许打开相机
+                if (dangerPermissions.contains(Manifest.permission.CAMERA) ||
+                    dangerPermissions.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                ) {
+                    clear()
+                } else {
+                    initPhoto(
+                        PhotoMethod.values()[intent.getIntExtra(
+                            EdgeActivityFunction.PHOTO_CHOOSE.PHOTO_METHOD,
+                            PhotoMethod.ALL.ordinal
+                        )],
+                        mTempPhoto
+                    )
+                }
+            }
+            else -> clear()
+        }
     }
 
     companion object {
         var IEdgePermissionManagement: IEdgePermissionManagement? = null
         var IEdgePhoto: IEdgePhoto? = null
+        val PHOTO_PERMISSION = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val REQUEST_OPEN_CAMERA_CODE = 3423
         val REQUEST_OPEN_Gallery_CODE = 3422
     }

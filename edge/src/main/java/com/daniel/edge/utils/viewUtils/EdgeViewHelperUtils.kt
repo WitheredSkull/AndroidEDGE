@@ -22,9 +22,11 @@ import com.daniel.edge.window.dialog.bottomSheetDialog.model.OnEdgeDialogClickLi
 object EdgeViewHelperUtils {
     private var upClickTime = 0L
 
-    //设置防重复点击
+    /**
+     * @return 防重复点击
+     */
     fun isClick(time: Long): Boolean {
-        var thisTime = System.currentTimeMillis()
+        val thisTime = System.currentTimeMillis()
         if (thisTime - upClickTime >= time) {
             upClickTime = thisTime
             return true
@@ -33,21 +35,27 @@ object EdgeViewHelperUtils {
         }
     }
 
-    //设置大批量的点击事件
+    /**
+     * 设置大批量的点击事件
+     */
     fun setOnClicks(onClickListener: View.OnClickListener, vararg view: View) {
         view.forEach {
             it.setOnClickListener(onClickListener)
         }
     }
 
-    //设置大批量的点击事件
+    /**
+     * 设置大批量的ViewGroup点击事件
+     */
     fun setOnClicks(onClickListener: View.OnClickListener, vararg view: ViewGroup) {
         view.forEach {
             it.setOnClickListener(onClickListener)
         }
     }
 
-    //添加大批量的文字改变监听
+    /**
+     * 添加大批量的文字改变监听
+     */
     fun addTextChangeListens(textWatcher: TextWatcher, vararg textView: TextView) {
         textView.forEach {
             it.addTextChangedListener(textWatcher)

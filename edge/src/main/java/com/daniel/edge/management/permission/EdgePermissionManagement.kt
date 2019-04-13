@@ -16,21 +16,15 @@ import com.daniel.edge.view.activity.EdgeReceiverActivity
  *
  */
 class EdgePermissionManagement : IEdgePermissionManagement {
+
+    private var mList = arrayListOf<String>()
+    private var onEdgePermissionCallBack: OnEdgePermissionCallBack? = null
     override fun onResult(_a: ArrayList<String>?) {
         if (_a != null && _a.isNotEmpty()) {
             onEdgePermissionCallBack?.onRequestPermissionFailure(_a)
         } else {
             onEdgePermissionCallBack?.onRequestPermissionSuccess()
         }
-    }
-
-
-    private var mList = arrayListOf<String>()
-    private var onEdgePermissionCallBack: OnEdgePermissionCallBack? = null
-
-    override fun setOnCallBack(onEdgePermissionCallBack: OnEdgePermissionCallBack): EdgePermissionManagement {
-        this.onEdgePermissionCallBack = onEdgePermissionCallBack
-        return this
     }
 
     /**
@@ -83,9 +77,16 @@ class EdgePermissionManagement : IEdgePermissionManagement {
         return this
     }
 
+    /**
+     * @param onEdgePermissionCallBack 设置权限获取回调
+     */
+    override fun setCallBack(onEdgePermissionCallBack: OnEdgePermissionCallBack): EdgePermissionManagement {
+        this.onEdgePermissionCallBack = onEdgePermissionCallBack
+        return this
+    }
+
     companion object {
         val REQUEST_PERMISSION = 999
-        fun Build() = EdgePermissionManagement()
     }
 
 }

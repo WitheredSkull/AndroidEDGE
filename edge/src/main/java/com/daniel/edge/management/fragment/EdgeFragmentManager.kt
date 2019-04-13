@@ -4,7 +4,6 @@ import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.daniel.edge.utils.clazz.EdgeClassUtils
-import java.lang.Exception
 
 object EdgeFragmentManager {
     private const val TAG = "FragmentManager"
@@ -65,7 +64,8 @@ object EdgeFragmentManager {
         }
     }
 
-    /**切换Fragment
+    /**
+     * 切换Fragment
      * @param fm 隐藏所有的Fragment
      */
     fun hideAll(fm: FragmentManager) {

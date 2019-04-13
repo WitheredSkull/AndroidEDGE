@@ -5,6 +5,9 @@ import java.util.regex.Pattern
 // Create Time 2018/11/1
 // Create Author Daniel 
 object EdgeTextUtils {
+    /**
+     * @return Json格式化
+     */
     fun formatJson(string: String): String {
         //替换可能导致出错的字符串
         string.replace("{\n", "{")
@@ -157,6 +160,9 @@ object EdgeTextUtils {
         return s
     }
 
+    /**
+     * @return 是否是空
+     */
     fun isEmpty(_s: String?): Boolean {
         if (_s.isNullOrEmpty() || _s!!.toLowerCase().equals("null")) {
             return true

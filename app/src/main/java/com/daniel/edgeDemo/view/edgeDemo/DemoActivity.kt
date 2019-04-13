@@ -72,9 +72,8 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         viewModel = ViewModelProviders.of(this).get(DemoViewModel::class.java)
         activityDemoBinding.viewModel = viewModel
         activityDemoBinding.lifecycleOwner = this
-        EdgePermissionManagement
-            .Build()
-            .setOnCallBack(this)
+        EdgePermissionManagement()
+            .setCallBack(this)
             .requestPackageNeedPermission()
             .build()
     }

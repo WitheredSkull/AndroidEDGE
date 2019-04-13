@@ -1,4 +1,4 @@
-package com.daniel.edge.utils.exception
+package com.daniel.edge.model.exception
 
 /**
  * 创建人 Daniel

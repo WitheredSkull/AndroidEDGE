@@ -29,7 +29,6 @@ class EdgeWebChromeClient : WebChromeClient, OnPhotoListener {
         mUploadMessageAboveL?.onReceiveValue(uris)
         mUploadMessageAboveL = null
     }
-
     var activity: WeakReference<FragmentActivity>
     var mUploadMessageAboveL: ValueCallback<Array<Uri>>? = null
     var mWebTitle: String? = null

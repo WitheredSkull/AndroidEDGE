@@ -6,6 +6,14 @@ import com.daniel.edge.config.Edge
 import com.daniel.edge.view.activity.EdgeActivityFunction
 import com.daniel.edge.view.activity.EdgeReceiverActivity
 
+/**
+ * 完整调用
+EdgePhotoUtils()
+.setOnPhotoListener(this)
+.setPhotoPath("${EdgeFileManagement.getEdgeExternalDCIMPath()}/${System.currentTimeMillis()}.jpg")
+.setChooseMethod(PhotoMethod.ALL)
+.build()
+ */
 class EdgePhotoUtils : IEdgePhoto {
 
     private var mOnPhotoListener: OnPhotoListener? = null
@@ -51,7 +59,7 @@ class EdgePhotoUtils : IEdgePhoto {
     }
 
     /**
-     * @param _p 传入路径
+     * @param _p 相机需要传入路径
      */
     fun setPhotoPath(_p: String): EdgePhotoUtils {
         this.mPath = _p

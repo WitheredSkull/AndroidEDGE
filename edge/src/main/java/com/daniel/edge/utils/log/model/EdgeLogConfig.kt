@@ -3,7 +3,12 @@ package com.daniel.edge.utils.log.model
 import com.daniel.edge.utils.system.EdgeSystemUtils
 
 // Create Time 2018/11/1
-// Create Author Daniel 
+// Create Author Daniel
+/**
+ * 1.美化日志输出并提高阅读质量
+ * 2.版本发布时可以选择发布来取消Log显示
+ * 3.支持Json格式化
+ */
 class EdgeLogConfig {
     constructor()
 
@@ -30,31 +35,49 @@ class EdgeLogConfig {
         }
     }
 
+    /**
+     * 设置日志名
+     */
     fun setLogName(s: String): EdgeLogConfig {
         LOG_NAME = s
         return this
     }
 
+    /**
+     * 设置日志类型
+     */
     fun setType(type: EdgeLogType): EdgeLogConfig {
         TYPE = type
         return this
     }
 
+    /**
+     * 设置日志每行最大长度
+     */
     fun setLength(int: Int): EdgeLogConfig {
         LENGTH = int
         return this
     }
 
+    /**
+     * 设置上下间隔
+     */
     fun setMarginLines(int: Int): EdgeLogConfig {
         LINES = int
         return this
     }
 
+    /**
+     * 设置结束语
+     */
     fun setEndFlag(s: String): EdgeLogConfig {
         END_FLAG = s
         return this
     }
 
+    /**
+     * 设置Release版本自动关闭Log输出
+     */
     fun setAutoReleaseCloseLog(flag: Boolean): EdgeLogConfig {
         if (flag) {
             if (!EdgeSystemUtils.isApkInDebug()) {

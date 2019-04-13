@@ -22,11 +22,17 @@ import java.io.File
  * 简介   xxx
  */
 object EdgeApplicationManagement {
+    /**
+     * @return 是否是主进程
+     */
     @JvmStatic
     fun isMainProcess(application: Context): Boolean {
         return application.packageName.equals(getCurrentProcessName(application))
     }
 
+    /**
+     * @return 返回当前进程
+     */
     @JvmStatic
     fun getCurrentProcessName(application: Context): String {
         var pid = android.os.Process.myPid()
@@ -40,13 +46,17 @@ object EdgeApplicationManagement {
         return processName
     }
 
-    //获取应用包名
+    /**
+     * 获取当前应用包名
+     */
     @JvmStatic
     fun appPackageName(): String {
         return Edge.CONTEXT.packageName
     }
 
-    //获取包信息
+    /**
+     * @return 获取包信息
+     */
     @JvmStatic
     fun appPackageInfo(packageName: String): PackageInfo? {
         var pm = Edge.CONTEXT.packageManager
@@ -58,19 +68,23 @@ object EdgeApplicationManagement {
         }
     }
 
-    //获取包所需要的权限
+    /**
+     * @return 获取包所需要的权限
+     */
     @JvmStatic
-    fun appPermissionFromPackageInfo(packageName: String): PackageInfo? {
+    fun appPackagePermissions(packageName: String): Array<String>? {
         var pm = Edge.CONTEXT.packageManager
         try {
-            return pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+            return pm.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS).requestedPermissions
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             return null
         }
     }
 
-    //获取应用名
+    /**
+     * @return 通过包名获取应用名
+     */
     @JvmStatic
     fun appName(packageName: String): String? {
         var name = appPackageInfo(packageName)?.applicationInfo?.loadLabel(Edge.CONTEXT.packageManager).toString()
@@ -81,13 +95,17 @@ object EdgeApplicationManagement {
         }
     }
 
-    //获取应用版本信息
+    /**
+     * @return 获取应用版本信息
+     */
     @JvmStatic
     fun appVersionName(packageName: String): String? {
         return appPackageInfo(packageName)?.versionName
     }
 
-    //获取应用版本号
+    /**
+     * 获取应用版本号
+     */
     @JvmStatic
     fun appVersionCode(packageName: String): Long? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
@@ -97,14 +115,18 @@ object EdgeApplicationManagement {
         }
     }
 
-    //获取应用图标
+    /**
+     * 获取应用图标
+     */
     @JvmStatic
     fun appIcon(packageName: String): Bitmap {
         var pm = Edge.CONTEXT.packageManager
         return (pm.getApplicationIcon(packageName) as BitmapDrawable).bitmap
     }
 
-    //获取所有的应用，map key为user时为用户安装应用，key为system时为系统预装应用
+    /**
+     * 获取所有的应用，map key为user时为用户安装应用，key为system时为系统预装应用
+     */
     @JvmStatic
     fun allApplication(): HashMap<String, ArrayList<PackageInfo>>? {
         var pm = Edge.CONTEXT.packageManager
@@ -125,7 +147,9 @@ object EdgeApplicationManagement {
     }
 
 
-    //卸载应用
+    /**
+     *  卸载应用
+     */
     @JvmStatic
     fun unInstallApk(packageName: String) {
         var uri = Uri.parse("package:" + packageName)
@@ -133,7 +157,9 @@ object EdgeApplicationManagement {
         Edge.CONTEXT.startActivity(intent)
     }
 
-    //安装应用
+    /**
+     *  InstallApk 安装应用
+     */
     @JvmStatic
     fun InstallApk(path: String) {
         val intent = Intent(Intent.ACTION_VIEW)

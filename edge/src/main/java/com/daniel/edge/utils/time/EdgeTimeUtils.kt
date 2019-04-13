@@ -32,6 +32,12 @@ object EdgeTimeUtils {
         return week
     }
 
+
+    /**
+     * 传入相对应的参数获取相对应的时间，传Null代表不需要，比如
+     * EdgeTimeUtils.getFormatTime(System.currentTimeMillis(),"年","月","日",null,null,null)
+     * 代表只需要年月日
+     */
     fun getFormatTime(
         currentTimeMillis: Long,
         year: String?,
@@ -83,32 +89,39 @@ object EdgeTimeUtils {
         return format.format(currentTime)
     }
 
-    //毫秒格式化为多少分钟及其之后单位，最小为秒
-    fun getFormatTimeMinute(
+    /**
+     * 毫秒格式化为 分钟-秒
+     */
+    fun millisToMinute_Secoud(
         millisecond: Long
-    ): String {
-        var second = BigDecimal(millisecond).divide(BigDecimal(1000), BigDecimal.ROUND_DOWN, 0).toBigInteger().toInt()
+    ): Array<Long> {
+        var second = BigDecimal(millisecond).divide(BigDecimal(1000), BigDecimal.ROUND_DOWN, 0).toBigInteger().toLong()
         var minute = (second / 60)
         second = second - minute * 60
         if (second < 0) {
             second = 0
         }
-        return "${minute}分${second}秒"
+        return arrayOf(minute,second)
     }
 
-    //秒格式化为多少分钟及其之后单位，最小为秒
-    fun getFormatTimeMinuteFromSecond(
-        second: Int
-    ): String {
+    /**
+     * 秒格式化为 分钟-秒
+     */
+    fun secondToMinute_Secoud(
+        second: Long
+    ): Array<Long> {
         var minute = (second / 60)
         var second1 = second - minute * 60
         if (second1 < 0) {
             second1 = 0
         }
-        return "${minute}分${second1}秒"
+        return arrayOf(minute,second1)
     }
 
-    fun FormatSimpleTimeFromTime(time: String): String {
+    /**
+     * 复杂时间字符串转换为普通的时间字符串
+     */
+    fun timeToSimpleDate(time: String): String {
         val formatter = SimpleDateFormat("yyyy-MM-dd")
         var date = formatter.parse(time)
         return formatter.format(date)

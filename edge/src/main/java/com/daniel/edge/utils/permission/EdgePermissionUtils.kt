@@ -14,8 +14,7 @@ object EdgePermissionUtils {
     fun getPackageNeedPermission(): ArrayList<String>? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val permissions =
-                EdgeApplicationManagement.appPermissionFromPackageInfo(EdgeApplicationManagement.appPackageName())
-                    ?.requestedPermissions
+                EdgeApplicationManagement.appPackagePermissions(EdgeApplicationManagement.appPackageName())
             val listFilter = permissions?.filter {
                 if (ContextCompat.checkSelfPermission(Edge.CONTEXT, it) == PackageManager.PERMISSION_GRANTED) {
                     false
@@ -34,7 +33,7 @@ object EdgePermissionUtils {
     /**
      * @return 过滤出来所有需要的权限
      */
-    fun getNeedPermission(permission: ArrayList<String>): List<String>? {
+    fun getNeedPermission(permission: Array<String>): List<String>? {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //Filtrate Agree Permission
             var list = permission.filter {
@@ -51,7 +50,7 @@ object EdgePermissionUtils {
     /**
      * @return 判断权限是否获取了
      */
-    fun isAgree(permission: ArrayList<String>): Boolean {
+    fun isAgree(permission: Array<String>): Boolean {
         val list = getNeedPermission(permission)
         if (list == null || list.size == 0) {
             return true

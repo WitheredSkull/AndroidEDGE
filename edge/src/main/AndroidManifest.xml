@@ -18,12 +18,6 @@
 
     <application android:usesCleartextTraffic="true">
 
-        <receiver
-            android:name=".recriver.EdgeReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:permission="EdgePermissionReceiver" />
-
         <activity
             android:name=".view.activity.EdgeReceiverActivity"
             android:exported="false"

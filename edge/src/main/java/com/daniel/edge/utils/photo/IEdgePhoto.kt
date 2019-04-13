@@ -2,7 +2,7 @@ package com.daniel.edge.utils.photo
 
 import android.net.Uri
 
-interface IEdgePhoto {
+internal interface IEdgePhoto {
     /**
      * 选择图片完成后进行回调
      */
