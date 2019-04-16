@@ -29,19 +29,25 @@ class DownLoadTable {
         db.close()
     }
 
-    fun query():ArrayList<DownloadModel>{
+    fun query(): ArrayList<DownloadModel> {
         var list = arrayListOf<DownloadModel>()
         val db = dbHelper.readableDatabase
-        var cursor = db.query(TABLE_NAME,null,null,null,null,null,null)
-            when(cursor.moveToNext()){
-                list.add(DownloadModel(cursor.getInt(cursor.getColumnIndex(DOWNLOAD_ID)),
+        var cursor = db.query(TABLE_NAME, null, null, null, null, null, null)
+        while (cursor.moveToNext()) {
+            list.add(
+                DownloadModel(
+                    cursor.getInt(cursor.getColumnIndex(DOWNLOAD_ID)),
                     cursor.getString(cursor.getColumnIndex(DOWNLOAD_NAME)),
                     cursor.getString(cursor.getColumnIndex(DOWNLOAD_URL)),
                     cursor.getInt(cursor.getColumnIndex(THREAD_ID)),
                     cursor.getLong(cursor.getColumnIndex(THREAD_DOWNLOAD_SIZE)),
-                    cursor.getLong(cursor.getColumnIndex(THREAD_TOTAL_SIZE))))
-
-            }
+                    cursor.getLong(cursor.getColumnIndex(THREAD_TOTAL_SIZE))
+                )
+            )
+        }
+        cursor.close()
+        db.close()
+        return list
     }
 
     object Instance {
