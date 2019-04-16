@@ -8,7 +8,7 @@
         android:title="@string/setting_keyboard" />
 
     <header
-        android:fragment="com.qiang.keyboard.view.SettingsActivity$ThemePreferenceFragment"
+        android:id="@+id/action_theme"
         android:icon="@drawable/shape_theme_gradual"
         android:title="@string/settings_theme" />
 

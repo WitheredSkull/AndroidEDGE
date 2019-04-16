@@ -5,6 +5,8 @@ import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.provider.MediaStore
 import com.daniel.edge.config.Edge
+import com.daniel.edge.utils.appCompat.EdgeAppCompat
+import java.io.File
 
 /**
  * 创建人 Daniel
@@ -41,10 +43,18 @@ object EdgeSystemUtils {
      * @return 获取相册的Intent
      */
     @JvmStatic
-    fun getGalleryIntent():Intent{
+    fun getGalleryIntent(): Intent {
         val i = Intent(Intent.ACTION_OPEN_DOCUMENT)
         i.addCategory(Intent.CATEGORY_OPENABLE)
         i.type = "image/*"
         return Intent.createChooser(i, "Image Chooser")
+    }
+
+    /**
+     * 新增图片，刷新系统图库
+     */
+    @JvmStatic
+    fun systemGalleyInsert(path: String) {
+        Edge.CONTEXT.sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(File(path))))
     }
 }

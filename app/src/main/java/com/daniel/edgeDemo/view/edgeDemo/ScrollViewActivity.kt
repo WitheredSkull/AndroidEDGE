@@ -21,24 +21,15 @@ class ScrollViewActivity : AppCompatActivity() {
         setContentView(R.layout.activity_scroll_view)
         toolbar.setNavigationOnClickListener {
             EdgeBottomSheetDialogFragment.build(supportFragmentManager, R.layout.window_number_selector)
-                .setDimAmount(0f)
-                .addOnClick(object :OnEdgeDialogClickListener{
-                    override fun onClick(parent:View,view: View, dialog: Dialog) {
-                        sv_translate.mSlideRatio = parent?.findViewById<TextView>(R.id.et_number)?.text.toString().toFloat()
+                .addOnClick(object : OnEdgeDialogClickListener {
+                    override fun onClick(parent: View, view: View, dialog: EdgeBottomSheetDialogFragment) {
+                        sv_translate.mSlideRatio =
+                            parent?.findViewById<TextView>(R.id.et_number)?.text.toString().toFloat()
                         sv_scale.mSlideRatio = parent?.findViewById<TextView>(R.id.et_number)?.text.toString().toFloat()
                         dialog.dismiss()
                     }
-
-                },R.id.confirm)
-                .setDialogCallback(object : IEdgeDialogCallback {
-                    override fun onDialogDismiss() {
-
-                    }
-
-                    override fun onDialogDisplay(v: View?, dialog: Dialog) {
-
-                    }
-                }).show()
+                }, R.id.confirm)
+                .show()
         }
         if (intent != null) {
             when (intent.getStringExtra("style")) {

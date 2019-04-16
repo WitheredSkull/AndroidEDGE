@@ -12,13 +12,14 @@ import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.text.EdgeTextUtils
-import com.daniel.edge.utils.viewUtils.EdgeViewHelperUtils
+import com.daniel.edge.utils.viewUtils.EdgeViewHelper
 import java.lang.ref.WeakReference
 import com.daniel.edge.R
 import com.daniel.edge.management.file.EdgeFileManagement
 import com.daniel.edge.utils.photo.EdgePhotoUtils
 import com.daniel.edge.utils.photo.OnPhotoListener
 import com.daniel.edge.utils.photo.PhotoMethod
+import com.daniel.edge.utils.viewUtils.EdgeDialogHelper
 import java.lang.Exception
 
 
@@ -78,10 +79,11 @@ class EdgeWebChromeClient : WebChromeClient, OnPhotoListener {
     override fun onGeolocationPermissionsShowPrompt(origin: String?, callback: GeolocationPermissions.Callback?) {
         EdgeLog.show(javaClass, "获取权限", "需要")
         activity.get()?.let {
-            EdgePermissionManagement.Build().setOnCallBack(object : OnEdgePermissionCallBack {
+            EdgePermissionManagement()
+                .setCallBack(object : OnEdgePermissionCallBack {
                 override fun onRequestPermissionSuccess() {
-                    EdgeViewHelperUtils.showBasicsDialog(
-                        it.supportFragmentManager, R.layout.dialog_baise, Edge.CONTEXT.getString(R.string.edge_tip),
+                    EdgeDialogHelper.showBasicsDialog(
+                        it.supportFragmentManager, Edge.CONTEXT.getString(R.string.edge_tip),
                         String.format(
                             Edge.CONTEXT.getString(R.string.need_location_format),
                             if (EdgeTextUtils.isEmpty(mWebTitle)) {

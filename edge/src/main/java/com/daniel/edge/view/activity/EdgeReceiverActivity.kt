@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -35,12 +36,12 @@ import java.lang.Exception
  */
 class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterClickListener, OnEdgeDialogClickListener {
 
-
+    var mBottomSheetDialogFragment: EdgeBottomSheetDialogFragment? = null
     lateinit var mChooseStrings: Array<String>
     var mFileUri: Uri? = null
     var mIsResult = false
     var mTempPhoto: String? = null
-    override fun onClick(parent: View, view: View, dialog: Dialog) {
+    override fun onClick(parent: View, view: View, dialog: EdgeBottomSheetDialogFragment) {
         dialog.dismiss()
         clear()
     }
@@ -50,6 +51,7 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
             PhotoMethod.GALLERY.ordinal -> openGallery()
             PhotoMethod.CAMERA.ordinal -> openCamera(mTempPhoto)
         }
+        mBottomSheetDialogFragment?.dismiss()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +65,13 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
         initFunction()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        //初始化需要的功能
+        initFunction()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        mIsResult = true
         when (requestCode) {
             REQUEST_OPEN_Gallery_CODE -> resultGallery(resultCode, data)
 
@@ -78,7 +85,6 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == EdgePermissionManagement.REQUEST_PERMISSION) {
-            mIsResult = true
             resultPermission(permissions, grantResults)
         }
     }
@@ -140,11 +146,12 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
         when (method) {
             PhotoMethod.ALL -> {
                 //选择上传文件
-                EdgeBottomSheetDialogFragment
+                mBottomSheetDialogFragment = EdgeBottomSheetDialogFragment
                     .build(supportFragmentManager, R.layout.dialog_choose_baise)
+                    .setNotFold()
                     .setTransparencyBottomSheetDialog()
                     .setDialogCallback(object : IEdgeDialogCallback {
-                        override fun onDialogDisplay(v: View?, dialog: Dialog) {
+                        override fun onDialogDisplay(v: View?, dialog: EdgeBottomSheetDialogFragment) {
                             val rv = v?.findViewById<RecyclerView>(R.id.rv)
                             rv?.layoutManager = LinearLayoutManager(this@EdgeReceiverActivity)
                             rv?.adapter = ChooseTextAdapter(mChooseStrings, this@EdgeReceiverActivity)
@@ -196,8 +203,10 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
      */
     fun resultCamera() {
         //有可能是没有拍照哦
-        if (mFileUri != null && File(mFileUri?.encodedPath).exists()) {
+        if (mFileUri != null && File(mTempPhoto).exists()) {
+            mIsResult = true
             IEdgePhoto?.onChoosePhotoUris(arrayOf(mFileUri!!))
+            EdgeSystemUtils.systemGalleyInsert(mTempPhoto!!)
         }
     }
 
@@ -205,6 +214,7 @@ class EdgeReceiverActivity : AppCompatActivity(), ChooseTextAdapter.OnAdapterCli
      * @sample resultGallery 这是WebView图片上传回调,支持重写
      */
     fun resultGallery(resultCode: Int, data: Intent?) {
+        mIsResult = true
         IEdgePhoto?.onChoosePhotoUris(WebChromeClient.FileChooserParams.parseResult(resultCode, data))
     }
 

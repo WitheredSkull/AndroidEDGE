@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.daniel.edge.utils.viewUtils.EdgeViewHelperUtils
+import com.daniel.edge.utils.viewUtils.EdgeViewHelper
 import com.qiang.keyboard.R
 import com.qiang.keyboard.expand.createOptionsMenu
 import com.qiang.keyboard.expand.optionsItemSelected
@@ -32,7 +32,7 @@ class TextActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_send_text)
-        EdgeViewHelperUtils.setOnClicks(this, bt_send)
+        EdgeViewHelper.setOnClicks(this, bt_send)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

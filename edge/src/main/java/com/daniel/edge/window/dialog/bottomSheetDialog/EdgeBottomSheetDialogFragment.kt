@@ -9,13 +9,19 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.daniel.edge.R
+import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.window.dialog.IEdgeDialogCallback
 import com.daniel.edge.window.dialog.bottomSheetDialog.model.OnEdgeDialogClickListener
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import java.lang.Exception
+import java.lang.ref.WeakReference
 
 /**
  * @Author: Daniel
@@ -39,22 +45,27 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     //点击事件Id集合
     private var mOnClickIdRes = arrayListOf<Int>()
     //点击事件
-    private var mOnClickListener: OnEdgeDialogClickListener? = null
+    private var mOnEdgeDialogClickListener: OnEdgeDialogClickListener? = null
     //View
     private var mView: View? = null
     //打开次数
     private var startCount = 0
+    //是否需要折叠
+    private var mIsFold = true
 
     override fun onClick(v: View) {
-        mOnClickListener?.onClick(mView!!, v, dialog)
+        mOnEdgeDialogClickListener?.onClick(mView!!, v, this)
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        if (savedInstanceState != null) {
+            return super.onCreateDialog(savedInstanceState)
+        }
         //设置主题样式和对象
         if (mIsTransparencyBottomSheetDialog) {
             bottomSheetDialog =
                 BottomSheetDialog(context!!, R.style.TransparencyBottomSheetDialog)
-        }else{
+        } else {
             bottomSheetDialog =
                 BottomSheetDialog(context!!)
         }
@@ -79,28 +90,35 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mEdgeDialogCallback?.onDialogDisplay(mView, dialog)
+        mEdgeDialogCallback?.onDialogDisplay(mView, this)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        super.onDismiss(dialog)
         mEdgeDialogCallback?.onDialogDismiss()
+        super.onDismiss(dialog)
     }
 
     override fun onStart() {
         super.onStart()
         if (startCount == 0) {
             ++startCount
-//            var bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
-//            var behavior = BottomSheetBehavior.from(bottomSheet)
+            if (!mIsFold) {
+                var bottomSheet = dialog.findViewById<View>(R.id.design_bottom_sheet)
+                var behavior = BottomSheetBehavior.from(bottomSheet)
 //            if (config!!.isFullScreen) {
-//                behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//            }
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
 //            if (config!!.maxHeight != 0) {
 //                behavior.peekHeight = config!!.maxHeight
 //            }
         }
+    }
+
+    override fun onDestroyView() {
+        mEdgeDialogCallback = null
+        mOnEdgeDialogClickListener = null
+        super.onDestroyView()
     }
 
     /**
@@ -109,7 +127,7 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
      * @param resIds 资源ID
      */
     fun addOnClick(onClickListener: OnEdgeDialogClickListener, @IdRes vararg resIds: Int): EdgeBottomSheetDialogFragment {
-        mOnClickListener = onClickListener
+        mOnEdgeDialogClickListener = onClickListener
         mOnClickIdRes.addAll(resIds.toList())
         setOnClick()
         return this
@@ -124,7 +142,15 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
     }
 
     /**
-     * @param dimAmount 界面透明度
+     * 关闭折叠
+     */
+    fun setNotFold(): EdgeBottomSheetDialogFragment {
+        mIsFold = false
+        return this
+    }
+
+    /**
+     * @param dimAmount Window界面遮罩层透明度
      */
     fun setDimAmount(dimAmount: Float): EdgeBottomSheetDialogFragment {
         mDimAmount = dimAmount
@@ -132,16 +158,18 @@ class EdgeBottomSheetDialogFragment : BottomSheetDialogFragment(), View.OnClickL
         return this
     }
 
-    fun setTransparencyBottomSheetDialog():EdgeBottomSheetDialogFragment {
+    fun setTransparencyBottomSheetDialog(): EdgeBottomSheetDialogFragment {
         mIsTransparencyBottomSheetDialog = true
         return this
     }
 
-    fun show(tag: String? = null) {
+    fun show(tag: String? = null): EdgeBottomSheetDialogFragment {
         if (TextUtils.isEmpty(tag)) {
-            return show(fm, "${System.currentTimeMillis()}")
+            show(fm, "${System.currentTimeMillis()}")
+            return this
         } else {
-            return show(fm, tag)
+            show(fm, tag)
+            return this
         }
     }
 

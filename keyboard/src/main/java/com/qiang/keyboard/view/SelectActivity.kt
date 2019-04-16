@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.view.View
 import com.daniel.edge.utils.toast.EdgeToastUtils
-import com.daniel.edge.utils.viewUtils.EdgeViewHelperUtils
+import com.daniel.edge.utils.viewUtils.EdgeViewHelper
 import com.qiang.keyboard.IKeyboardAidlInterface
 import com.qiang.keyboard.R
 import com.qiang.keyboard.service.OnWebSocketConnectListener
@@ -83,7 +83,7 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select)
-        EdgeViewHelperUtils.setOnClicks(
+        EdgeViewHelper.setOnClicks(
             this,
             tv_send_text,
             tv_send_forthwith,

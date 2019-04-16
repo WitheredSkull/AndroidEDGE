@@ -2,6 +2,7 @@ package com.daniel.edge.window.dialog
 
 import android.app.Dialog
 import android.view.View
+import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
 
 /**
  * @Author: Daniel
@@ -9,6 +10,6 @@ import android.view.View
  * @Description:
  */
 interface IEdgeDialogCallback {
-    fun onDialogDisplay(v: View?,dialog:Dialog )
+    fun onDialogDisplay(v: View?,dialog:EdgeBottomSheetDialogFragment )
     fun onDialogDismiss()
 }

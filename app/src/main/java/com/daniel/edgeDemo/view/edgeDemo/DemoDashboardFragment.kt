@@ -34,7 +34,7 @@ class DemoDashboardFragment : Fragment() {
         mWebViewUtils.initDefaultChromeClient()
             .initDefaultClient()
             .initDefaultSetting()
-            .load("http://chuantu.biz/")
+            .load("https://www.baidu.com/")
             .build()
         return mView
     }

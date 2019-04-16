@@ -1,11 +1,17 @@
 package com.daniel.edge.utils.appCompat
 
 import android.content.Context
+import android.net.Uri
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.annotation.ColorRes
 import androidx.annotation.LayoutRes
 import android.view.View
+import androidx.core.content.FileProvider
 import com.daniel.edge.config.Edge
+import com.daniel.edge.management.application.EdgeApplicationManagement
+import java.io.File
 
 
 /**
@@ -26,5 +32,41 @@ object EdgeAppCompat {
     @JvmStatic
     fun getView(context: Context, @LayoutRes layoutRes: Int): View {
         return View.inflate(context, layoutRes, null)
+    }
+
+    /**
+     * 振动,支持到8.0以上
+     */
+    @JvmStatic
+    fun vibrator(vibrator: Vibrator, duration: Long) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(duration)
+        }
+    }
+
+    /**
+     * 文件转Uri
+     */
+    @JvmStatic
+    fun fileToUri(file: File): Uri {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return Uri.fromFile(file)
+        } else {
+            return FileProvider.getUriForFile(
+                Edge.CONTEXT,
+                EdgeApplicationManagement.appPackageName() + ".EdgeFileProvider",
+                file
+            )
+        }
+    }
+
+    /**
+     * 路径转Uri
+     */
+    @JvmStatic
+    fun pathToUri(path: String): Uri {
+        return fileToUri(File(path))
     }
 }

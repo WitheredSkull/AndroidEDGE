@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import com.daniel.edge.R
 import com.daniel.edge.config.Edge
 import com.daniel.edge.management.application.EdgeApplicationManagement
+import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.text.EdgeTextUtils
 import com.daniel.edge.window.dialog.IEdgeDialogCallback
 import com.daniel.edge.window.dialog.bottomSheetDialog.EdgeBottomSheetDialogFragment
@@ -30,7 +31,7 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
     var mCacheOpenAppURL: String? = null
     var mCacheOpenIntent: Intent? = null
     var mOpenAppHistory = arrayListOf<String>()
-    override fun onClick(parent: View, view: View, dialog: Dialog) {
+    override fun onClick(parent: View, view: View, dialog: EdgeBottomSheetDialogFragment) {
         when (view.id) {
             R.id.tv_allow -> {
                 onOpenAppAllow()
@@ -41,9 +42,7 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
                 }
             }
         }
-        if (dialog.isShowing) {
-            dialog.dismiss()
-        }
+        dialog.dismiss()
         //做完操作后需要删除记录保证程序的稳定运行
         mCacheOpenAppName = null
         mCacheOpenIntent = null
@@ -111,6 +110,7 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
         mCacheOpenAppURL = url
         mCacheOpenIntent = Intent()
         mCacheOpenIntent?.action = Intent.ACTION_VIEW
+        mCacheOpenIntent?.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         val uri = Uri.parse(url)
         mCacheOpenIntent?.data = uri
         var deCodeUrl = URLDecoder.decode(url)
@@ -134,17 +134,17 @@ class EdgeWebViewClient : WebViewClient, OnEdgeDialogClickListener {
                 .setTransparencyBottomSheetDialog()
                 .addOnClick(this, R.id.tv_allow, R.id.tv_reject)
                 .setDialogCallback(object : IEdgeDialogCallback {
-                    override fun onDialogDismiss() {
-
-                    }
-
-                    override fun onDialogDisplay(v: View?, dialog: Dialog) {
+                    override fun onDialogDisplay(v: View?, dialog: EdgeBottomSheetDialogFragment) {
                         v?.findViewById<TextView>(R.id.tv_content)?.text =
                             if (EdgeTextUtils.isEmpty(mCacheOpenAppName)) {
                                 Edge.CONTEXT.getString(R.string.open_external_app_format)
                             } else {
                                 String.format(Edge.CONTEXT.getString(R.string.open_app_format), mCacheOpenAppName)
                             }
+                    }
+
+                    override fun onDialogDismiss() {
+
                     }
                 })
                 .show()

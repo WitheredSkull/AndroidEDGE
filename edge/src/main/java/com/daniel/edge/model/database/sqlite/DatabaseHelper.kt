@@ -4,7 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.daniel.edge.config.Edge
-import com.daniel.edge.model.database.table.DBTDownload
+import com.daniel.edge.model.database.table.DownLoadTable
 
 /**
  * @Author:      Daniel
@@ -25,7 +25,7 @@ class DatabaseHelper : SQLiteOpenHelper {
     )
 
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL(DBTDownload.SQL)
+        db?.execSQL(DownLoadTable.SQL_CREATE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {

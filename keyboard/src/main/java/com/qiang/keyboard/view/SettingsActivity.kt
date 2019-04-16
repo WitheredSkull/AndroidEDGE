@@ -19,8 +19,10 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import androidx.fragment.app.Fragment
 import com.daniel.edge.utils.log.EdgeLog
+import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.qiang.keyboard.R
 import com.qiang.keyboard.utlis.VibrateUtlis
 
@@ -54,6 +56,19 @@ class SettingsActivity : AppCompatPreferenceActivity() {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     override fun onBuildHeaders(target: List<PreferenceActivity.Header>) {
         loadHeadersFromResource(R.xml.pref_headers, target)
+//        findPreference("action_theme").setOnPreferenceClickListener {
+//            startActivity(Intent(this,LoginActivity::class.java))
+//            true
+//        }
+    }
+
+    override fun onListItemClick(l: ListView?, v: View, position: Int, id: Long) {
+        super.onListItemClick(l, v, position, id)
+        when (v?.id){
+            R.id.action_theme ->{
+                EdgeToastUtils.getInstance().show("测试")
+            }
+        }
     }
 
     /**
@@ -101,7 +116,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
         }
     }
 
-    class ThemePreferenceFragment : Fragment() {
+    class ThemePreferenceFragment : PreferenceFragment() {
 
         override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 

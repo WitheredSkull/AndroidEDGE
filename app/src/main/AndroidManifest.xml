@@ -21,9 +21,10 @@
         android:roundIcon="@mipmap/ic_edge_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name="com.daniel.edgeDemo.view.edgeDemo.ScrollViewActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.daniel.edgeDemo.view.edgeDemo.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
@@ -32,6 +33,10 @@
             android:name="com.daniel.edgeDemo.view.edgeDemo.DemoActivity"
             android:label="@string/title_activity_demo">
             <intent-filter>
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
