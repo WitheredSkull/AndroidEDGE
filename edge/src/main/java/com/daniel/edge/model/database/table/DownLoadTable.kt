@@ -2,26 +2,40 @@ package com.daniel.edge.model.database.table
 
 import android.content.ContentValues
 import com.daniel.edge.config.Edge
+import com.daniel.edge.management.download.model.DownloadModel
 import com.daniel.edge.model.database.sqlite.DatabaseHelper
 
-class DownLoadTable {
+class DownloadTable {
     var dbHelper: DatabaseHelper
 
     init {
         dbHelper = DatabaseHelper(Edge.CONTEXT)
     }
 
+    fun insert(model: DownloadModel):Long {
+        val db = dbHelper.writableDatabase
+        db.beginTransaction()
+        var values = ContentValues()
+        values.put(NAME, model.name)
+        values.put(URL, model.url)
+        values.put(INS, model.currentTime)
+        values.put(STATE, model.state)
+        val id = db.insert(TABLE_NAME, null, values)
+        values.clear()
+        db.endTransaction()
+        db.close()
+        return id
+    }
 
-    fun insert(list: ArrayList<DownloadModel>) {
+    fun insertAll(list: ArrayList<DownloadModel>) {
         val db = dbHelper.writableDatabase
         db.beginTransaction()
         list.forEach {
             var values = ContentValues()
-            values.put(DOWNLOAD_NAME, it.name)
-            values.put(DOWNLOAD_URL, it.url)
-            values.put(THREAD_ID, it.thread_id)
-            values.put(THREAD_DOWNLOAD_SIZE, it.thread_download_size)
-            values.put(THREAD_TOTAL_SIZE, it.thread_total_size)
+            values.put(NAME, it.name)
+            values.put(URL, it.url)
+            values.put(INS, it.currentTime)
+            values.put(STATE, it.state)
             db.insert(TABLE_NAME, null, values)
             values.clear()
         }
@@ -29,19 +43,37 @@ class DownLoadTable {
         db.close()
     }
 
-    fun query(): ArrayList<DownloadModel> {
+    fun queryFromURL(url:String):DownloadModel?{
+        var list = arrayListOf<DownloadModel>()
+        val db = dbHelper.readableDatabase
+        var cursor = db.query(TABLE_NAME, null, "${URL}=?", arrayOf(url), null, null, null)
+        while (cursor.moveToNext()) {
+            list.add(
+                DownloadModel(
+                    cursor.getInt(cursor.getColumnIndex(ID)),
+                    cursor.getString(cursor.getColumnIndex(NAME)),
+                    cursor.getString(cursor.getColumnIndex(URL)),
+                    cursor.getInt(cursor.getColumnIndex(STATE)),
+                    cursor.getLong(cursor.getColumnIndex(INS))
+                )
+            )
+        }
+        return list.firstOrNull()
+    }
+
+
+    fun queryAll(): ArrayList<DownloadModel> {
         var list = arrayListOf<DownloadModel>()
         val db = dbHelper.readableDatabase
         var cursor = db.query(TABLE_NAME, null, null, null, null, null, null)
         while (cursor.moveToNext()) {
             list.add(
                 DownloadModel(
-                    cursor.getInt(cursor.getColumnIndex(DOWNLOAD_ID)),
-                    cursor.getString(cursor.getColumnIndex(DOWNLOAD_NAME)),
-                    cursor.getString(cursor.getColumnIndex(DOWNLOAD_URL)),
-                    cursor.getInt(cursor.getColumnIndex(THREAD_ID)),
-                    cursor.getLong(cursor.getColumnIndex(THREAD_DOWNLOAD_SIZE)),
-                    cursor.getLong(cursor.getColumnIndex(THREAD_TOTAL_SIZE))
+                    cursor.getInt(cursor.getColumnIndex(ID)),
+                    cursor.getString(cursor.getColumnIndex(NAME)),
+                    cursor.getString(cursor.getColumnIndex(URL)),
+                    cursor.getInt(cursor.getColumnIndex(STATE)),
+                    cursor.getLong(cursor.getColumnIndex(INS))
                 )
             )
         }
@@ -50,25 +82,49 @@ class DownLoadTable {
         return list
     }
 
+    fun update(model: DownloadModel){
+        val db = dbHelper.writableDatabase
+        var values = ContentValues()
+        values.put(ID, model.id)
+        values.put(NAME, model.name)
+        values.put(URL, model.url)
+        values.put(STATE, model.state)
+        values.put(INS, model.currentTime)
+        db.update(TABLE_NAME, values, "${ID}=?", arrayOf("${model.id}"))
+    }
+
+    fun updateAll(list: ArrayList<DownloadModel>) {
+        val db = dbHelper.writableDatabase
+        list.forEach {
+            var values = ContentValues()
+            values.put(NAME, it.name)
+            values.put(URL, it.url)
+            values.put(STATE, it.state)
+            values.put(INS, it.currentTime)
+            db.update(TABLE_NAME, values, "${ID}=?", arrayOf("${it.id}"))
+            values.clear()
+        }
+    }
+
     object Instance {
-        val INSTANCE = DownLoadTable()
+        val INSTANCE = DownloadTable()
     }
 
     companion object {
         val TABLE_NAME = "download"
-        val DOWNLOAD_ID = "id"
-        val DOWNLOAD_NAME = "name"
-        val DOWNLOAD_URL = "url"
-        val THREAD_ID = "thread_id"
-        val THREAD_DOWNLOAD_SIZE = "thread_download_size"
-        val THREAD_TOTAL_SIZE = "thread_total_size"
+        val ID = "id"
+        val NAME = "name"
+        val URL = "url"
+        val STATE = "state"
+        val INS = "ins"
 
         val SQL_CREATE = "create table ${TABLE_NAME}(" +
-                "${DOWNLOAD_ID} integer primary key autoincrement," +
-                "${DOWNLOAD_NAME} text," +
-                "${DOWNLOAD_URL} text," +
-                "${THREAD_ID} integer," +
-                "${THREAD_DOWNLOAD_SIZE} long," +
-                "${THREAD_TOTAL_SIZE} long)"
+                "${ID} integer primary key autoincrement," +
+                "${NAME} text," +
+                "${URL} text," +
+                "${STATE} integer," +
+                "${INS} integer)"
+
+        fun getInstance() = Instance.INSTANCE
     }
 }

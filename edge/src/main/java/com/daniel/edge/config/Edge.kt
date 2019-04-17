@@ -14,4 +14,10 @@ object Edge {
     lateinit var CONTEXT:Context
     @JvmStatic
     var DATABASE_VERSION = 1
+
+    /**
+     * 网络请求相关
+     */
+    val CONNECT_TIMEOUT = 5000
+    val READ_TIMEOUT = 5000
 }

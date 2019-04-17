@@ -7,12 +7,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
+import com.daniel.edge.management.download.DownloadManager
+import com.daniel.edge.management.file.EdgeFileManagement
 import com.daniel.edgeDemo.R
 import com.daniel.edgeDemo.databinding.ActivityDemoBinding
 import com.daniel.edge.management.fragment.EdgeFragmentManager
 import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edgeDemo.viewModel.DemoViewModel
+import java.io.File
 
 class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     OnEdgePermissionCallBack {
@@ -68,6 +71,15 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Thread(object :Runnable{
+            override fun run() {
+
+                DownloadManager.getInstance().down(
+                    "https://alissl.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_778701_web_seo_baidu_homepage.apk",
+                    File(EdgeFileManagement.getEdgeExternalPath()), 3
+                ).allStart()
+            }
+        }).start()
         activityDemoBinding = DataBindingUtil.setContentView(this, R.layout.activity_demo)
         viewModel = ViewModelProviders.of(this).get(DemoViewModel::class.java)
         activityDemoBinding.viewModel = viewModel
