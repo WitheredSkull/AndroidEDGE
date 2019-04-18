@@ -115,6 +115,15 @@
                 android:background="@drawable/shape_default_button"
                 android:text="登录"
                 android:textColor="@color/white" />
+            <Button
+                android:id="@+id/bt_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/dp_18"
+                android:background="@drawable/shape_default_button"
+                android:text="切换键盘"
+                android:textColor="@color/white" />
         </LinearLayout>
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,6 +80,10 @@ class WebSocketService : Service, KeyboardInterface {
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
+            val intent = Intent()
+            intent.action = InputService.ACTION_COMMIT_TEXT
+            intent.putExtra(InputService.RECEIVER_DATA,text)
+            sendBroadcast(intent)
             EdgeLog.show(javaClass, "WebSocket", "收到消息${Thread.currentThread().name} ${text}")
             super.onMessage(webSocket, text)
         }

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">QKey</string>
+    <string name="keyboard_name">QKey即时输入键盘</string>
     <string name="hint_account">请输入用户名/手机号</string>
     <string name="hint_text">请输入文本</string>
     <string name="hint_num">请输入需要计算的数字</string>
@@ -8,6 +9,8 @@
     <string name="new_account">新用户注册</string>
     <string name="select_keyboard">选择键盘</string>
     <string name="action_settings">设置</string>
+    <string name="setting_input_keyboard">设置键盘</string>
+    <string name="action_input_keyboard">开启即时键盘</string>
     <string name="action_text">纯文本</string>
     <string name="action_accountant">会计键盘</string>
     <string name="action_calculate">计算键盘</string>
@@ -41,4 +44,7 @@
 
 
     <string name="settings_theme">主题设置</string>
+
+    <string name="open_input">开启即时输入</string>
+    <string name="close_input">关闭即时输入</string>
 </resources>

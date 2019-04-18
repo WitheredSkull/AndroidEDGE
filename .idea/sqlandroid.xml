@@ -3,7 +3,7 @@
   <component name="SQLAndroidSettings">
     <option name="packageNameByDirectory">
       <map>
-        <entry key="E:\Android\AndroidEDGE\AndroidSqlEditorDatabases\" value="com.daniel.edge" />
+        <entry key="E:\Android\AndroidEDGE\AndroidSqlEditorDatabases\" value="com.qiang.keyboard" />
       </map>
     </option>
     <option name="storageVersion" value="2" />

@@ -56,6 +56,7 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
             return
         }
         when (v.id) {
+            R.id.tv_open_keyboard -> startActivity(Intent(this, SelectKeyboardActivity::class.java))
             //文本键盘
             R.id.tv_send_text -> startActivity(Intent(this, TextActivity::class.java))
             //即时键盘
@@ -85,6 +86,7 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
         setContentView(R.layout.activity_select)
         EdgeViewHelper.setOnClicks(
             this,
+            tv_open_keyboard,
             tv_send_text,
             tv_send_forthwith,
             tv_send_half_left,
