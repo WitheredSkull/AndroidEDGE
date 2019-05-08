@@ -2,14 +2,13 @@ package com.qiang.keyboard.view
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.daniel.edge.utils.viewUtils.EdgeViewHelper
 import com.qiang.keyboard.R
-import com.qiang.keyboard.view.keyboard.BaseKeyboardActivity
+import com.qiang.keyboard.view.base.BaseKeyboardActivity
 import kotlinx.android.synthetic.main.activity_select_keyboard.*
 
 class SelectKeyboardActivity : BaseKeyboardActivity(), View.OnClickListener {
@@ -36,9 +35,24 @@ class SelectKeyboardActivity : BaseKeyboardActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_keyboard)
+        val type = intent.getIntExtra(KEYBOARD_TYPE, 0)
+        tv_title.setText(
+            when (type) {
+                0 ->
+                    R.string.action_input_keyboard
+                1 ->
+                    R.string.open_bluetooth_keyboard
+                else ->
+                    R.string.action_input_keyboard
+            }
+        )
         EdgeViewHelper.setOnClicks(
             this, tv_setting_input_keyboard,
             tv_select
         )
+    }
+
+    companion object {
+        val KEYBOARD_TYPE = "keyboardType"
     }
 }

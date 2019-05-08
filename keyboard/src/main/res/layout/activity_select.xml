@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_32"
         android:gravity="center"
-        android:text="@string/select_keyboard"
+        android:text="@string/action_select"
         android:textSize="@dimen/sp_18"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,6 +109,17 @@
                 android:background="@drawable/shape_round_border_gray_100dp"
                 android:gravity="center"
                 android:text="@string/action_calculate" />
+
+            <TextView
+                android:id="@+id/tv_bluetooth"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginStart="@dimen/dp_32"
+                android:layout_marginTop="@dimen/dp_18"
+                android:layout_marginEnd="@dimen/dp_32"
+                android:background="@drawable/shape_round_border_gray_100dp"
+                android:gravity="center"
+                android:text="@string/action_bluetooth" />
         </LinearLayout>
 
     </com.daniel.edge.view.nested.view.EdgeScaleScrollView>

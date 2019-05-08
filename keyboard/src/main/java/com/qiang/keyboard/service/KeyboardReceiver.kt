@@ -3,6 +3,7 @@ package com.qiang.keyboard.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.daniel.edge.management.bluetooth.EdgeBluetoothManager
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.qiang.keyboard.presenter.KeyboardController
@@ -41,6 +42,7 @@ class KeyboardReceiver : BroadcastReceiver {
 
             text?.let {
                 if (intent.getBooleanExtra(IsSendText, true)) {
+                    //发送数据
                     keyboardInterface?.onInput(it)
                 } else {
                     keyboardInterface?.onChart(it)

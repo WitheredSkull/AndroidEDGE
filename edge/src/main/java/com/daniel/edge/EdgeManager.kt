@@ -8,10 +8,14 @@ import com.daniel.edge.config.Edge
 import com.daniel.edge.utils.log.model.EdgeLogConfig
 import com.daniel.edge.utils.log.model.EdgeLogType
 import com.daniel.edge.management.activity.EdgeActivityManagement
+import com.daniel.edge.management.application.EdgeApplicationManagement
 import com.daniel.edge.utils.appCompat.EdgeAppCompat
+import com.daniel.edge.utils.system.EdgeSystemUtils
 import com.daniel.edge.utils.toast.model.EdgeToastConfig
 import com.daniel.edge.view.toolBar.TooBarViewUtils
 import com.squareup.leakcanary.LeakCanary
+import com.tencent.bugly.crashreport.CrashReport
+import java.io.BufferedInputStream
 
 /**
  * 创建人 Daniel
@@ -20,7 +24,7 @@ import com.squareup.leakcanary.LeakCanary
  */
 class EdgeManager(application: Application) {
     private var application: Application
-    private var context: Context
+    private val Bugly_App_Id = "ab60366761"
 
     companion object {
         @Volatile
@@ -41,15 +45,17 @@ class EdgeManager(application: Application) {
 
     init {
         Edge.CONTEXT = application.applicationContext
-        context = application.applicationContext
         this.application = application
-        if (!LeakCanary.isInAnalyzerProcess(context)) {
+        if (!LeakCanary.isInAnalyzerProcess(Edge.CONTEXT)) {
             LeakCanary.install(application)
+            //建议在测试阶段建议设置成true，发布时设置为false。
+            CrashReport.initCrashReport(Edge.CONTEXT, Bugly_App_Id, true)
+            CrashReport.putUserData(Edge.CONTEXT, "上传者", "未知")
         }
     }
 
     //设置数据库版本哈
-    fun initEdgeDatabaseVersion(version:Int):EdgeManager{
+    fun initEdgeDatabaseVersion(version: Int): EdgeManager {
         Edge.DATABASE_VERSION = version
         return this
     }
@@ -106,7 +112,7 @@ class EdgeManager(application: Application) {
         return this
     }
 
-    fun initToast():EdgeManager{
+    fun initToast(): EdgeManager {
         EdgeToastConfig
             .getInstance()
             .setLayout(R.layout.layout_toast)//传入布局

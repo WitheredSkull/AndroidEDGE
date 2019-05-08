@@ -19,9 +19,9 @@ class EdgeLogConfig {
         //设置日志类型
         var TYPE: EdgeLogType = EdgeLogType.RELEASE
         //每一行最大字符长度
-        var LENGTH: Int = 150
+        var LINE_MAX_LENGTH: Int = 150
         //上下对齐行数
-        var LINES: Int = 1
+        var SPACE_LINES: Int = 1
         //结束标识符
         var END_FLAG = " END"
 
@@ -55,7 +55,7 @@ class EdgeLogConfig {
      * 设置日志每行最大长度
      */
     fun setLength(int: Int): EdgeLogConfig {
-        LENGTH = int
+        LINE_MAX_LENGTH = int
         return this
     }
 
@@ -63,7 +63,7 @@ class EdgeLogConfig {
      * 设置上下间隔
      */
     fun setMarginLines(int: Int): EdgeLogConfig {
-        LINES = int
+        SPACE_LINES = int
         return this
     }
 

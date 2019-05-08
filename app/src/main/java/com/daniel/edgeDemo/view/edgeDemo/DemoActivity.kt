@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.daniel.edge.management.download.DownloadManager
+import com.daniel.edge.management.download.constants.OnDownloadListener
 import com.daniel.edge.management.download.model.DownloadThreadModel
 import com.daniel.edge.management.file.EdgeFileManagement
 import com.daniel.edgeDemo.R
@@ -31,14 +32,25 @@ class DemoActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             DemoDashboardFragment::class.java,
             DemoNotificationsFragment::class.java
         )
-        Thread(object : Runnable {
-            override fun run() {
-                DownloadManager.getInstance().down(
-                    "https://alissl.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_778701_web_seo_baidu_homepage.apk",
-                    File(EdgeFileManagement.getEdgeExternalPath()), 3
-                ).allStart()
-            }
-        }).start()
+        DownloadManager.getInstance()
+            .setCallback(object :OnDownloadListener{
+                override fun onStart(url: String) {
+                    EdgeLog.show(javaClass,"下载","下载开始")
+                }
+
+                override fun onProgress(url: String, progress: Int, loadSize: Long, length: Long) {
+                    EdgeLog.show(javaClass,"下载","进度${progress}")
+                }
+
+                override fun onStop(url: String, error: String) {
+                    EdgeLog.show(javaClass,"下载","下载停止：${error}")
+                }
+
+                override fun onSuccess(url: String) {
+                    EdgeLog.show(javaClass,"下载","下载完成")
+                }
+
+            }).start("https://alissl.ucdl.pp.uc.cn/fs01/union_pack/Wandoujia_778701_web_seo_baidu_homepage.apk",File(EdgeFileManagement.getEdgeExternalPath()))
     }
 
     override fun onRequestPermissionFailure(permissions: ArrayList<String>) {

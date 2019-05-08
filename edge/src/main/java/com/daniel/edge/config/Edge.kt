@@ -10,7 +10,6 @@ import android.content.Context
  */
 @SuppressLint("StaticFieldLeak")
 object Edge {
-    @JvmStatic
     lateinit var CONTEXT:Context
     @JvmStatic
     var DATABASE_VERSION = 1
@@ -20,4 +19,5 @@ object Edge {
      */
     val CONNECT_TIMEOUT = 5000
     val READ_TIMEOUT = 5000
+
 }

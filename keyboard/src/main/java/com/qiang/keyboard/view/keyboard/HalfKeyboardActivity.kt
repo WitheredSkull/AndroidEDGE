@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.qiang.keyboard.R
+import com.qiang.keyboard.view.base.BaseKeyboardActivity
 
 class HalfKeyboardActivity : BaseKeyboardActivity() {
     lateinit var mTVText: TextView

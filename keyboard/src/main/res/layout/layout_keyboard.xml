@@ -7,9 +7,15 @@
     android:orientation="vertical">
 
     <ToggleButton
-        android:id="@+id/toggleButton"
+        android:id="@+id/tb_web"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textOff="@string/close_input"
-        android:textOn="@string/open_input" />
+        android:textOff="@string/close_web_input"
+        android:textOn="@string/open_web_input" />
+    <ToggleButton
+        android:id="@+id/tb_bluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/close_bluetooth_input"
+        android:textOn="@string/open_bluetooth_input" />
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.qiang.keyboard.view.keyboard
 
 import android.os.Bundle
 import com.qiang.keyboard.R
+import com.qiang.keyboard.view.base.BaseKeyboardActivity
 import kotlinx.android.synthetic.main.activity_send_accountant.*
 
 class AccountantActivity : BaseKeyboardActivity() {

@@ -1,4 +1,4 @@
-package com.daniel.edge.Utils.Safety
+package com.daniel.edge.utils.safety
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

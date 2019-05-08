@@ -9,9 +9,10 @@ import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.daniel.edge.utils.viewUtils.EdgeViewHelper
 import com.qiang.keyboard.IKeyboardAidlInterface
 import com.qiang.keyboard.R
-import com.qiang.keyboard.service.OnWebSocketConnectListener
+import com.qiang.keyboard.service.OnWebSocketListener
 import com.qiang.keyboard.service.WebSocketReceiver
 import com.qiang.keyboard.service.WebSocketService
+import com.qiang.keyboard.view.base.BaseKeyboardActivity
 import com.qiang.keyboard.view.keyboard.AccountantActivity
 import com.qiang.keyboard.view.keyboard.CalculateActivity
 import com.qiang.keyboard.view.keyboard.HalfKeyboardActivity
@@ -19,25 +20,19 @@ import com.qiang.keyboard.view.keyboard.KeyboardActivity
 import com.qiang.keyboard.view.text.TextActivity
 import kotlinx.android.synthetic.main.activity_select.*
 
-class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketConnectListener {
+class SelectActivity : BaseKeyboardActivity(), View.OnClickListener, OnWebSocketListener {
+    override fun appendText(text: String) {
+
+    }
+
+    override fun initAction(): String {
+        return getString(R.string.action_select)
+    }
+
     var isServiceConnection = false
-    override fun onOpen() {
-        for (index in 0..ll_select.childCount - 1) {
-            ll_select.getChildAt(index).setBackgroundResource(R.drawable.shape_round_border_gray_100dp)
-        }
-        isServiceConnection = true
-    }
-
-    override fun onClose() {
-        for (index in 0..ll_select.childCount - 1) {
-            ll_select.getChildAt(index).setBackgroundResource(R.drawable.shape_round_gray_100dp)
-        }
-        isServiceConnection = false
-    }
-
     var mIKeyboardAidlInterface: IKeyboardAidlInterface? = null
-    var mWebSocketReceiver: WebSocketReceiver? = null
     var mWebSocketIntent: Intent? = null
+    var mWebSocketReceiver: WebSocketReceiver? = null
     var serviceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName) {
             mIKeyboardAidlInterface = null
@@ -47,11 +42,18 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
             mIKeyboardAidlInterface = IKeyboardAidlInterface.Stub.asInterface(service)
             mIKeyboardAidlInterface?.sendData("测试")
         }
+    }
 
+    override fun onOpen() {
+        isServiceConnection = true
+    }
+
+    override fun onClose() {
+        isServiceConnection = false
     }
 
     override fun onClick(v: View) {
-        if (!isServiceConnection) {
+        if (!isServiceConnection && v.id != R.id.tv_bluetooth) {
             EdgeToastUtils.getInstance().show("服务器未连接")
             return
         }
@@ -61,16 +63,15 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
             R.id.tv_send_text -> startActivity(Intent(this, TextActivity::class.java))
             //即时键盘
             R.id.tv_send_forthwith -> startActivity(Intent(this, KeyboardActivity::class.java))
-            //左半键盘
-
             R.id.tv_send_half_left -> {
-                var intent = Intent(this, HalfKeyboardActivity::class.java)
+                //左半键盘
+                val intent = Intent(this, HalfKeyboardActivity::class.java)
                 intent.putExtra(HalfKeyboardActivity.ACTION_AWAY, 0)
                 startActivity(intent)
             }
             //右半键盘
             R.id.tv_send_half_right -> {
-                var intent = Intent(this, HalfKeyboardActivity::class.java)
+                val intent = Intent(this, HalfKeyboardActivity::class.java)
                 intent.putExtra(HalfKeyboardActivity.ACTION_AWAY, 1)
                 startActivity(intent)
             }
@@ -78,6 +79,8 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
             R.id.tv_send_accountant -> startActivity(Intent(this, AccountantActivity::class.java))
             //计算器
             R.id.tv_calculate -> startActivity(Intent(this, CalculateActivity::class.java))
+            //蓝牙键盘
+            R.id.tv_bluetooth -> startActivity(Intent(this, SelectBluetoothActivity::class.java))
         }
     }
 
@@ -92,7 +95,8 @@ class SelectActivity : AppCompatActivity(), View.OnClickListener, OnWebSocketCon
             tv_send_half_left,
             tv_send_half_right,
             tv_send_accountant,
-            tv_calculate
+            tv_calculate,
+            tv_bluetooth
         )
         onClose()
         mWebSocketIntent = Intent(this, WebSocketService::class.java)

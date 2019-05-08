@@ -1,4 +1,4 @@
-package com.qiang.keyboard.view.keyboard
+package com.qiang.keyboard.view.base
 
 import android.content.IntentFilter
 import android.os.Bundle
@@ -7,7 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.daniel.edge.utils.log.EdgeLog
+import com.daniel.edge.management.bluetooth.EdgeBluetoothManager
 import com.qiang.keyboard.expand.createOptionsMenu
 import com.qiang.keyboard.expand.optionsItemSelected
 import com.qiang.keyboard.presenter.KeyboardInterface
@@ -76,6 +76,7 @@ abstract class BaseKeyboardActivity : AppCompatActivity(), KeyboardInterface, Ob
     }
 
     override fun onInput(text: String) {
+        EdgeBluetoothManager.getInstance().sendMessage(text)
         mMessage.append(text)
         mMessageLiveData.value = mMessage.toString()
     }

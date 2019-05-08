@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.qiang.keyboard.R
+import com.qiang.keyboard.view.base.BaseKeyboardActivity
 
 class KeyboardActivity : BaseKeyboardActivity() {
     override fun appendText(text: String) {

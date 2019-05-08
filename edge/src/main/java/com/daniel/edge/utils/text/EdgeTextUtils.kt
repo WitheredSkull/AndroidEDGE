@@ -1,10 +1,13 @@
 package com.daniel.edge.utils.text
 
+import com.daniel.edge.config.Edge
+import org.json.JSONObject
 import java.util.regex.Pattern
 
 // Create Time 2018/11/1
 // Create Author Daniel 
 object EdgeTextUtils {
+
     /**
      * @return Json格式化
      */

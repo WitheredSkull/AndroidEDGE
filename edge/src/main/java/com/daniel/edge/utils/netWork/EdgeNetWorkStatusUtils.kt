@@ -2,6 +2,7 @@ package com.daniel.edge.utils.netWork
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import com.daniel.edge.config.Edge
 
 /**
@@ -34,5 +35,16 @@ object EdgeNetWorkStatusUtils {
         }
 
         return false
+    }
+
+    /**
+     * Wifi是否打开
+     */
+    fun wifiEnable():Boolean{
+        val _w = Edge.CONTEXT.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (!_w.isWifiEnabled){
+            _w.setWifiEnabled(true)
+        }
+        return _w.isWifiEnabled
     }
 }

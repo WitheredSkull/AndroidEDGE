@@ -5,6 +5,7 @@ import com.daniel.edge.utils.text.EdgeTextUtils
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.qiang.keyboard.R
 import com.qiang.keyboard.service.KeyboardReceiver
+import com.qiang.keyboard.view.base.BaseKeyboardActivity
 import kotlinx.android.synthetic.main.activity_calculate.*
 import java.lang.Exception
 import java.math.BigDecimal

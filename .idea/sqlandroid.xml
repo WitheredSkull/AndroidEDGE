@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SQLAndroidSettings">
+    <option name="databases">
+      <map>
+        <entry key="1_E:\Android\AndroidEDGE\AndroidSqlEditorDatabases\">
+          <value>
+            <list>
+              <option value="4d49ad7" />
+              <option value="/databases/EdgeLibrary.db" />
+              <option value="1" />
+              <option value="1" />
+              <option value="false" />
+            </list>
+          </value>
+        </entry>
+        <entry key="2_E:\Android\AndroidEDGE\AndroidSqlEditorDatabases\">
+          <value>
+            <list>
+              <option value="4d49ad7" />
+              <option value="/databases/EdgeLibrary.db" />
+              <option value="2" />
+              <option value="2" />
+              <option value="false" />
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="packageNameByDirectory">
       <map>
-        <entry key="E:\Android\AndroidEDGE\AndroidSqlEditorDatabases\" value="com.qiang.keyboard" />
+        <entry key="E:\Android\AndroidEDGE\AndroidSqlEditorDatabases\" value="com.daniel.edgeDemo" />
       </map>
     </option>
     <option name="storageVersion" value="2" />

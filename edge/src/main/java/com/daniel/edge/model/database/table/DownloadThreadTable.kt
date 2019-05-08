@@ -4,6 +4,7 @@ import android.content.ContentValues
 import com.daniel.edge.config.Edge
 import com.daniel.edge.management.download.model.DownloadThreadModel
 import com.daniel.edge.model.database.sqlite.DatabaseHelper
+import com.daniel.edge.utils.log.EdgeLog
 
 class DownloadThreadTable {
     var dbHelper: DatabaseHelper
@@ -44,8 +45,8 @@ class DownloadThreadTable {
                 db.insert(TABLE_NAME, null, values)
                 values.clear()
             }
-        } finally {
             db.setTransactionSuccessful()
+        } finally {
             db.endTransaction()
             db.close()
         }
@@ -93,13 +94,17 @@ class DownloadThreadTable {
         val db = dbHelper.writableDatabase
         db.beginTransaction()
         try {
+//            db.execSQL("update ${TABLE_NAME} set ${START_POSITION}=${threadModel.startPosition} where ${ID}=${threadModel.id}")
             val values = ContentValues()
             values.put(ID, threadModel.id)
             values.put(START_POSITION, threadModel.startPosition)
             values.put(END_POSITION, threadModel.endPosition)
             db.update(TABLE_NAME, values, "${ID}=?", arrayOf("${threadModel.id}"))
             db.setTransactionSuccessful()
-        } finally {
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        finally {
             db.endTransaction()
             db.close()
         }
@@ -118,6 +123,7 @@ class DownloadThreadTable {
                 db.update(TABLE_NAME, values, "${ID}=?", arrayOf("${it.id}"))
                 values.clear()
             }
+            db.setTransactionSuccessful()
         } finally {
             db.endTransaction()
             db.close()
@@ -136,7 +142,7 @@ class DownloadThreadTable {
         val END_POSITION = "end_size"
 
         val SQL_CREATE = "create table ${TABLE_NAME}(" +
-                "${ID} long primary key autoincrement," +
+                "${ID} integer primary key autoincrement," +
                 "${DOWNLOAD_ID} long," +
                 "${START_POSITION} long," +
                 "${END_POSITION} long)"

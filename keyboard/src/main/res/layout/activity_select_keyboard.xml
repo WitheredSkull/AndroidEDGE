@@ -35,12 +35,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:gravity="center"
+                android:hint="测试区域"
+                android:layout_marginStart="@dimen/dp_32"
+                android:layout_marginEnd="@dimen/dp_32" />
+
             <TextView
                 android:id="@+id/tv_setting_input_keyboard"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_40"
                 android:layout_marginStart="@dimen/dp_32"
                 android:layout_marginEnd="@dimen/dp_32"
+                android:layout_marginTop="@dimen/dp_16"
                 android:background="@drawable/shape_round_border_gray_100dp"
                 android:gravity="center"
                 android:text="@string/setting_input_keyboard" />

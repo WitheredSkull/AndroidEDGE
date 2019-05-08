@@ -7,12 +7,22 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:textColor">@color/colorText</item>
         <!--<item name="colorControlActivated">@color/colorHint</item>-->
         <item name="android:colorControlNormal">@color/colorHint</item>
         <item name="android:navigationIcon">@mipmap/ic_qkey_launcher</item>
         <!--无损屏幕切换-->
         <item name="android:configChanges">orientation|keyboardHidden|screenSize</item>
+        <item name="android:windowAnimationStyle">@style/ActivityAnim</item>
     </style>
+
+    <style name="ActivityAnim">
+        <item name="android:activityOpenEnterAnimation">@anim/nav_default_enter_anim</item>
+        <item name="android:activityOpenExitAnimation">@anim/nav_default_exit_anim</item>
+        <item name="android:activityCloseEnterAnimation">@anim/nav_default_pop_enter_anim</item>
+        <item name="android:activityCloseExitAnimation">@anim/nav_default_pop_exit_anim</item>
+    </style>
+
     <!-- Base application theme2. -->
     <style name="AppThemeDark" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -20,6 +30,7 @@
         <item name="colorPrimaryDark">@color/black</item>
         <item name="colorAccent">@color/black</item>
         <item name="android:textColorHint">@color/colorHint</item>
+        <item name="android:textColor">@color/colorText</item>
         <!--<item name="colorControlActivated">@color/colorHint</item>-->
         <item name="android:colorControlNormal">@color/colorHint</item>
         <item name="android:navigationIcon">@mipmap/ic_qkey_launcher</item>
@@ -28,7 +39,7 @@
     </style>
 
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorControlNormal">@android:color/white</item>

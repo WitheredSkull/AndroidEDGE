@@ -25,6 +25,7 @@ fun AppCompatActivity.optionsItemSelected(item: MenuItem): Boolean {
             return true
         }
         R.id.action_menu -> {
+            if (!this::javaClass.get().simpleName.contains("SelectActivity"))
             startActivity(Intent(this, SelectActivity::class.java))
             return true
         }

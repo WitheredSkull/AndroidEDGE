@@ -2,22 +2,25 @@ package com.daniel.edge.management.download
 
 import com.daniel.edge.config.Edge
 import com.daniel.edge.management.download.model.FileDownload
+import com.daniel.edge.utils.log.EdgeLog
+import java.io.BufferedInputStream
 import java.io.File
 import java.io.RandomAccessFile
 import java.net.HttpURLConnection
 import java.net.URL
 
-class DownloadThread : Thread {
+class DownloadThread(
+    private var downloader: FileDownload,
+    private var downloadURL: String,
+    private var file: File,
+    var startPosition: Long,
+    var endPosition: Long
+) : Thread() {
 
 
     var downLength = 0L//文件总大小
     var downloadThreadId = 0L
-    private var downloadURL: String
-    private var downloader: FileDownload
-    var endPosition = 0L
-    private var file: File
     var finish = false
-    var startPosition = 0L
     override fun run() {
         if (startPosition < endPosition) {//下载未完成
             try {
@@ -40,25 +43,29 @@ class DownloadThread : Thread {
                 )
                 httpURLConnection.setRequestProperty("Range", "bytes=${startPosition}-${endPosition}")
                 httpURLConnection.setRequestProperty("Connection", "Keep-Alive")
-                var inStream = httpURLConnection.inputStream
-                var buffer = ByteArray(1024)
+                val inStream = BufferedInputStream(httpURLConnection.inputStream)
+                val buffer = ByteArray(10 * 1024)
                 var offset = 0
-                var threadFile = RandomAccessFile(file, "rwd")
-                threadFile.seek(startPosition.toLong())
-                offset = inStream.read(buffer, 0, 1024)
-                while (!downloader.isExited && (offset != -1)) {
+                val threadFile = RandomAccessFile(file, "rwd")
+                threadFile.seek(startPosition)
+                offset = inStream.read(buffer)
+                while (offset != -1) {
+//                    EdgeLog.show(javaClass, "下载", "${offset} == ${inStream.available()}")
                     threadFile.write(buffer, 0, offset)
                     downLength += offset
                     startPosition += offset
-                    downloader.update(downloadThreadId, startPosition)//需要加入Update操作
-                    downloader.appendSize(offset)//把新下载的数据长度加入到已经下载的数据总长度中
-                    offset = inStream.read(buffer, 0, 1024)
+                    downloader.updateLoadSize(downloadThreadId, startPosition,offset.toLong())//需要加入Update最新数据的操作
+                    offset = inStream.read(buffer)
                 }
                 threadFile.close()
                 inStream.close()
                 finish = true
             } catch (e: Exception) {
-                downLength = -1
+                e.printStackTrace()
+                EdgeLog.e(javaClass, "下载发生异常", e.cause?.message)
+            } finally {
+                EdgeLog.e(javaClass, "下载完成", "SUCCESS")
+                downloader.onThreadExit(downloadThreadId)
             }
         }
 //        super.run()
@@ -68,18 +75,7 @@ class DownloadThread : Thread {
         return finish
     }
 
-    constructor(
-        downloader: FileDownload,
-        downloadURL: String,
-        file: File,
-        startPosition: Long,
-        endPosition: Long
-    ) : super() {
-        this.downloader = downloader
-        this.downloadURL = downloadURL
-        this.file = file
-        this.startPosition = startPosition
-        this.endPosition = endPosition
+    init {
         downLength = endPosition - startPosition
     }
 }

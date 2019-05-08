@@ -137,6 +137,9 @@ dependencies {
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
     // Optional, if you use support library fragments:
     debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.3'
+
+//腾讯Bugly检测工具
+    implementation 'com.tencent.bugly:crashreport:2.8.6'
 }
 repositories {
     mavenCentral()

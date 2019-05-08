@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.Intent
 
 class WebSocketReceiver : BroadcastReceiver {
-    var onWebSocketConnectListener: OnWebSocketConnectListener? = null
+    var onWebSocketListener: OnWebSocketListener? = null
 
 
-    constructor(onWebSocketConnectListener: OnWebSocketConnectListener) : super() {
-        this.onWebSocketConnectListener = onWebSocketConnectListener
+    constructor(onWebSocketListener: OnWebSocketListener) : super() {
+        this.onWebSocketListener = onWebSocketListener
     }
 
     constructor() : super()
@@ -20,9 +20,9 @@ class WebSocketReceiver : BroadcastReceiver {
             when (intent.getStringExtra(Function)) {
                 Key_IsConnection -> {
                     if (intent.getBooleanExtra(Key_IsConnection, false)) {
-                        onWebSocketConnectListener?.onOpen()
+                        onWebSocketListener?.onOpen()
                     } else {
-                        onWebSocketConnectListener?.onClose()
+                        onWebSocketListener?.onClose()
                     }
                 }
             }

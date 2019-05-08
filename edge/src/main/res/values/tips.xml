@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="c1">登录成功</string>
+    <string name="c2">登录失败</string>
+    <string name="c3">请填写正确的信息</string>
+    <string name="c4">账号或密码错误</string>
+</resources>

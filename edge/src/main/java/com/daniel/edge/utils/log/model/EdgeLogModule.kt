@@ -1,14 +1,27 @@
 package com.daniel.edge.utils.log.model
 
 import android.util.Log
-import kotlin.math.roundToInt
+import com.daniel.edge.utils.text.EdgeTextUtils
+import java.lang.StringBuilder
 
 // Create Time 2018/11/1
 // Create Author Daniel 
 object EdgeLogModule {
     @JvmStatic
-    fun show(type: EdgeLogType, clazz: Class<*>, tag: String, message: String) {
-        val string = editFirstLine("Class:${clazz.simpleName}||Tag:$tag") + editContent(message) + editEndLine(clazz)
+    fun show(type: EdgeLogType, clazz: Class<*>, tag: String, message: Array<out Any?>) {
+        val content = StringBuilder()
+        message.forEachIndexed { index, any ->
+            content.append(any?:"empty")
+            if (index != message.size-1) {
+                content.append("|")
+            }
+        }
+        if (content.length > 1) {
+            content.substring(0, content.length - 2)
+        }
+        val afterContent = editContent(content.toString())
+        val string =
+            editFirstLine("Class:${clazz.simpleName}|Tag:$tag") + afterContent + editEndLine("总字数:${afterContent.length}|Class:${clazz.simpleName}")
         when (type) {
             EdgeLogType.VERBOSE -> Log.v(EdgeLogConfig.LOG_NAME, string)
             EdgeLogType.DEBUG -> Log.v(EdgeLogConfig.LOG_NAME, string)
@@ -22,19 +35,22 @@ object EdgeLogModule {
 
     @JvmStatic
     private fun editFirstLine(clazzNameAndTag: String): String {
-        val className: String = if ((clazzNameAndTag.length % 2) == 0) {
+        var tagLength = EdgeTextUtils.textNum(clazzNameAndTag)
+        val tag = if ((tagLength % 2).toInt() == 0) {
             clazzNameAndTag
-        } else
+        } else {
+            ++tagLength
             "$clazzNameAndTag="
-        val amount = (EdgeLogConfig.LENGTH - className.length) / 2
+        }
+        val amount = (EdgeLogConfig.LINE_MAX_LENGTH - tagLength) / 2
         val string = StringBuffer()
         string.append(" \n")
-        for (i in 0..EdgeLogConfig.LINES) {
+        for (i in 0..EdgeLogConfig.SPACE_LINES) {
             string.append("\n")
         }
         for (i in 0..(amount - 1)) {
             if (i == amount - 1) {
-                string.append(className)
+                string.append(tag)
             } else {
                 string.append("=")
             }
@@ -50,37 +66,42 @@ object EdgeLogModule {
     @JvmStatic
     private fun editContent(s: String): String {
         val content = StringBuffer()
-        val length = s.length
-        val lines = Math.ceil(length.toDouble().div(EdgeLogConfig.LENGTH)).roundToInt()
-        if (lines <= 1) {
-            return s.plus("\n")
+        var beUseLength = 0
+        s.forEach {
+            content.append(it)
+            if (EdgeTextUtils.isChinese(it.toString())) {
+                beUseLength += 2
+                val mod = beUseLength % EdgeLogConfig.LINE_MAX_LENGTH
+                if (mod == 0 || mod == 1) {
+                    content.append("\n")
+                }
+            } else {
+                ++beUseLength
+                val mod = beUseLength % EdgeLogConfig.LINE_MAX_LENGTH
+                if (mod == 0) {
+                    content.append("\n")
+                }
+            }
         }
-        for (index in 1..lines) {
-            content.appendln(
-                s.substring(
-                    (index - 1) * EdgeLogConfig.LENGTH,
-                    if (index >= lines) {
-                        s.length
-                    } else {
-                        index * EdgeLogConfig.LENGTH
-                    }
-                )
-            )
-        }
+        content.append("\n")
         return content.toString()
     }
 
     @JvmStatic
-    private fun editEndLine(clazz: Class<*>): String {
-        val endName: String = if (((clazz.simpleName + EdgeLogConfig.END_FLAG).length % 2) == 0) {
-            clazz.simpleName + EdgeLogConfig.END_FLAG
-        } else
-            clazz.simpleName + EdgeLogConfig.END_FLAG + "="
-        val amount = (EdgeLogConfig.LENGTH - endName.length) / 2
+    private fun editEndLine(tag: String): String {
+        val tag2 = tag + EdgeLogConfig.END_FLAG
+        var tag2Length = EdgeTextUtils.textNum(tag2)
+        val endTag: String = if (tag2Length.toInt() % 2 == 0) {
+            tag2
+        } else {
+            ++tag2Length
+            tag + EdgeLogConfig.END_FLAG + "="
+        }
+        val amount = (EdgeLogConfig.LINE_MAX_LENGTH - tag2Length) / 2
         val string = StringBuffer()
         for (i in 0..(amount - 1)) {
             if (i == amount - 1) {
-                string.append(endName)
+                string.append(endTag)
             } else {
                 string.append("=")
             }
@@ -89,7 +110,7 @@ object EdgeLogModule {
             if (i <= amount - 1)
                 string.append("=")
         }
-        for (i in 0..EdgeLogConfig.LINES) {
+        for (i in 0..EdgeLogConfig.SPACE_LINES) {
             string.append("\n ")
         }
         return string.toString()

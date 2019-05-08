@@ -3,13 +3,25 @@
     <!-- These settings headers are only used on tablets. -->
 
     <header
-        android:fragment="com.qiang.keyboard.view.SettingsActivity$GeneralPreferenceFragment"
+        android:fragment="com.qiang.keyboard.view.SettingsActivity$PersonageFragment"
+        android:title="@string/setting_personage"
+        android:icon="@drawable/ic_personage"
+        />
+
+    <header
+        android:fragment="com.qiang.keyboard.view.SettingsActivity$GeneralFragment"
         android:icon="@drawable/ic_settings"
         android:title="@string/setting_keyboard" />
 
     <header
         android:id="@+id/action_theme"
-        android:icon="@drawable/shape_theme_gradual"
-        android:title="@string/settings_theme" />
+        android:icon="@drawable/ic_them"
+        android:title="@string/setting_theme" />
+
+    <header
+        android:id="@+id/action_exit_login"
+        android:title="@string/setting_exit_login"
+        android:icon="@drawable/ic_exit_login"
+        />
 
 </preference-headers>
