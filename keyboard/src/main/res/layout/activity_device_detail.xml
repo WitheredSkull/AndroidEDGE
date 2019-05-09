@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.device.DeviceDetailActivity">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.qiang.keyboard.viewModel.DeviceViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/ll_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.3">
+
+            <TextView
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:text="设备ID："
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:text="设备昵称："
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:text="设备类型："
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:text="设备状态："
+                android:textSize="@dimen/sp_18" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ll_left"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_id"
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:textSize="@dimen/sp_18" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_alter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@color/colorPrimary"
+                    android:padding="@dimen/dp_6"
+                    android:text="修改"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp_18" />
+
+                <EditText
+                    android:id="@+id/et_nickname"
+                    style="@style/TextSingleLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_38"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/tv_alter"
+                    android:textSize="@dimen/sp_18" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tv_type"
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:id="@+id/tv_status"
+                style="@style/TextSingleLine"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_38"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -4,17 +4,13 @@ import android.annotation.TargetApi
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.preference.EditTextPreference
 import android.preference.PreferenceActivity
 import android.preference.PreferenceFragment
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ListView
-import com.daniel.edge.config.Edge
 import com.daniel.edge.management.activity.EdgeActivityManagement
-import com.daniel.edge.utils.log.EdgeLog
+import com.daniel.edge.utils.system.EdgeSystemUtils
 import com.daniel.edge.utils.text.EdgeTextUtils
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.lzy.okgo.model.Response
@@ -125,7 +121,7 @@ class SettingsActivity : AppCompatPreferenceActivity() {
             prefPersonageNickName.setDefaultValue(nickName)
             prefPersonageNickName.setOnPreferenceChangeListener { preference, newValue ->
                 if (!EdgeTextUtils.isEmpty(newValue.toString())) {
-                    DeviceRequest.setNickName(newValue as String, object : String64CallBack() {
+                    DeviceRequest.setNickName(newValue as String,EdgeSystemUtils.getIMEI(), object : String64CallBack() {
                         override fun success(code: Int, status: Int, des: String, body: Response<String>) {
                             prefPersonageNickName.summary = newValue
                             prefPersonageNickName.setDefaultValue(newValue)

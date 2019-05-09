@@ -25,6 +25,7 @@
     <string name="register">注册</string>
     <string name="new_account">新用户注册</string>
     <string name="select_keyboard">选择键盘</string>
+    <string name="select_device">选择设备</string>
     <string name="action_settings">设置</string>
     <string name="setting_input_keyboard">设置键盘</string>
     <string name="select_bluetooth_client">选择蓝牙连接方式</string>
@@ -37,6 +38,8 @@
     <string name="pref_play_audio">播放音效</string>
     <string name="exit">退出</string>
     <string name="default_personage">未知用户</string>
+    <string name="device_name">设备昵称：</string>
+    <string name="device_imei">设备IMEI：</string>
 
     <string name="pref_title_vibration">按键振动</string>
 

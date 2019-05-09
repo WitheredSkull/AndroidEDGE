@@ -1,27 +1,23 @@
 package com.qiang.keyboard.view.launch
 
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
+import android.os.Bundle
 import com.daniel.edge.utils.system.EdgeSystemUtils
 import com.qiang.keyboard.R
 import com.qiang.keyboard.databinding.ActivityLaunchBinding
 import com.qiang.keyboard.model.data.AccountData
 import com.qiang.keyboard.view.SelectActivity
 import com.qiang.keyboard.view.account.AccountActivity
-import com.qiang.keyboard.view.base.BaseActivity
+import com.qiang.keyboard.view.base.BaseVMActivity
 import com.qiang.keyboard.viewModel.LaunchViewModel
 import kotlinx.android.synthetic.main.activity_launch.*
 import kotlinx.coroutines.*
 
-class LaunchActivity : BaseActivity<ActivityLaunchBinding, LaunchViewModel>() {
-    override fun initDataBinding(): ActivityLaunchBinding? {
-        return DataBindingUtil.setContentView(this, R.layout.activity_launch)
-    }
+class LaunchActivity : BaseVMActivity<ActivityLaunchBinding, LaunchViewModel>() {
 
-    override fun initViewModel(dataBinding: ActivityLaunchBinding) {
-        setViewModel(LaunchViewModel::class.java).apply {
-            getDataBinding()?.viewModel = this
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_launch,true)
     }
 
     override fun initData() {
@@ -44,6 +40,10 @@ class LaunchActivity : BaseActivity<ActivityLaunchBinding, LaunchViewModel>() {
                 jumpLogin(true)
             }
         }
+    }
+
+    override fun initListener() {
+
     }
 
     fun jumpLogin(isLogin: Boolean) {

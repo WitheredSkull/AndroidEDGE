@@ -10,11 +10,9 @@ import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.MutableLiveData
 import com.daniel.edge.management.activity.EdgeActivityManagement
-import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.system.EdgeSystemUtils
 import com.daniel.edge.utils.text.EdgeTextUtils
 import com.daniel.edge.utils.toast.EdgeToastUtils
-import com.daniel.edge.utils.viewUtils.EdgeViewHelper
 import com.lzy.okgo.model.Response
 import com.qiang.keyboard.R
 import com.qiang.keyboard.model.data.AccountData
@@ -28,9 +26,6 @@ import com.qiang.keyboard.view.account.AccountActivity
 import com.qiang.keyboard.view.account.LoginFragment
 import com.qiang.keyboard.view.account.RegisterFragment
 import com.qiang.keyboard.viewModel.base.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class AccountViewModel(application: Application) : BaseViewModel(application) {
     var fragmentManager = MutableLiveData<FragmentManager>()

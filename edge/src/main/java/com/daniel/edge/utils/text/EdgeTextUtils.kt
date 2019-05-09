@@ -166,11 +166,14 @@ object EdgeTextUtils {
     /**
      * @return 是否是空
      */
-    fun isEmpty(_s: String?): Boolean {
-        if (_s.isNullOrEmpty() || _s!!.toLowerCase().equals("null")) {
-            return true
-        }else{
-            return false
+    fun isEmpty(vararg _s: String?): Boolean {
+        var isEmpty = false
+        _s.forEach {s->
+            if (s.isNullOrEmpty() || s!!.toLowerCase().equals("null")) {
+                isEmpty = true
+                return@forEach
+            }
         }
+        return isEmpty
     }
 }

@@ -11,10 +11,10 @@ object DeviceRequest {
     /**
      * 设置设备昵称
      */
-    fun <T> setNickName(nickName: String, callback: Callback<T>) {
+    fun <T> setNickName(nickName: String,imei:String, callback: Callback<T>) {
         val hashMap = hashMapOf<String, String>()
         hashMap.put("sessionid", AccountData.getSession())
-        hashMap.put("imei", EdgeSystemUtils.getMacAddress())
+        hashMap.put("imei", imei)
         hashMap.put("nickname", nickName)
         return OkGo.post<T>(DeviceApi.SET_NIKE_NAME.url).params("", MapConvert.jsonConvert(hashMap))
             .execute(callback)
@@ -23,10 +23,21 @@ object DeviceRequest {
     /**
      * 获取设备清单
      */
-    fun <T> setList(callback: Callback<T>) {
+    fun <T> getList(callback: Callback<T>) {
         val hashMap = hashMapOf<String, String>()
         hashMap.put("sessionid", AccountData.getSession())
-        return OkGo.post<T>(DeviceApi.SET_LIST.url).params("", MapConvert.jsonConvert(hashMap))
+        return OkGo.post<T>(DeviceApi.GET_LIST.url).params("", MapConvert.jsonConvert(hashMap))
+            .execute(callback)
+    }
+
+    /**
+     * 获取设备详情
+     */
+    fun <T> getDetail(deviceId:Int,callback: Callback<T>) {
+        val hashMap = hashMapOf<String, String>()
+        hashMap.put("sessionid", AccountData.getSession())
+        hashMap.put("deviceid", "${deviceId}")
+        return OkGo.post<T>(DeviceApi.GET_DETAIL.url).params("", MapConvert.jsonConvert(hashMap))
             .execute(callback)
     }
 }

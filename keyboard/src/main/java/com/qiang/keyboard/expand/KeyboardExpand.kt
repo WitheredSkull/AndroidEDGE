@@ -8,12 +8,12 @@ import com.daniel.edge.management.activity.EdgeActivityManagement
 import com.qiang.keyboard.R
 import com.qiang.keyboard.view.SelectActivity
 import com.qiang.keyboard.view.SettingsActivity
+import com.qiang.keyboard.view.device.DeviceListActivity
 
 fun AppCompatActivity.createOptionsMenu(menu: Menu, isNeedBack: Boolean): Boolean {
-    if (isNeedBack) {
-        menuInflater.inflate(R.menu.menu_keyboard, menu)
-    } else {
-        menuInflater.inflate(R.menu.menu_keyboard_nonback, menu)
+    menuInflater.inflate(R.menu.menu_keyboard, menu)
+    if (!isNeedBack) {
+        menu.removeItem(R.id.action_back)
     }
     return true
 }
@@ -22,6 +22,10 @@ fun AppCompatActivity.optionsItemSelected(item: MenuItem): Boolean {
     when (item.itemId) {
         android.R.id.home -> {
             this.onBackPressed()
+            return true
+        }
+        R.id.action_device -> {
+            startActivity(Intent(this,DeviceListActivity::class.java))
             return true
         }
         R.id.action_menu -> {

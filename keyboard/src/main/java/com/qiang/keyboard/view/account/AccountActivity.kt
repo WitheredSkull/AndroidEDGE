@@ -1,40 +1,40 @@
 package com.qiang.keyboard.view.account
 
 import android.os.Bundle
-import android.view.View
+import android.os.PersistableBundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
 import com.daniel.edge.management.permission.EdgePermissionManagement
 import com.daniel.edge.management.permission.OnEdgePermissionCallBack
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.qiang.keyboard.R
 import com.qiang.keyboard.databinding.ActivityAccountBinding
-import com.qiang.keyboard.view.base.BaseActivity
+import com.qiang.keyboard.view.base.BaseVMActivity
 import com.qiang.keyboard.viewModel.AccountViewModel
-import kotlinx.android.synthetic.main.activity_account.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.produce
-import kotlinx.coroutines.channels.toChannel
-import kotlinx.coroutines.selects.select
 import java.net.HttpURLConnection
 import java.net.URL
 import kotlin.concurrent.thread
-import kotlin.math.max
 
-class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>() {
+class AccountActivity : BaseVMActivity<ActivityAccountBinding, AccountViewModel>() {
 
-    override fun initDataBinding(): ActivityAccountBinding? {
-        return DataBindingUtil.setContentView(this, R.layout.activity_account)
-    }
-
-    override fun initViewModel(dataBinding: ActivityAccountBinding) {
-        setViewModel(AccountViewModel::class.java).apply {
-            getDataBinding()?.viewModel = this
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_account,true)
         getViewModel()?.setFragmentManager(supportFragmentManager)
+        EdgePermissionManagement()
+            .setCallBack(object : OnEdgePermissionCallBack {
+                override fun onRequestPermissionSuccess() {
+                }
 
+                override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
+                }
+
+            })
+            .requestPermission()
+            .build()
+//        EdgeViewHelper.setOnClicks(this@AccountActivity, bt_login, bt_switch, tv_register)
     }
 
     override fun initData() {
@@ -82,6 +82,11 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>()
 //        }.then {
 //            EdgeLog.show(javaClass, "仿Android异步", "结束值${it}")
 //        }
+    }
+
+
+    override fun initListener() {
+
     }
 
     /**
@@ -165,22 +170,6 @@ class AccountActivity : BaseActivity<ActivityAccountBinding, AccountViewModel>()
         } else {
             finish()
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        EdgePermissionManagement()
-            .setCallBack(object : OnEdgePermissionCallBack {
-                override fun onRequestPermissionSuccess() {
-                }
-
-                override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
-                }
-
-            })
-            .requestPermission()
-            .build()
-//        EdgeViewHelper.setOnClicks(this@AccountActivity, bt_login, bt_switch, tv_register)
     }
 
 }
