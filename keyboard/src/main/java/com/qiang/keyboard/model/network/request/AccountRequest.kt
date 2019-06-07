@@ -22,6 +22,22 @@ object AccountRequest {
         return OkGo.post<T>(AccountApi.Register).params("", MapConvert.jsonConvert(hashMap)).execute(callback)
     }
 
+    fun <T> forgetPWD(mobile: String, pwd: String, code: String, callback: Callback<T>) {
+        var hashMap = hashMapOf<String, String>()
+        hashMap.put("mobile", mobile)
+        hashMap.put("code", code)
+        hashMap.put("password", pwd)
+        return OkGo.post<T>(AccountApi.Forget).params("", MapConvert.jsonConvert(hashMap)).execute(callback)
+    }
+
+    fun <T> alterPWD(mobile: String, pwd: String, code: String,callback: Callback<T>) {
+        var hashMap = hashMapOf<String, String>()
+        hashMap.put("mobile", mobile)
+        hashMap.put("code", code)
+        hashMap.put("password", pwd)
+        return OkGo.post<T>(AccountApi.AlterPWD).params("", MapConvert.jsonConvert(hashMap)).execute(callback)
+    }
+
     enum class DeviceType {
         //0为发送型设备，1为接收型设备
         Send,

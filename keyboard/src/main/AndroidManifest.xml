@@ -29,7 +29,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.device.DeviceDetailActivity"
             android:windowSoftInputMode="stateHidden"
-            ></activity>
+            />
         <activity android:name=".view.device.DeviceListActivity" />
         <activity
             android:name=".view.launch.LaunchActivity"

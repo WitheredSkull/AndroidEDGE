@@ -1,4 +1,4 @@
-package com.qiang.keyboard.model.api
+package com.qiang.keyboard.model.network.api
 
 import com.qiang.keyboard.utlis.Base32
 
@@ -9,7 +9,10 @@ import com.qiang.keyboard.utlis.Base32
 // CMD_HOST_REMOVE {"GUID":"2011-3211-2351-251","TypeId":1,"SessionId":"21234-32151-21352-12312"} // 针对用户新删除一台手机设备
 
 object BaseApi {
+    //WebSocket地址
     val KeyboardWebSocket = "ws://176.122.139.177:2000"
+    //基础连接地址
+    val Base_Api = "https://api.qkey.link"
 
     //http协议的webSocket
 //    val KeyboardWebSocket = "ws://176.122.139.177:2019"
@@ -19,7 +22,7 @@ object BaseApi {
     var sessionid = ""
 
     fun getKeyboardFormatText(guid: String, from: String, to: String, content: String): String {
-        return "${sessionid}+[${Base32.encode(content.toByteArray())}]+待接收的设备id"
+        return "$sessionid+[${Base32.encode(content.toByteArray())}]+待接收的设备id"
     }
 
     fun getKeyboardFormatWord(content: String): String {
