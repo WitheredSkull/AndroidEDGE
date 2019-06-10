@@ -2,11 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.account.LoginFragment">
+    tools:context=".view.account.ForgetFragment">
 
     <data>
 
-        <import type="com.qiang.keyboard.viewModel.AccountViewModel.AccountEnum" />
         <variable
             name="viewModel"
             type="com.qiang.keyboard.viewModel.AccountViewModel" />
@@ -99,43 +98,54 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/ic_pwd"
                         android:drawablePadding="@dimen/dp_18"
-                        android:hint="@string/hint_pwd"
+                        android:hint="@string/hint_new_pwd"
                         android:inputType="numberPassword"
                         android:maxLines="1"
                         android:text="@={viewModel.pwd}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <FrameLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10">
+                    android:layout_marginTop="@dimen/dp_30"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/et_verify"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_pwd"
+                            android:drawablePadding="@dimen/dp_18"
+                            android:hint="@string/hint_verify"
+                            android:maxLength="6"
+                            android:maxLines="1"
+                            android:text="@={viewModel.verify}" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <TextView
+                        android:id="@+id/tv_verify"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:onClick="@{()->viewModel.switchFragment(AccountEnum.ForgerPWD,0)}"
-                        android:text="@string/forget_pwd" />
-
-                    <TextView
-                        android:id="@+id/tv_register"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end"
-                        android:onClick="@{()->viewModel.switchFragment(AccountEnum.Register,0)}"
-                        android:text="@string/new_account" />
-
-                </FrameLayout>
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:onClick="@{(view)->viewModel.getVerify(view)}"
+                        android:text="@string/get_verify" />
+                </RelativeLayout>
 
                 <Button
-                    android:id="@+id/bt_login"
+                    android:id="@+id/bt_forget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/dp_60"
+                    android:layout_marginTop="@dimen/dp_30"
                     android:background="@drawable/shape_default_button"
-                    android:onClick="@{()->viewModel.login()}"
-                    android:text="登录"
+                    android:onClick="@{()->viewModel.forget()}"
+                    android:text="@{viewModel.forgetType==0?@string/forget_reset:@string/forget_alter}"
                     android:textColor="@color/white" />
 
                 <Button
@@ -151,4 +161,5 @@
             </LinearLayout>
         </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

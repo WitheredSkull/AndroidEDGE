@@ -21,8 +21,7 @@ class AccountActivity : BaseVMActivity<ActivityAccountBinding, AccountViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_account,true)
-        getViewModel()?.setFragmentManager(supportFragmentManager)
+        setContentView(R.layout.activity_account, true)
         EdgePermissionManagement()
             .setCallBack(object : OnEdgePermissionCallBack {
                 override fun onRequestPermissionSuccess() {
@@ -30,7 +29,6 @@ class AccountActivity : BaseVMActivity<ActivityAccountBinding, AccountViewModel>
 
                 override fun onRequestPermissionFailure(permissions: ArrayList<String>) {
                 }
-
             })
             .requestPermission()
             .build()
@@ -38,7 +36,13 @@ class AccountActivity : BaseVMActivity<ActivityAccountBinding, AccountViewModel>
     }
 
     override fun initData() {
-        getViewModel()?.switchFragment(AccountViewModel.AccountEnum.Login)
+        getViewModel()?.setFragmentManager(supportFragmentManager)
+        when(intent.getIntExtra("type",0)){
+            0->
+                getViewModel()?.switchFragment(AccountViewModel.AccountEnum.Login)
+            1->
+                getViewModel()?.switchFragment(AccountViewModel.AccountEnum.ForgerPWD,1)
+        }
 
 //        testCoroutineScope()
 
