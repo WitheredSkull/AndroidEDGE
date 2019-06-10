@@ -7,11 +7,8 @@ import android.os.IBinder
 import android.view.View
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.daniel.edge.utils.viewUtils.EdgeViewHelper
-import com.lzy.okgo.model.Response
 import com.qiang.keyboard.IKeyboardAidlInterface
 import com.qiang.keyboard.R
-import com.qiang.keyboard.model.network.callBack.String64CallBack
-import com.qiang.keyboard.model.network.request.ProgrammRequest
 import com.qiang.keyboard.service.OnWebSocketListener
 import com.qiang.keyboard.service.WebSocketReceiver
 import com.qiang.keyboard.service.WebSocketService
@@ -104,19 +101,12 @@ class SelectActivity : BaseKeyboardActivity(), View.OnClickListener, OnWebSocket
         onClose()
         mWebSocketIntent = Intent(this, WebSocketService::class.java)
 //        startService(mWebSocketIntent)
-        //开启WebSocket广播和服务用于发送和接收文本
+
         mWebSocketReceiver = WebSocketReceiver(this)
         var intentFilter = IntentFilter()
         intentFilter.addAction(WebSocketReceiver.Action)
         registerReceiver(mWebSocketReceiver, intentFilter)
-        //开启WebSocket服务
-//        bindService(mWebSocketIntent, serviceConnection, Context.BIND_AUTO_CREATE)
-        //应用更新
-//        ProgrammRequest.AppUpdate(object :String64CallBack(){
-//            override fun success(code: Int, status: Int, des: String, body: Response<String>) {
-//
-//            }
-//        })
+        bindService(mWebSocketIntent, serviceConnection, Context.BIND_AUTO_CREATE)
     }
 
     override fun onDestroy() {

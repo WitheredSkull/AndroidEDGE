@@ -139,33 +139,6 @@ class SettingsActivity : AppCompatPreferenceActivity() {
                     false
                 }
             }
-            val prefPersonageAlterPwd = findPreference("key_alter_pwd")
-            prefPersonageAlterPwd.setOnPreferenceClickListener {
-                val intent = Intent(activity,AccountActivity::class.java)
-                intent.putExtra("type",1)
-                startActivity(intent)
-                true
-            }
-            prefPersonageAlterPwd.setOnPreferenceChangeListener { preference, newValue ->
-                if (!EdgeTextUtils.isEmpty(newValue.toString())) {
-                    DeviceRequest.setNickName(newValue as String,EdgeSystemUtils.getIMEI(), object : String64CallBack() {
-                        override fun success(code: Int, status: Int, des: String, body: Response<String>) {
-                            prefPersonageNickName.summary = newValue
-                            prefPersonageNickName.setDefaultValue(newValue)
-                        }
-
-                        override fun error(code: Int, status: Int, des: String) {
-                            super.error(code, status, des)
-                            prefPersonageNickName.summary = nickName
-                            prefPersonageNickName.setDefaultValue(nickName)
-                        }
-                    })
-                    true
-                } else {
-                    prefPersonageNickName.setDefaultValue(nickName)
-                    false
-                }
-            }
         }
 
         override fun onOptionsItemSelected(item: MenuItem): Boolean {

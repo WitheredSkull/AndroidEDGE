@@ -76,6 +76,7 @@ class App : Application() {
     }
 
     companion object {
+        val Base_Api = "https://api.qkey.link"
 
         //初始化OkHttp
         lateinit var okHttpClient: OkHttpClient

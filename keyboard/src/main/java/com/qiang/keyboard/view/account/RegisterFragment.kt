@@ -25,9 +25,4 @@ class RegisterFragment : BaseVMFragment<FragmentRegisterBinding, AccountViewMode
 
     override fun initListener() {
     }
-
-    override fun onDestroyView() {
-        getViewModel()?.closeCountDownTime()
-        super.onDestroyView()
-    }
 }

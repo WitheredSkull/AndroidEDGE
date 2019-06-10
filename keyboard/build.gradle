@@ -30,20 +30,6 @@ android {
         }
     }
 
-    kapt {
-        useBuildCache = true
-        javacOptions {
-            option("-Xmaxerrs", 500)
-        }
-    }
-
-    //在Android代码块中添加如下配置：（可优化最上图中transformClassDexBuilderForDebug的时间）
-    android {
-        dexOptions {
-            preDexLibraries true
-            maxProcessCount 8
-        }
-    }
 }
 
 dependencies {

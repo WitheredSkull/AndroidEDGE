@@ -3,7 +3,6 @@ package com.qiang.keyboard.viewModel
 import android.app.Application
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -24,7 +23,6 @@ import com.qiang.keyboard.model.network.callBack.String64CallBack
 import com.qiang.keyboard.model.network.request.AccountRequest
 import com.qiang.keyboard.view.SelectActivity
 import com.qiang.keyboard.view.account.AccountActivity
-import com.qiang.keyboard.view.account.ForgetFragment
 import com.qiang.keyboard.view.account.LoginFragment
 import com.qiang.keyboard.view.account.RegisterFragment
 import com.qiang.keyboard.viewModel.base.BaseViewModel
@@ -35,8 +33,6 @@ class AccountViewModel(application: Application) : BaseViewModel(application) {
     val pwd = MutableLiveData<String>()
     val verify = MutableLiveData<String>()
     var countDownTimer: CountDownTimer? = null
-    //当ForgetType为0时找回密码，为1时修改密码
-    var forgetType = 0
 
     init {
         val model = AccountData.getAccountInfo()
@@ -100,10 +96,6 @@ class AccountViewModel(application: Application) : BaseViewModel(application) {
                     startActivity(Intent(getContext(), SelectActivity::class.java))
                     EdgeActivityManagement.getInstance().finishOnClass(AccountActivity::class.java)
                 }
-
-                override fun error(code: Int, status: Int, des: String) {
-                    super.error(code, status, des)
-                }
             }
         )
     }
@@ -112,49 +104,6 @@ class AccountViewModel(application: Application) : BaseViewModel(application) {
         AccountData.setAccountInfo(account.value, pwd.value)
         AccountData.setMemberInfo(model.MemberResult)
         AccountData.setDeviceInfo(model.Device)
-    }
-
-    fun forget() {
-        if (EdgeTextUtils.isEmpty(account.value) ||
-            EdgeTextUtils.isEmpty(pwd.value) ||
-            EdgeTextUtils.isEmpty(verify.value)
-        ) {
-            EdgeToastUtils.getInstance().show("请完整输入账号密码")
-            return
-        }
-        val mac = EdgeSystemUtils.getMacAddress()
-        if (EdgeTextUtils.isEmpty(mac)) {
-            EdgeToastUtils.getInstance().show("机器检测设备码失败，请尝试打开WIFI")
-            return
-        }
-        when (forgetType) {
-            0 -> AccountRequest.forgetPWD(
-                account.value!!,
-                pwd.value!!,
-                verify.value!!,
-                object : EntityCallBack<RegisterEntity>(RegisterEntity::class.java) {
-                    override fun success(code: Int, status: Int, des: String, body: Response<RegisterEntity>) {
-                        EdgeToastUtils.getInstance().show(des)
-                        AccountData.setAccountInfo(pwd=pwd.value)
-                        fragmentManager.value?.popBackStack()
-                    }
-                }
-            )
-            1 -> AccountRequest.alterPWD(
-                account.value!!,
-                pwd.value!!,
-                verify.value!!,
-                object : String64CallBack() {
-                    override fun success(code: Int, status: Int, des: String, body: Response<String>) {
-                        EdgeToastUtils.getInstance().show(des)
-                        AccountData.setAccountInfo(pwd=pwd.value)
-                        EdgeActivityManagement.getInstance().findTopActivity()
-                    }
-
-                }
-            )
-        }
-
     }
 
     fun register() {
@@ -187,7 +136,7 @@ class AccountViewModel(application: Application) : BaseViewModel(application) {
         Login, Register, ForgerPWD
     }
 
-    fun switchFragment(type: AccountEnum, forgetType: Int = 0) {
+    fun switchFragment(type: AccountEnum) {
         fragmentManager.value?.beginTransaction()
             ?.setCustomAnimations(
                 R.anim.nav_default_enter_anim,
@@ -200,23 +149,15 @@ class AccountViewModel(application: Application) : BaseViewModel(application) {
                 when (type) {
                     AccountEnum.Login -> LoginFragment()
                     AccountEnum.Register -> RegisterFragment()
-                    AccountEnum.ForgerPWD -> {
-                        val fragment = ForgetFragment()
-                        val args = Bundle()
-                        args.putInt("type", forgetType)
-                        fragment.arguments = args
-                        fragment
-                    }
+                    AccountEnum.ForgerPWD -> LoginFragment()
                 }
             )
             ?.addToBackStack("account")
             ?.commit()
     }
 
-    fun closeCountDownTime() {
-        if (countDownTimer != null) {
-            countDownTimer?.cancel()
-        }
+    fun forgetPWD() {
+
     }
 
     fun switchKeyboard() {

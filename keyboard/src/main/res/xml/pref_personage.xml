@@ -6,9 +6,4 @@
         android:dialogTitle="@string/key_user_name"
         android:summary="@string/default_personage"
         android:title="@string/key_user_name" />
-
-    <Preference
-        android:key="key_alter_pwd"
-        android:summary="******"
-        android:title="修改密码"/>
 </PreferenceScreen>

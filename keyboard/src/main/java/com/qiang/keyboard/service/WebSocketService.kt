@@ -3,14 +3,17 @@ package com.qiang.keyboard.service
 import android.app.Service
 import android.content.Intent
 import android.content.IntentFilter
+import android.nfc.Tag
 import android.os.Handler
 import android.os.IBinder
 import android.os.Message
+import android.text.TextUtils
 import com.daniel.edge.utils.log.EdgeLog
 import com.daniel.edge.utils.toast.EdgeToastUtils
 import com.qiang.keyboard.IKeyboardAidlInterface
+import com.qiang.keyboard.R
 import com.qiang.keyboard.constant.App
-import com.qiang.keyboard.model.network.api.BaseApi
+import com.qiang.keyboard.model.api.BaseApi
 import com.qiang.keyboard.presenter.KeyboardInterface
 import okhttp3.Request
 import okhttp3.Response
@@ -38,7 +41,7 @@ class WebSocketService : Service, KeyboardInterface {
     val mRequest = Request.Builder().url(BaseApi.KeyboardWebSocket).build()
     var mRunnable = object : Runnable {
         override fun run() {
-            mHandler.postDelayed(this, 1000)
+            mHandler.postDelayed(this, 100)
             if (!mIsConnection) {
                 mIsConnection = true
                 mWebSocket = App.okHttpClient.newWebSocket(mRequest, mWebSocketListener)

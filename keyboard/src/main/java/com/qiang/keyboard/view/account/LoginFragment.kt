@@ -26,8 +26,7 @@ class LoginFragment : BaseVMFragment<FragmentLoginBinding,AccountViewModel>() {
     override fun initListener() {
     }
 
-    override fun onDestroyView() {
-        getViewModel()?.closeCountDownTime()
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
